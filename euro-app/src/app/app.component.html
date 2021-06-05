@@ -3,4 +3,12 @@
   <span>Title</span>
 </mat-toolbar>
 
-<button (click)="import()">Import!</button>
+<table>
+  <tr *ngFor="let match of matches$ | async">
+    <td>{{match.id}}</td>
+    <td>{{match.date}}</td>
+    <td>{{match.home}}</td>
+    <td>{{match.away}}</td>
+  </tr>
+</table>
+
