@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "euro2020at2021": {
+      "hosting": {
+        "euro-app": [
+          "euro2020at2021"
+        ]
+      }
+    }
+  }
+}
