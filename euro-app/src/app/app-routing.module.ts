@@ -10,13 +10,13 @@ import { ScoreboardComponent } from './components/scoreboard/scoreboard.componen
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: 'login', component: LoginComponent}, 
-  {path: 'home', component: HomeComponent}, 
-  {path: 'profile', component: ProfileComponent}, 
-  {path: 'groups', component: GroupsComponent}, 
-  {path: 'guesses', component: GuessesComponent}, 
-  {path: 'scoreboard', component: ScoreboardComponent}, 
-  {path: 'admin', component: AdminComponent}
+  {path: 'login', component: LoginComponent, data: {animationOrder: '0'}}, 
+  {path: 'home', component: HomeComponent, data: {animationOrder: '1'}}, 
+  {path: 'profile', component: ProfileComponent, data: {animationOrder: '2'}}, 
+  {path: 'groups', component: GroupsComponent, data: {animationOrder: '3'}}, 
+  {path: 'guesses', component: GuessesComponent, data: {animationOrder: '4'}}, 
+  {path: 'scoreboard', component: ScoreboardComponent, data: {animationOrder: '5'}}, 
+  {path: 'admin', component: AdminComponent, data: {animationOrder: '6'}}
 ];
 
 @NgModule({

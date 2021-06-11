@@ -5,13 +5,17 @@
 .root {
     display: flex;
     flex-direction: row;
-    background-color: var(--p100);    
+    background-color: var(--p100);  
 }
 
 a {
     color: var(--p900);
     padding: 6px;
     text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
 }
 
 a.active {
