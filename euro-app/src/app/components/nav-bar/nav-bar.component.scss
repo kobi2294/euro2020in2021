@@ -5,11 +5,11 @@
 .root {
     display: flex;
     flex-direction: row;
-    background-color: var(--p100);  
+    background-color: var(--p900);  
 }
 
 a {
-    color: var(--p900);
+    color: var(--p100);
     padding: 6px;
     text-decoration: none;
     display: flex;
@@ -19,6 +19,6 @@ a {
 }
 
 a.active {
-    background-color: var(--p300);
+    background-color: var(--p700);
 }
 
