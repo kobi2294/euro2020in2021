@@ -1,11 +1,17 @@
 <mat-toolbar color="primary">
-  <mat-icon>date_range</mat-icon>
-  <span>Ma - Ta - Altman?</span>
+  <div class="title" routerLink="home">
+    <mat-icon>date_range</mat-icon>
+    <span>Ma - Ta - Altman?</span>
+  </div>
   <div class="seperator"></div>
   <ng-container *ngIf="user$ | async as user">
-    <img [src]="user.photoURL">
+    <img [src]="user.photoURL" routerLink="profile">
     <div class="sign-out" (click)="logout()">(sign out...)</div>
   </ng-container>
 </mat-toolbar>
 
-<router-outlet></router-outlet>
+<div [@slideInOut]="prepareRoute(outlet)" class="content">
+  <router-outlet #outlet="outlet"></router-outlet>
+</div>
+
+<app-nav-bar *ngIf="isLoggedIn$ | async"></app-nav-bar>

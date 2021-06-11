@@ -12,13 +12,25 @@ import { environment } from 'src/environments/environment';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
 import { AuthService } from './services/auth.service';
+import { ProfileComponent } from './components/profile/profile.component';
+import { NavBarComponent } from './components/nav-bar/nav-bar.component';
+import { GroupsComponent } from './components/groups/groups.component';
+import { GuessesComponent } from './components/guesses/guesses.component';
+import { ScoreboardComponent } from './components/scoreboard/scoreboard.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent
+    HomeComponent,
+    ProfileComponent,
+    NavBarComponent,
+    GroupsComponent,
+    GuessesComponent,
+    ScoreboardComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

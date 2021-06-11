@@ -11,6 +11,7 @@ import { filter, map, tap } from 'rxjs/operators';
 })
 export class AuthService {
   currentUser$!: Observable<firebase.User | null>;
+  isLoggedIn$!: Observable<boolean>;
 
 
   constructor(
@@ -18,6 +19,9 @@ export class AuthService {
     private router: Router
   ) {
     this.currentUser$ = this.afAuth.user;
+    this.isLoggedIn$ = this.currentUser$.pipe(
+      map(user => user !== null)
+    );
   }
 
   async init(): Promise<void> {
