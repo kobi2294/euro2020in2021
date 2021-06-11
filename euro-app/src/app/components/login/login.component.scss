@@ -1,0 +1,16 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.providers {
+    display: flex;
+    flex-direction: row;
+}
+
+img {
+    height: 100px;
+    cursor: pointer;
+}

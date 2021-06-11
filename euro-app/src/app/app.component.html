@@ -1,14 +1,11 @@
 <mat-toolbar color="primary">
   <mat-icon>date_range</mat-icon>
-  <span>Euro 2020 (in 2021)</span>
+  <span>Ma - Ta - Altman?</span>
+  <div class="seperator"></div>
+  <ng-container *ngIf="user$ | async as user">
+    <img [src]="user.photoURL">
+    <div class="sign-out" (click)="logout()">(sign out...)</div>
+  </ng-container>
 </mat-toolbar>
 
-<table>
-  <tr *ngFor="let match of matches$ | async">
-    <td>{{match.id}}</td>
-    <td>{{match.date}}</td>
-    <td>{{match.home}}</td>
-    <td>{{match.away}}</td>
-  </tr>
-</table>
-
+<router-outlet></router-outlet>
