@@ -13,7 +13,6 @@ import { HomeComponent } from './components/home/home.component';
 import { AuthService } from './services/auth.service';
 import { ProfileComponent } from './components/profile/profile.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
-import { GroupsComponent } from './components/groups/groups.component';
 import { GuessesComponent } from './components/guesses/guesses.component';
 import { ScoreboardComponent } from './components/scoreboard/scoreboard.component';
 import { AdminComponent } from './components/admin/admin.component';
@@ -28,7 +27,6 @@ import { HttpClientModule } from '@angular/common/http';
     HomeComponent,
     ProfileComponent,
     NavBarComponent,
-    GroupsComponent,
     GuessesComponent,
     ScoreboardComponent,
     AdminComponent

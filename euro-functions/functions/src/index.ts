@@ -28,8 +28,6 @@ export const readMatches = functions.https.onRequest(async (request, response) =
 
 export const resetMatches = functions.https.onRequest((request, response) =>
     corsHandler(request, response, async () => {
-
-
         const matches = admin.firestore().collection('matches');
 
         const data = JSON.parse(request.body) as Match[];
