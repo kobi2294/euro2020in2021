@@ -29,16 +29,13 @@ export const readMatches = functions.https.onRequest(async (request, response) =
 export const resetMatches = functions.https.onRequest((request, response) =>
     corsHandler(request, response, async () => {
         const matches = admin.firestore().collection('matches');
-
         const data = JSON.parse(request.body) as Match[];
 
-        var existing = await matches.get();
-        var deletePromises = existing.docs.map(doc => doc.ref.delete());
-        await Promise.all(deletePromises);
+        var setPromises = data
+            .map(obj => matches.doc(obj.id.toString().padStart(2, '0')).set(obj));
 
-
-        var setPromises = data.map(obj => matches.doc(obj.id.toString().padStart(2, '0')).set(obj));
         await Promise.all(setPromises);
+        
         response.header("Access-Control-Allow-Origin", "*");
         response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
         response.status(200).send();

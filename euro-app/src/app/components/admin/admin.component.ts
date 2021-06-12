@@ -63,13 +63,15 @@ export class AdminComponent implements OnInit {
   }
 
   async save(form: FormArray) {
-    var val = (form.value as Match[])
-      .map(match => ({
-        ...match, 
-        date: new Date(match.date).toUTCString()
-      }));
+    const val = form.controls
+        .filter(group => group.dirty)
+        .map(group => group.value as Match)
+        .map(match => ({
+          ...match, 
+          date: new Date(match.date).toUTCString()
+        }));
 
-      console.log(form.value);
+      console.log(val);
       await this.funcs.saveMatches(val);
   }
 
