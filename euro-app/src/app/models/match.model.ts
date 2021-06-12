@@ -6,5 +6,7 @@ export interface Match {
     date: string, 
     home: Country, 
     away: Country, 
-    stage?: Stage
+    stage?: Stage, 
+    homeScore: number | null, 
+    awayScore: number | null
 }

@@ -44,6 +44,33 @@ table {
   }
 }
 
+.mat-column-score {
+  position: relative;
+  z-index: 20;
+  padding: 0px 12px;
+
+  .pair {
+    display: flex;
+    flex-direction: row;
+    align-items: center;  
+
+    input {
+      width: 40px;
+      font-size: 26px;
+      margin: 2px;
+      border: 1px solid var(--p100);
+      border-radius: 4px;
+      color: var(--p500);
+      outline: transparent;
+    }
+
+    input:focus {
+      border: 1px solid var(--p500);
+    }
+  }
+
+}
+
 //     width: 120px;
 
 //     mat-form-field {

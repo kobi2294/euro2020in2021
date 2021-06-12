@@ -2,7 +2,7 @@
     <div class="nav">
         <button mat-raised-button color="accent" (click)="save(form)" [disabled]="form.pristine">Save</button>
     </div>
-        <table mat-table [dataSource]="form.controls" class="mat-elevation-z8">
+    <table mat-table [dataSource]="form.controls" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef>Index</th>
             <td mat-cell *matCellDef="let group; let i = index" [formGroup]="group">
@@ -42,7 +42,7 @@
                     </mat-select>
                 </mat-form-field>
             </td>
-    </ng-container>
+        </ng-container>
 
         <ng-container matColumnDef="away">
             <th mat-header-cell *matHeaderCellDef>Away</th>
@@ -55,11 +55,23 @@
                     </mat-select>
                 </mat-form-field>
             </td>
-    </ng-container>
+        </ng-container>
+
+        <ng-component matColumnDef="score">
+            <th mat-header-cell *matHeaderCellDef>Score</th>
+            <td mat-cell *matCellDef="let group; let i = index" [formGroup]="group">
+                <div class="pair">
+                    <input  type="number" formControlName="homeScore">
+                    :
+                    <input  type="number" formControlName="awayScore">    
+                </div>
+        </td>
+
+
+        </ng-component>
 
         <tr mat-header-row *matHeaderRowDef="columns"></tr>
         <tr mat-row *matRowDef="let row; columns: columns;"></tr>
 
     </table>
 </ng-container>
-

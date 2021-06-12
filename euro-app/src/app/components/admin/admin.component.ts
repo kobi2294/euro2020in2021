@@ -20,7 +20,7 @@ import { toLocalIsoString } from 'src/app/tools/dates';
 })
 export class AdminComponent implements OnInit {
   matches$!: Observable<Match[]>;
-  readonly columns = ['id', 'stage', 'date', 'home', 'away'];
+  readonly columns = ['id', 'stage', 'date', 'home', 'away', 'score'];
   readonly stages = STAGES;
   readonly countries = COUNTRIES;
 
@@ -48,7 +48,9 @@ export class AdminComponent implements OnInit {
         stage: new FormControl(match.stage), 
         date: new FormControl(this.fixDateForForm(match.date)), 
         home: new FormControl(match.home), 
-        away: new FormControl(match.away)
+        away: new FormControl(match.away), 
+        homeScore: new FormControl(match.homeScore), 
+        awayScore: new FormControl(match.awayScore)
       })
     ))
   }
