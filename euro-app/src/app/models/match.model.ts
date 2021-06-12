@@ -1,6 +1,10 @@
+import { Country } from "./country.model";
+import { Stage } from "./stage.model";
+
 export interface Match {
     id: number, 
     date: string, 
-    home: string, 
-    away: string
+    home: Country, 
+    away: Country, 
+    stage?: Stage
 }

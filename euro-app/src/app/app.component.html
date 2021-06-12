@@ -11,7 +11,9 @@
 </mat-toolbar>
 
 <div [@slideInOut]="prepareRoute(outlet)" class="content">
-  <router-outlet #outlet="outlet"></router-outlet>
+  <div class="scroller">
+    <router-outlet #outlet="outlet"></router-outlet>
+  </div>
 </div>
 
 <app-nav-bar *ngIf="isLoggedIn$ | async"></app-nav-bar>

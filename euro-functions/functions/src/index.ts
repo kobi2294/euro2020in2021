@@ -1,5 +1,9 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
+import { Match } from "./match.model";
+import * as cors from 'cors';
+
+const corsHandler = cors({ origin: true });
 
 admin.initializeApp();
 
@@ -7,29 +11,37 @@ admin.initializeApp();
 // https://firebase.google.com/docs/functions/typescript
 
 export const helloWorld = functions.https.onRequest((request, response) => {
-  functions.logger.info('Hello logs!', {structuredData: true});
-  response.send('Hello from Firebase!');
+    functions.logger.info('Hello logs!', { structuredData: true });
+    response.send('Hello from Firebase!');
 });
 
 export const readMatches = functions.https.onRequest(async (request, response) => {
-    let snapshot = await admin.firestore().collection('matches').get();
+    const snapshot = await admin.firestore()
+        .collection('matches')
+        .orderBy('id')
+        .get();
 
-    let txt: string[] = [];
+    const docs = snapshot.docs.map(doc => doc.data());
 
-    snapshot.docs.forEach(doc => {
-        let date = doc.get('date') as string;
-        let reg = /June\/(\d+)\s*(\d+):(\d+)/;
-        let res = date.match(reg);
-
-        if (res !== null) {
-            let newDate = new Date(2021, 5, Number(res[1]), Number(res[2]), Number(res[3]), 0, 0);
-
-            txt.push(`${doc.get('id')} ${JSON.stringify(newDate)}`);
-        }
-    });
-    
-    response.send({
-        'now': JSON.stringify(new Date()), 
-        'dates': txt
-    });
+    response.send(docs);
 });
+
+export const resetMatches = functions.https.onRequest((request, response) =>
+    corsHandler(request, response, async () => {
+
+
+        const matches = admin.firestore().collection('matches');
+
+        const data = JSON.parse(request.body) as Match[];
+
+        var existing = await matches.get();
+        var deletePromises = existing.docs.map(doc => doc.ref.delete());
+        await Promise.all(deletePromises);
+
+
+        var setPromises = data.map(obj => matches.doc(obj.id.toString().padStart(2, '0')).set(obj));
+        await Promise.all(setPromises);
+        response.header("Access-Control-Allow-Origin", "*");
+        response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+        response.status(200).send();
+    }));

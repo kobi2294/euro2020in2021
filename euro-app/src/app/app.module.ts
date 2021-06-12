@@ -1,6 +1,5 @@
 import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,6 +17,8 @@ import { GroupsComponent } from './components/groups/groups.component';
 import { GuessesComponent } from './components/guesses/guesses.component';
 import { ScoreboardComponent } from './components/scoreboard/scoreboard.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -36,10 +37,12 @@ import { AdminComponent } from './components/admin/admin.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule, 
+    ReactiveFormsModule,
     SharedModule, 
+    HttpClientModule,
     AngularFireModule.initializeApp(environment.firebase), 
     AngularFirestoreModule, 
-    AngularFireAuthModule
+    AngularFireAuthModule, 
   ],
   providers: [{
     provide: APP_INITIALIZER, useFactory: (service: AuthService) => () => service.init(), 

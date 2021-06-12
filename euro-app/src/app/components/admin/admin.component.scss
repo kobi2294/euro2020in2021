@@ -1,0 +1,74 @@
+:host {
+  display: flex;
+  flex-direction: column;
+}
+
+.nav {
+  padding: 8px;
+  margin: 8px;
+  display: flex;
+  flex-direction: row;
+  background-color: var(--a100);
+}
+
+table {
+  align-self: center;
+}
+
+
+.mat-column-id.mat-cell {
+    width: 12px;
+    border-right: 1px solid currentColor;
+    padding: 0px 12px;    
+    text-align: center;
+}
+
+.mat-column-stage, .mat-column-home, .mat-column-away {
+     padding: 0px 12px;
+     mat-form-field {
+       max-width: 110px;
+     }
+     mat-select{
+      max-width: 110px;
+    }  
+}
+
+.mat-column-date {
+  padding: 0px 12px;
+  mat-form-field {
+    max-width: 170px;
+  }
+
+  input {
+    max-width: 170px;
+  }
+}
+
+//     width: 120px;
+
+//     mat-form-field {
+//       width: 100px;
+//     }
+//     mat-select {
+//       width: 100px;
+//     }
+
+//   }
+
+//   .mat-column-date {
+//     padding-left: 8px;
+//     width: 190px;
+
+//     mat-form-field {
+//       width: 170px;
+//     }
+//     input {
+//       width: 170px;
+//     }
+
+//   }
+
+  .mat-header-cell {
+      font-weight: bold;
+  }
+
