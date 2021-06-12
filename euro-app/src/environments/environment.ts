@@ -11,7 +11,8 @@ export const environment = {
     storageBucket: "euro2020at2021.appspot.com",
     messagingSenderId: "323146234038",
     appId: "1:323146234038:web:4f884bc036fea64d7c0e17"    
-  }
+  }, 
+  httpBase: 'http://localhost:5000/euro2020at2021/us-central1'
 };
 
 /*
