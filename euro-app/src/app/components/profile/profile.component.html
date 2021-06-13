@@ -1,1 +1,18 @@
-<p>profile works!</p>
+<ng-container *ngIf="currentUser$ | async as user">
+    <h1>{{user.displayName}} Profile Settings</h1>
+
+    <div class="content">
+        <ng-container *ngIf="selectedGroups$ | async as selected">
+            <h2>Select your groups</h2>
+            <div class="groups-panel">
+                <mat-card class="group-item" *ngFor="let group of groups$ | async" 
+                        [class.selected]="selected[group.id]"
+                        (click)="toggleSelection(group.id)">
+                        <mat-icon>group</mat-icon>
+                        <h3>{{group.displayName}}</h3>
+                </mat-card>
+            </div>
+            <h3 class="warn" *ngIf="!(hasGroups$ | async)">You must join at least one group</h3>
+        </ng-container>    
+    </div>
+</ng-container>

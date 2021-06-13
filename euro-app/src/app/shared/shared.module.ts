@@ -9,6 +9,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatSelectModule } from "@angular/material/select";
 import { MatInputModule } from "@angular/material/input";
 import { MatNativeDateModule } from "@angular/material/core";
+import { MatCardModule } from "@angular/material/card";
 
 const exportables = [
     MatIconModule, 
@@ -20,6 +21,7 @@ const exportables = [
     MatNativeDateModule,
     MatSelectModule, 
     MatInputModule,
+    MatCardModule
 ];
 
 @NgModule({

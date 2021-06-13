@@ -16,4 +16,4 @@
   </div>
 </div>
 
-<app-nav-bar *ngIf="isLoggedIn$ | async"></app-nav-bar>
+<app-nav-bar *ngIf="!(hasRequired$ | async)"></app-nav-bar>

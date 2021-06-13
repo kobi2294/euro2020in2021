@@ -19,6 +19,7 @@ import { ScoreboardComponent } from './components/scoreboard/scoreboard.componen
 import { AdminComponent } from './components/admin/admin.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { RouteRulesService } from './services/route-rules.service';
 
 
 @NgModule({
@@ -45,8 +46,8 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFireDatabaseModule,
   ],
   providers: [{
-    provide: APP_INITIALIZER, useFactory: (service: AuthService) => () => service.init(), 
-    deps: [AuthService], 
+    provide: APP_INITIALIZER, useFactory: (service: RouteRulesService) => () => service.init(), 
+    deps: [RouteRulesService], 
     multi: true
   }],
   bootstrap: [AppComponent]

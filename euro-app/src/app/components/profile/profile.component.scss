@@ -1,0 +1,41 @@
+:host {
+    display: flex;
+    flex-direction: column;
+}
+
+.content {
+    padding: 12px;
+    h3 {
+        margin-top: 8px;
+    }
+
+    .groups-panel {
+        display: flex;
+        flex-direction: row;
+        user-select: none;
+    
+        .group-item {
+            margin: 4px;
+            cursor:pointer;
+            display: flex;
+            flex-direction: column;
+            transition: 0.3s;
+    
+            &.selected {
+                background-color: var(--p100);
+                border: 2px solid var(--p200);
+            }
+        }
+    
+        mat-icon {
+            color: var(--p500);
+            font-size: 40px;
+            align-self: center;
+        }
+    
+        h4 {
+            margin: 4px;
+        }
+    }
+}
+

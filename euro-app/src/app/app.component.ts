@@ -8,6 +8,7 @@ import firebase from 'firebase/app';
 import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
 import { User } from './models/user.model';
+import { RouteRulesService } from './services/route-rules.service';
 
 @Component({
   selector: 'app-root',
@@ -19,14 +20,17 @@ import { User } from './models/user.model';
 })
 export class AppComponent implements OnInit {
   user$!: Observable<User | null>;
-  isLoggedIn$!: Observable<boolean>;
+  hasRequired$!: Observable<boolean>;
 
   constructor(
-    private authService: AuthService) { }
+    private authService: AuthService, 
+    private routeRulesService: RouteRulesService) { }
 
   ngOnInit(): void {
     this.user$ = this.authService.currentUser$;
-    this.isLoggedIn$ = this.authService.isLoggedIn$;
+    this.hasRequired$ = this.routeRulesService.required$.pipe(
+      map(required => required !== null)
+    );
   }
 
   prepareRoute(outlet: RouterOutlet) {

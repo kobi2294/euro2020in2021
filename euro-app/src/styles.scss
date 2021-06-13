@@ -22,6 +22,14 @@ div {
 
 h1 {
   font-size: 60px;
+  background-color: var(--p100);
+  padding: 6px;
+}
+
+.warn {
+  background-color: var(--w100);
+  color: var(--w800);
+  padding: 6px;
 }
 
 
@@ -31,7 +39,7 @@ h1 {
 }
 
 mat-icon {
-  width: auto;
-  height: auto;
+  width: auto!important;
+  height: auto!important;
   margin: 4px;
 }
