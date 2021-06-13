@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +9,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+
+  constructor(
+    private db: AngularFirestore, 
+    private auth: AngularFireAuth
+    ) { }
 
   ngOnInit(): void {
+  }
+
+  go() {
+    this.db.collection('groups').doc('hari').valueChanges().subscribe(val => console.log(val));
   }
 
 }

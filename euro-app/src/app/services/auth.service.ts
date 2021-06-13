@@ -1,27 +1,43 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { NavigationEnd, Router } from '@angular/router';
 import firebase from 'firebase/app';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { combineLatest, from, Observable, of } from 'rxjs';
+import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { User } from '../models/user.model';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  currentUser$!: Observable<firebase.User | null>;
+  currentFirebaseUser$!: Observable<firebase.User | null>;
+  currentUser$!: Observable<any | null>;
   isLoggedIn$!: Observable<boolean>;
 
 
   constructor(
     private afAuth: AngularFireAuth,
+    private db: AngularFirestore,
     private router: Router
   ) {
-    this.currentUser$ = this.afAuth.user;
+    this.currentFirebaseUser$ = this.afAuth.user;
+
+    this.currentUser$ = this.currentFirebaseUser$.pipe(
+      tap(user => {
+        console.log('user = ', user?.email)
+      }),
+      switchMap(user => (user && user.email) 
+                    ? db.doc<User>(`users/${user.email}`).valueChanges()
+                    : of(null)), 
+      map(user => (user) ?? null)
+    );
+
     this.isLoggedIn$ = this.currentUser$.pipe(
       map(user => user !== null)
     );
+
   }
 
   async init(): Promise<void> {
@@ -38,7 +54,7 @@ export class AuthService {
       .subscribe(([user, url]) => this.handleRoutingLogic(user, url))
   }
 
-  private handleRoutingLogic(user: firebase.User | null, url: string) {
+  private handleRoutingLogic(user: User | null, url: string) {
     console.log('handling logic', user, url);
 
     if ((user === null) && (url !== '/login')) {

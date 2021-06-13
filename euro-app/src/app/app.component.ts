@@ -7,6 +7,7 @@ import { AuthService } from './services/auth.service';
 import firebase from 'firebase/app';
 import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
+import { User } from './models/user.model';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,7 @@ import { slideInAnimation } from './animations';
   ]
 })
 export class AppComponent implements OnInit {
-  user$!: Observable<firebase.User | null>;
+  user$!: Observable<User | null>;
   isLoggedIn$!: Observable<boolean>;
 
   constructor(

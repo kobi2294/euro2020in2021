@@ -7,6 +7,7 @@ import { SharedModule } from './shared/shared.module';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from './components/login/login.component';
 import { HomeComponent } from './components/home/home.component';
@@ -41,6 +42,7 @@ import { HttpClientModule } from '@angular/common/http';
     AngularFireModule.initializeApp(environment.firebase), 
     AngularFirestoreModule, 
     AngularFireAuthModule, 
+    AngularFireDatabaseModule,
   ],
   providers: [{
     provide: APP_INITIALIZER, useFactory: (service: AuthService) => () => service.init(), 
