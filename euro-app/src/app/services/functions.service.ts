@@ -11,14 +11,24 @@ export class FunctionsService {
   constructor(private http: HttpClient) { }
 
   saveMatches(matches: Match[]) {
-    let url = `${environment.httpBase}/resetMatches`;
+    let url = `${environment.httpBase}/api/matches`;
     let data = JSON.stringify(matches);
     return this.http.post(url, data).toPromise();    
   }
 
+  getMatches() {
+    let url = `${environment.httpBase}/api/matches`;
+    return this.http.get<Match[]>(url).toPromise();    
+  }
+
   updateUser(user: User) {
-    let url = `${environment.httpBase}/updateUser`;
+    let url = `${environment.httpBase}/api/users`;
     let data = JSON.stringify(user);
     return this.http.post(url, data).toPromise();    
+  }
+
+  helloWorld() {
+    let url = `${environment.httpBase}/app/hello`;
+    return this.http.get<string>(url).toPromise();    
   }
 }

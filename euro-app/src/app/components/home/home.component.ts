@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { FunctionsService } from 'src/app/services/functions.service';
 
 @Component({
   selector: 'app-home',
@@ -12,14 +13,16 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private db: AngularFirestore, 
-    private auth: AngularFireAuth
+    private auth: AngularFireAuth, 
+    private funcs: FunctionsService
     ) { }
 
   ngOnInit(): void {
   }
 
-  go() {
-    this.db.collection('groups').doc('hari').valueChanges().subscribe(val => console.log(val));
+  async go() {
+    let res = await this.funcs.getMatches();
+    console.log('server returned: ', res);
   }
 
 }

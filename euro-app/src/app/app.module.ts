@@ -18,8 +18,9 @@ import { GuessesComponent } from './components/guesses/guesses.component';
 import { ScoreboardComponent } from './components/scoreboard/scoreboard.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouteRulesService } from './services/route-rules.service';
+import { AuthInterceptor } from './services/auth-interceptor';
 
 
 @NgModule({
@@ -36,20 +37,26 @@ import { RouteRulesService } from './services/route-rules.service';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule, 
+    BrowserAnimationsModule,
     ReactiveFormsModule,
-    SharedModule, 
+    SharedModule,
     HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebase), 
-    AngularFirestoreModule, 
-    AngularFireAuthModule, 
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFirestoreModule,
+    AngularFireAuthModule,
     AngularFireDatabaseModule,
   ],
-  providers: [{
-    provide: APP_INITIALIZER, useFactory: (service: RouteRulesService) => () => service.init(), 
-    deps: [RouteRulesService], 
-    multi: true
-  }],
+  providers: [
+    {
+      provide: APP_INITIALIZER, useFactory: (service: RouteRulesService) => () => service.init(),
+      deps: [RouteRulesService],
+      multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, 
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
