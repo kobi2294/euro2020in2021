@@ -7,7 +7,7 @@ import { debounceTime, first, map, tap } from 'rxjs/operators';
 import { COUNTRIES } from 'src/app/models/country.model';
 import { Match } from 'src/app/models/match.model';
 import { STAGES } from 'src/app/models/stage.model';
-import { FunctionsService } from 'src/app/services/functions.service';
+import { ApiService } from 'src/app/services/api.service';
 import { toLocalIsoString } from 'src/app/tools/dates';
 
 @Component({
@@ -29,7 +29,7 @@ export class AdminComponent implements OnInit {
 
   constructor(
     private db: AngularFirestore, 
-    private funcs: FunctionsService) { }
+    private funcs: ApiService) { }
 
   ngOnInit(): void {
     this.matches$ = this.db.collection<Match>('matches').valueChanges()

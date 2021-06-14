@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { FunctionsService } from 'src/app/services/functions.service';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +14,7 @@ export class HomeComponent implements OnInit {
   constructor(
     private db: AngularFirestore, 
     private auth: AngularFireAuth, 
-    private funcs: FunctionsService
+    private funcs: ApiService
     ) { }
 
   ngOnInit(): void {

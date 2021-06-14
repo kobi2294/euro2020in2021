@@ -6,6 +6,7 @@ import * as express from 'express';
 import { User } from "./user.model";
 import { validateUserToken } from "./middlewares/validate-user-token.middleware";
 import { Stage } from "./stage.model";
+import { Guess } from "./guess.model";
 
 const corsHandler = cors({ origin: true });
 const api = express();
@@ -16,7 +17,7 @@ admin.initializeApp();
 api.get('/hello', (req, res) => {
     console.log('hi there');
     const user = res.locals.user;
-    console.log('user = ' + user);
+    console.log('user = ', user);
     
     res.send('"Hello From firebase 2!!!"');
 });
@@ -77,6 +78,39 @@ api.post('/users', async (req, res) => {
         ...data
     });
 
+    res.status(200).send();
+});
+
+api.post('/users/guesses', async (req, res) => {
+    const user = res.locals.user;
+    const email = user.email;
+    const guess = JSON.parse(req.body) as Guess;
+    console.group('updating guess');
+    console.log(email);
+    console.log(JSON.stringify(guess));
+
+    const match = (await admin.firestore()
+                             .collection('matches')
+                             .doc(guess.matchId.toString().padStart(2, '0'))
+                             .get()).data() as Match;
+    
+    if (Date.now() > new Date(match.date).valueOf()) {
+        // game has already started
+        console.warn('Refused: Game already started');
+        console.groupEnd();
+        res.status(400).send();
+        return;
+    }
+
+    await admin.firestore()
+            .collection('users')
+            .doc(email)
+            .collection('guesses')
+            .doc(guess.matchId.toString().padStart(2, '0'))
+            .set(guess);
+
+    console.log('match guess updated');
+    console.groupEnd();
     res.status(200).send();
 });
 

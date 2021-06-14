@@ -2,8 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, interval, Observable, timer } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
+import { GuessScore } from 'src/app/models/guess-score.model';
+import { Guess } from 'src/app/models/guess.model';
 import { MatchRecord } from 'src/app/models/match-record';
 import { Match } from 'src/app/models/match.model';
+import { ApiService } from 'src/app/services/api.service';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -15,7 +18,8 @@ export class GuessesComponent implements OnInit {
   records$!: Observable<MatchRecord[]>;
 
   constructor(
-    private data: DataService
+    private data: DataService, 
+    private api: ApiService
   ) { }
 
   ngOnInit(): void {
@@ -32,6 +36,15 @@ export class GuessesComponent implements OnInit {
 
   trackByMatchId(index: number, record: MatchRecord) {
     return record.match.id;
+  }
+
+  async setGuess(matchId: number, score: GuessScore) {
+    let guess: Guess = {
+      matchId, 
+      score
+    };
+
+    await this.api.setUserGuess(guess);    
   }
 
 }

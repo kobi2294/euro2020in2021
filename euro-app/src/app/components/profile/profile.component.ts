@@ -6,7 +6,7 @@ import { filter, first, map } from 'rxjs/operators';
 import { Group } from 'src/app/models/group.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
-import { FunctionsService } from 'src/app/services/functions.service';
+import { ApiService } from 'src/app/services/api.service';
 import { filterNotNull, isNotNull } from 'src/app/tools/is-not-null';
 import { mapStrings, StringMapping } from 'src/app/tools/mappings';
 
@@ -24,7 +24,7 @@ export class ProfileComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private db: AngularFirestore, 
-    private api: FunctionsService) { }
+    private api: ApiService) { }
 
   ngOnInit(): void {
     this.currentUser$ = this.authService.currentUser$.pipe(
