@@ -22,6 +22,10 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RouteRulesService } from './services/route-rules.service';
 import { AuthInterceptor } from './services/auth-interceptor';
 
+import { USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/auth';
+import { USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/firestore';
+import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
+
 
 @NgModule({
   declarations: [
@@ -55,7 +59,10 @@ import { AuthInterceptor } from './services/auth-interceptor';
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, 
       multi: true
-    }
+    }, 
+    { provide: USE_AUTH_EMULATOR, useValue: environment.production ? undefined : ['localhost', 9099] },
+    { provide: USE_FIRESTORE_EMULATOR, useValue: environment.production ? undefined : ['localhost', 8080] },
+    { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.production ? undefined : ['localhost', 5001] },
   ],
   bootstrap: [AppComponent]
 })

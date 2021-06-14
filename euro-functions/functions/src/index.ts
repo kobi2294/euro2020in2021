@@ -4,14 +4,20 @@ import { Match } from "./match.model";
 import * as cors from 'cors';
 import * as express from 'express';
 import { User } from "./user.model";
+import { validateUserToken } from "./middlewares/validate-user-token.middleware";
+import { Stage } from "./stage.model";
 
 const corsHandler = cors({ origin: true });
 const api = express();
 api.use(corsHandler);
+api.use(validateUserToken);
 admin.initializeApp();
 
 api.get('/hello', (req, res) => {
     console.log('hi there');
+    const user = res.locals.user;
+    console.log('user = ' + user);
+    
     res.send('"Hello From firebase 2!!!"');
 });
 
@@ -37,6 +43,31 @@ api.post('/matches', async (req, res) => {
 
     res.status(200).send();
 });
+
+api.get('/stages', async(req, res) => {
+    const snapshot = await admin.firestore()
+        .collection('stages')
+        .orderBy('id')
+        .get();
+
+    const docs = snapshot.docs.map(doc => doc.data() as Stage);
+
+    res.send(docs);
+});
+
+api.post('/stages', async (req, res) => {
+    const matches = admin.firestore().collection('stages');
+    const data = JSON.parse(req.body) as Stage[];
+
+    var setPromises = data
+        .map(obj => matches.doc(obj.id).set(obj));
+
+    await Promise.all(setPromises);
+
+    res.status(200).send();
+});
+
+
 
 api.post('/users', async (req, res) => {
     const users = admin.firestore().collection('users');

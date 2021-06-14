@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit {
   }
 
   async go() {
-    let res = await this.funcs.getMatches();
+    let res = await this.funcs.helloWorld();
     console.log('server returned: ', res);
   }
 

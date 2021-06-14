@@ -28,7 +28,7 @@ export class FunctionsService {
   }
 
   helloWorld() {
-    let url = `${environment.httpBase}/app/hello`;
+    let url = `${environment.httpBase}/api/hello`;
     return this.http.get<string>(url).toPromise();    
   }
 }
