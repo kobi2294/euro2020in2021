@@ -1,1 +1,5 @@
-<p>guesses works!</p>
+<ng-container *ngIf="records$ | async as records">
+    <div *ngFor="let record of records">
+        {{record | json}}
+    </div>
+</ng-container>
