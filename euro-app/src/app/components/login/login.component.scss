@@ -1,8 +1,13 @@
 :host {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
+}
+
+.main {
+    flex: 1;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
 }
 
 .providers {

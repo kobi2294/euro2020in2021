@@ -25,7 +25,19 @@ import { AuthInterceptor } from './services/auth-interceptor';
 import { USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/auth';
 import { USE_EMULATOR as USE_FIRESTORE_EMULATOR } from '@angular/fire/firestore';
 import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
+import 'firebase/auth';
+import 'firebase/functions';
 
+
+const app = firebase.initializeApp(environment.firebase, 'euro2020at2021');
+console.log('app', app);
+if (!environment.production) {
+  app.auth().useEmulator('http://localhost:9099');
+  app.firestore().useEmulator('localhost', 8080);
+  app.functions().useEmulator('localhost', 5001);
+}
 
 @NgModule({
   declarations: [
@@ -45,7 +57,7 @@ import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions'
     ReactiveFormsModule,
     SharedModule,
     HttpClientModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebase, 'euro2020at2021'),
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireDatabaseModule,
@@ -56,10 +68,7 @@ import { USE_EMULATOR as USE_FUNCTIONS_EMULATOR } from '@angular/fire/functions'
       deps: [RouteRulesService],
       multi: true
     },
-    {
-      provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, 
-      multi: true
-    }, 
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}, 
     { provide: USE_AUTH_EMULATOR, useValue: environment.production ? undefined : ['localhost', 9099] },
     { provide: USE_FIRESTORE_EMULATOR, useValue: environment.production ? undefined : ['localhost', 8080] },
     { provide: USE_FUNCTIONS_EMULATOR, useValue: environment.production ? undefined : ['localhost', 5001] },

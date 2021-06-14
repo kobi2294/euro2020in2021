@@ -53,7 +53,8 @@ export class AuthService {
     return this.afAuth.signOut();
   }
 
-  authLogin(provider: firebase.auth.AuthProvider): Promise<firebase.auth.UserCredential> {
-    return this.afAuth.signInWithPopup(provider);
+  async authLogin(provider: firebase.auth.AuthProvider): Promise<firebase.auth.UserCredential> {
+    await this.afAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+    return await this.afAuth.signInWithPopup(provider);
   }
 }
