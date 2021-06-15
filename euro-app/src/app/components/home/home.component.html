@@ -2,3 +2,7 @@
     Latest Bets 
     <app-group-selector></app-group-selector>
 </h1>
+
+<div *ngFor="let score of (scores$ | async)">
+    {{score | json }}
+</div>

@@ -5,6 +5,7 @@ import { debounceTime, map, shareReplay, switchMap } from 'rxjs/operators';
 import { Guess } from '../models/guess.model';
 import { MatchRecord } from '../models/match-record';
 import { Match } from '../models/match.model';
+import { Score } from '../models/score.model';
 import { filterNotNull } from '../tools/is-not-null';
 import { NumberMapping, toNumberMapping } from '../tools/mappings';
 import { AuthService } from './auth.service';
@@ -15,6 +16,7 @@ import { AuthService } from './auth.service';
 export class DataService {
   readonly myMatchRecords$!: Observable<MatchRecord[]>;
   readonly allMatches$!: Observable<Match[]>;
+  readonly allScores$!: Observable<Score[]>;
 
   constructor(
     private db: AngularFirestore,
@@ -32,9 +34,12 @@ export class DataService {
         shareReplay(1)
       );
 
-
     this.myMatchRecords$ = combineLatest([this.allMatches$, guesses$]).pipe(
       map(([matches, guesses]) => this.createRecords(matches, guesses)), 
+      shareReplay(1)
+    );
+
+    this.allScores$ = this.db.collection<Score>('scores').valueChanges().pipe(
       shareReplay(1)
     );
   }
