@@ -135,7 +135,7 @@ export const createUserRecord = functions.auth.user().onCreate(async user => {
     }
 });
 
-export const publishScores = functions.pubsub.schedule('every 60 mins').onRun(async context => {
+export const publishScores = functions.pubsub.schedule('01 * * * *').onRun(async context => {
     console.log('starting to publish scores');
     let scores = admin.firestore().collection('scores');
 
