@@ -8,9 +8,9 @@ export interface Score {
     home: CountryEnum;
     away: CountryEnum;
     date: string;
-    homeScore: number;
-    awayScore: number;
-    correctGuess: GuessScore;
+    homeScore: number | null;
+    awayScore: number | null;
+    correctGuess: GuessScore | null;
     points: number;
     userScores: StringMapping<UserMatchScore>
 }
