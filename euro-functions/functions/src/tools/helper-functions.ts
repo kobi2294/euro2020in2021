@@ -36,11 +36,11 @@ export async function calcScore(match: Match, users: User[], stages: Stage[]): P
 
     let points = stages.find(stage => matchStage.includes(stage.id.toLowerCase()))?.points ?? 0;
 
-    let userScores: UserMatchScore[] = guesses.filter(pair => pair[1])
+    let userScores: UserMatchScore[] = guesses
         .map(pair => ({
             email: pair[0].email,
             displayName: pair[0].displayName,
-            guess: pair[1].score
+            guess: pair[1]?.score ?? null
         }));
 
     return {
