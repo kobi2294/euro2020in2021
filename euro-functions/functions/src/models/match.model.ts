@@ -7,6 +7,6 @@ export interface Match {
     home: CountryEnum, 
     away: CountryEnum, 
     stage?: StageEnum, 
-    homeScore: number | null, 
-    awayScore: number | null
+    homeScore?: number | null, 
+    awayScore?: number | null
 }

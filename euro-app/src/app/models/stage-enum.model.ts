@@ -12,4 +12,4 @@ export const STAGES = [
     'Finals'
 ] as const;
 
-export type Stage = typeof STAGES[number];
+export type StageEnum = typeof STAGES[number];

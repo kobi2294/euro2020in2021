@@ -1,16 +1,23 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
-import { Match } from "./match.model";
 import * as cors from 'cors';
 import * as express from 'express';
-import { User } from "./user.model";
 import { validateUserToken } from "./middlewares/validate-user-token.middleware";
-import { Stage } from "./stage.model";
-import { Guess } from "./guess.model";
+import { Guess } from "./models/guess.model";
+import { calcScore, fetchAllCollection } from "./tools/helper-functions";
+import { Match } from "./models/match.model";
+import { Stage } from "./models/stage.model";
+import { User } from "./models/user.model";
+import { PubSub } from "@google-cloud/pubsub";
+import { isNotNullOrUndefined } from "./tools/is-not-null";
 
 const corsHandler = cors({ origin: true });
 const api = express();
+const openApi = express();
+
 api.use(corsHandler);
+openApi.use(corsHandler);
+
 api.use(validateUserToken);
 admin.initializeApp();
 
@@ -23,14 +30,9 @@ api.get('/hello', (req, res) => {
 });
 
 api.get('/matches', async (req, res) => {
-    const snapshot = await admin.firestore()
-        .collection('matches')
-        .orderBy('id')
-        .get();
+    const matches = await fetchAllCollection<Match>('matches', 'id');
 
-    const docs = snapshot.docs.map(doc => doc.data() as Match);
-
-    res.send(docs);
+    res.send(matches);
 });
 
 api.post('/matches', async (req, res) => {
@@ -46,14 +48,8 @@ api.post('/matches', async (req, res) => {
 });
 
 api.get('/stages', async(req, res) => {
-    const snapshot = await admin.firestore()
-        .collection('stages')
-        .orderBy('id')
-        .get();
-
-    const docs = snapshot.docs.map(doc => doc.data() as Stage);
-
-    res.send(docs);
+    const stages = await fetchAllCollection<Stage>('stages', 'id');
+    res.send(stages);
 });
 
 api.post('/stages', async (req, res) => {
@@ -89,18 +85,18 @@ api.post('/users/guesses', async (req, res) => {
     console.log(email);
     console.log(JSON.stringify(guess));
 
-    const match = (await admin.firestore()
-                             .collection('matches')
-                             .doc(guess.matchId.toString().padStart(2, '0'))
-                             .get()).data() as Match;
+    // const match = (await admin.firestore()
+    //                          .collection('matches')
+    //                          .doc(guess.matchId.toString().padStart(2, '0'))
+    //                          .get()).data() as Match;
     
-    if (Date.now() > new Date(match.date).valueOf()) {
-        // game has already started
-        console.warn('Refused: Game already started');
-        console.groupEnd();
-        res.status(400).send();
-        return;
-    }
+    // if (Date.now() > new Date(match.date).valueOf()) {
+    //     // game has already started
+    //     console.warn('Refused: Game already started');
+    //     console.groupEnd();
+    //     res.status(400).send();
+    //     return;
+    // }
 
     await admin.firestore()
             .collection('users')
@@ -113,6 +109,13 @@ api.post('/users/guesses', async (req, res) => {
     console.groupEnd();
     res.status(200).send();
 });
+
+const ps = new PubSub();
+openApi.get('/triggerPublish', async (req, res) => {
+    await ps.topic('firebase-schedule-publishScores').publishJSON({});
+    res.status(200).send();
+});
+
 
 export const createUserRecord = functions.auth.user().onCreate(async user => {
     console.log('New user spotted');
@@ -132,4 +135,52 @@ export const createUserRecord = functions.auth.user().onCreate(async user => {
     }
 });
 
+export const publishScores = functions.pubsub.schedule('every 60 mins').onRun(async context => {
+    console.log('starting to publish scores');
+    let scores = admin.firestore().collection('scores');
+
+    let promises = [
+        fetchAllCollection<Match>('matches', 'id'),
+        fetchAllCollection<User>('users'),
+        fetchAllCollection<Stage>('stages')    
+    ] as const;
+
+    let [matches, users, stages] = await Promise.all(promises);
+
+    console.log(`publisher fetched ${matches.length} matches, ${users.length} users, ${stages.length} stages`);
+
+    let isScored = (match: Match) => isNotNullOrUndefined(match.awayScore) 
+                                    && isNotNullOrUndefined(match.homeScore);
+
+    let scoredMatches = matches
+        .filter(match => isScored(match));
+
+    let unscoredMatches = matches
+        .filter(match => !isScored(match));
+
+    // first, delete all records for unfinished matches
+    console.log('removing scores for not finished matches');
+
+    let deletes = unscoredMatches
+        .map(match => scores.doc(match.id.toString().padStart(2, '0')).delete());
+    await deletes;
+
+
+    // create scores for all scoredMatches
+    console.log(`calculating scores for ${scoredMatches.length} matches`);
+
+    let matchScores = await Promise.all(scoredMatches.map(match => calcScore(match, users, stages)));
+
+    console.log(`calculated ${matchScores.length} scores, now saving to DB`);
+
+    await Promise.all(matchScores
+        .map(ms => scores
+                        .doc(ms.id.toString().padStart(2, '0'))
+                        .set(ms)));
+
+    console.log('completd publish scores');
+});
+
+
 exports.api = functions.https.onRequest(api);
+exports.openApi = functions.https.onRequest(openApi);

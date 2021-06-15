@@ -1,0 +1,28 @@
+export const COUNTRIES = [
+    'Austria',
+    'Belgium',
+    'Croatia',
+    'Czech Republic',
+    'Denmark',
+    'England',
+    'Finland',
+    'France',
+    'Germany',
+    'Hungary',
+    'Italy', 
+    'Netherlands',
+    'North Macedonia',
+    'Poland',
+    'Portugal',
+    'Russia',
+    'Scotland',
+    'Slovakia',
+    'Spain',
+    'Sweden',
+    'Switzerland',
+    'Turkey',
+    'Ukraine',
+    'Wales', 
+] as const;
+
+export type CountryEnum = typeof COUNTRIES[number];

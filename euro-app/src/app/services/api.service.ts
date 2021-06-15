@@ -38,4 +38,9 @@ export class ApiService {
     let data = JSON.stringify(guess);
     return this.http.post(url, data).toPromise();    
   }
+
+  triggerPublishResults() {
+    let url = `${environment.httpBase}/openApi/triggerPublish`;
+    return this.http.get<void>(url).toPromise();
+  }
 }

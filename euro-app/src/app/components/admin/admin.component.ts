@@ -4,9 +4,9 @@ import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { Observable } from 'rxjs';
 import { debounceTime, first, map, tap } from 'rxjs/operators';
-import { COUNTRIES } from 'src/app/models/country.model';
+import { COUNTRIES } from 'src/app/models/country-enum.model';
 import { Match } from 'src/app/models/match.model';
-import { STAGES } from 'src/app/models/stage.model';
+import { STAGES } from 'src/app/models/stage-enum.model';
 import { ApiService } from 'src/app/services/api.service';
 import { toLocalIsoString } from 'src/app/tools/dates';
 
@@ -73,6 +73,11 @@ export class AdminComponent implements OnInit {
 
       console.log(val);
       await this.funcs.saveMatches(val);
+      await this.funcs.triggerPublishResults();
+  }
+
+  async triggerPublishResults() {
+    await this.funcs.triggerPublishResults();
   }
 
 }

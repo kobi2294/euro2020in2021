@@ -9,6 +9,10 @@
   flex-direction: row;
 }
 
+.nav>button {
+  margin: 4px;
+}
+
 .table-relative {
   position: relative;
   overflow-y: auto;

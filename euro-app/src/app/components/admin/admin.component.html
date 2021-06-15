@@ -1,6 +1,7 @@
 <ng-container *ngIf="form$ | async as form">
     <div class="nav">
         <button mat-raised-button color="accent" (click)="save(form)" [disabled]="form.pristine">Save</button>
+        <button mat-raised-button color="accent" (click)="triggerPublishResults()">Trigger Results Calculation</button>
     </div>
     <div class="table-relative">
         <div class="table-absolute">

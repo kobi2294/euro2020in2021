@@ -25,4 +25,4 @@ export const COUNTRIES = [
     'Wales', 
 ] as const;
 
-export type Country = typeof COUNTRIES[number];
+export type CountryEnum = typeof COUNTRIES[number];
