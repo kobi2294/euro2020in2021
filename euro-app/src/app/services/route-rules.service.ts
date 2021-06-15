@@ -22,8 +22,7 @@ export class RouteRulesService {
     this.route$ = this.router.events.pipe(
       filter(event => event instanceof NavigationEnd),
       map(event => event as NavigationEnd),
-      map(event => event.url),
-      tap(url => console.log('route: ', url))
+      map(event => event.url)
     );
 
     this.required$ = combineLatest([this.route$, this.authService.currentUser$]).pipe(
@@ -36,8 +35,6 @@ export class RouteRulesService {
   }
 
   async init(): Promise<void> {
-    console.log('initializing');
-
     combineLatest([this.required$, this.forbidden$, this.route$])
     .subscribe(([required, forbidden, current]) => {
       this.handleEnforcedRoute(required, forbidden, current);
@@ -45,8 +42,6 @@ export class RouteRulesService {
   }
 
   private calcRequiredRoute(url: string, user: User | null): UrlTree | null {
-    console.log('calc routing logic', user, url);
-
     if (user === null) return this.router.createUrlTree(['login']);
     if ((!user.groups) || (user.groups.length == 0)) return this.router.createUrlTree(['profile']);
 
@@ -62,12 +57,10 @@ export class RouteRulesService {
   }
 
   private handleEnforcedRoute(required: UrlTree | null, forbidden: UrlTree[], currentRoute: string) {
-    console.warn('handle', required?.toString(), forbidden.map(u => u.toString()), currentRoute);
     if (required !== null) {
       if (required.toString() === currentRoute) return;
 
       if (this.targetUrl === null) {
-        console.warn('target URL = ', currentRoute);
         this.targetUrl = currentRoute;  
       }
       this.router.navigateByUrl(required);
@@ -79,12 +72,10 @@ export class RouteRulesService {
     // if we got here, required is null.
     // if there is an old target, its time to use it
     let targetUrl = this.targetUrl;
-    console.warn('targetUrl is used', this.targetUrl);
     this.targetUrl = null;
 
     if ((targetUrl !== null) && forbiddenUrls.includes(targetUrl)) 
     {
-      console.warn('target URL cleared because it is forbidden');
       targetUrl = null;
     }
 

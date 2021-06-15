@@ -129,6 +129,8 @@ export const createUserRecord = functions.auth.user().onCreate(async user => {
                 displayName: user.displayName,
                 photoUrl: user.photoURL
             });
+        
+        await publishScoresOfPastMatches();
     }
 });
 

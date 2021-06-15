@@ -25,9 +25,6 @@ export class AuthService {
     this.currentFirebaseUser$ = this.afAuth.user;
 
     this.currentUser$ = this.currentFirebaseUser$.pipe(
-      tap(user => {
-        console.log('user = ', user?.email)
-      }),
       switchMap(user => (user && user.email) 
                     ? db.doc<User>(`users/${user.email}`).valueChanges()
                     : of(null)), 

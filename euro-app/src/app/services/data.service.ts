@@ -46,7 +46,6 @@ export class DataService {
     );
 
     this.allUsers$ = this.db.collection<User>('users').valueChanges().pipe(
-      tap(users => console.log('users = ', users)),
       shareReplay(1)
     );
   }

@@ -166,10 +166,10 @@ export class SelectedGroupService {
         displayName: user.displayName,
         email: user.email,
         photoUrl: user.photoUrl,
-        totalCorrect: groups[user.email].filter(es => es.isCorrect).length,
+        totalCorrect: groups[user.email]?.filter(es => es.isCorrect)?.length ?? 0,
         totalPoints: sum(groups[user.email], es => es.points),
-        totalSolo: groups[user.email].filter(es => es.isSolo).length
+        totalSolo: groups[user.email]?.filter(es => es.isSolo)?.length ?? 0
       }))
-      .sort((a, b) => b.totalCorrect - a.totalCorrect);
+      .sort((a, b) => b.totalPoints - a.totalPoints);
   }
 }

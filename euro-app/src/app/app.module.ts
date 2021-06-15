@@ -34,7 +34,6 @@ import { CountryComponent } from './components/country/country.component';
 
 
 const app = firebase.initializeApp(environment.firebase, 'euro2020at2021');
-console.log('app', app);
 if (!environment.production) {
   app.auth().useEmulator('http://localhost:9099');
   app.firestore().useEmulator('localhost', 8080);
