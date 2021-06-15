@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable } from 'rxjs';
-import { debounceTime, map, shareReplay, switchMap } from 'rxjs/operators';
+import { debounceTime, map, shareReplay, switchMap, tap } from 'rxjs/operators';
 import { Guess } from '../models/guess.model';
 import { MatchRecord } from '../models/match-record';
 import { Match } from '../models/match.model';
 import { Score } from '../models/score.model';
+import { User } from '../models/user.model';
 import { filterNotNull } from '../tools/is-not-null';
 import { NumberMapping, toNumberMapping } from '../tools/mappings';
 import { AuthService } from './auth.service';
@@ -17,6 +18,7 @@ export class DataService {
   readonly myMatchRecords$!: Observable<MatchRecord[]>;
   readonly allMatches$!: Observable<Match[]>;
   readonly allScores$!: Observable<Score[]>;
+  readonly allUsers$!: Observable<User[]>;
 
   constructor(
     private db: AngularFirestore,
@@ -40,6 +42,11 @@ export class DataService {
     );
 
     this.allScores$ = this.db.collection<Score>('scores').valueChanges().pipe(
+      shareReplay(1)
+    );
+
+    this.allUsers$ = this.db.collection<User>('users').valueChanges().pipe(
+      tap(users => console.log('users = ', users)),
       shareReplay(1)
     );
   }

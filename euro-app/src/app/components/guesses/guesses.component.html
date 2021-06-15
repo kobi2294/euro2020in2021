@@ -5,30 +5,17 @@
         <mat-card>
             <mat-card-title>{{record.match.stage}}: {{record.match.date | date:'MMMM dd, HH:mm'}}</mat-card-title>
             <mat-card-content>
-                <div class="country">
-                    <div class="name">{{record.match.home}}</div>
-                    <div class="flag"
-                        [style.background-image]="'url(&quot;assets/flags/' + record.match.home + '.svg&quot;)'">
-                    </div>
-                </div>
+                <app-country [name]="record.match.home"></app-country>
                 <button mat-stroked-button (click)="setGuess(record.match.id, 'home')"
-                    [class.selected]="record.guess?.score === 'home'"
-                    >Home</button>
+                    [class.selected]="record.guess?.score === 'home'">Home</button>
 
                 <button mat-stroked-button (click)="setGuess(record.match.id, 'tie')"
-                    [class.selected]="record.guess?.score === 'tie'"
-                    >Tie</button>
+                    [class.selected]="record.guess?.score === 'tie'">Tie</button>
 
                 <button mat-stroked-button (click)="setGuess(record.match.id, 'away')"
-                    [class.selected]="record.guess?.score === 'away'"
-                    >Away</button>
-                <div class="country">
-                    <div class="name">{{record.match.away}}</div>
-                    <div class="flag"
-                        [style.background-image]="'url(&quot;assets/flags/' + record.match.away + '.svg&quot;)'">
-                    </div>
-                </div>
-        </mat-card-content>
+                    [class.selected]="record.guess?.score === 'away'">Away</button>
+                <app-country [name]="record.match.away"></app-country>
+            </mat-card-content>
         </mat-card>
     </div>
 </ng-container>

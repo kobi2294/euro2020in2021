@@ -1,4 +1,3 @@
-import { StringMapping } from "../tools/mappings";
 import { CountryEnum } from "./country-enum.model";
 import { GuessScore } from "./guess-score.model";
 import { UserMatchScore } from "./user-match-score.model";
@@ -8,9 +7,10 @@ export interface Score {
     home: CountryEnum;
     away: CountryEnum;
     date: string;
+    stage: string;
     homeScore: number | null;
     awayScore: number | null;
     correctGuess: GuessScore | null;
     points: number;
-    userScores: StringMapping<UserMatchScore>
+    userScores: UserMatchScore[];
 }

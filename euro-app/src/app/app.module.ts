@@ -29,6 +29,8 @@ import 'firebase/auth';
 import 'firebase/functions';
 import { GroupSelectorComponent } from './components/group-selector/group-selector.component';
 import { HomeComponent } from './components/home/home.component';
+import { FlagComponent } from './components/flag/flag.component';
+import { CountryComponent } from './components/country/country.component';
 
 
 const app = firebase.initializeApp(environment.firebase, 'euro2020at2021');
@@ -49,7 +51,9 @@ if (!environment.production) {
     ScoreboardComponent,
     AdminComponent,
     GroupSelectorComponent,
-    HomeComponent
+    HomeComponent,
+    FlagComponent,
+    CountryComponent
   ],
   imports: [
     BrowserModule,

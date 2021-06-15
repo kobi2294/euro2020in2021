@@ -7,7 +7,6 @@ import { Stage } from "../models/stage.model";
 import { UserMatchScore } from "../models/user-match-score.model";
 import { User } from "../models/user.model";
 import { isNotNullOrUndefined } from "./is-not-null";
-import { toStringMapping } from "./mappings";
 
 export async function fetchAllCollection<T>(name: string, orderBy?: string): Promise<T[]> {
     let collection = admin.firestore().collection(name);
@@ -41,18 +40,20 @@ export async function calcScore(match: Match, users: User[], stages: Stage[]): P
             email: pair[0].email,
             displayName: pair[0].displayName,
             guess: pair[1]?.score ?? null
-        }));
+        }))
+        .sort((a, b) => b.displayName > a.displayName ? 1 : -1);
 
     return {
         id: match.id,
         date: match.date,
         home: match.home,
         away: match.away,
+        stage: match.stage!,
         awayScore: match.awayScore??null,
         homeScore: match.homeScore??null,
         correctGuess: calcCorrectGuess(match),
         points: points,
-        userScores: toStringMapping(userScores, sc => sc.email)
+        userScores: userScores
     }
 }
 

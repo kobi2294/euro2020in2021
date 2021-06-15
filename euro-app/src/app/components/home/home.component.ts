@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
-import { Score } from 'src/app/models/score.model';
-import { DataService } from 'src/app/services/data.service';
+import { ExtendedScore } from 'src/app/models/extended-score.model';
+import { SelectedGroupService } from 'src/app/services/selected-group.service';
 
 @Component({
   selector: 'app-home',
@@ -10,16 +9,16 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit {
-  scores$!: Observable<Score[]>;
+  scores$!: Observable<ExtendedScore[]>;
 
   constructor(
-    private data: DataService
+    private groupService: SelectedGroupService
   ) { }
 
   ngOnInit(): void {
-    this.scores$ = this.data.allScores$.pipe(
-      map(scores => scores.sort((a, b) => new Date(a.date).valueOf() - new Date(b.date).valueOf()))
-    );
+    // now we need to reduce it to only the players in the current group
+    this.scores$ = this.groupService.selectedGroupExtendedScores$;
   }
+
 
 }

@@ -1,9 +1,8 @@
-import { StringMapping } from "../tools/mappings";
 import { CountryEnum } from "./country-enum.model";
+import { ExtendedUserScore } from "./extended-user-score.model";
 import { GuessScore } from "./guess-score.model";
-import { UserMatchScore } from "./user-match-score.model";
 
-export interface Score {
+export interface ExtendedScore {
     id: number;
     home: CountryEnum;
     away: CountryEnum;
@@ -13,5 +12,7 @@ export interface Score {
     awayScore: number | null;
     correctGuess: GuessScore | null;
     points: number;
-    userScores: UserMatchScore[];
+    hasScore: boolean;
+    correctGuessesCount: number;
+    userScores: ExtendedUserScore[];
 }
