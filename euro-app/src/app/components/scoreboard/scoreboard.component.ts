@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { Observable } from 'rxjs';
+import { Group } from 'src/app/models/group.model';
 
 @Component({
   selector: 'app-scoreboard',
@@ -7,7 +10,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ScoreboardComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+  ) { }
 
   ngOnInit(): void {
   }

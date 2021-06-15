@@ -27,6 +27,7 @@ import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 import 'firebase/functions';
+import { GroupSelectorComponent } from './components/group-selector/group-selector.component';
 
 
 const app = firebase.initializeApp(environment.firebase, 'euro2020at2021');
@@ -45,7 +46,8 @@ if (!environment.production) {
     NavBarComponent,
     GuessesComponent,
     ScoreboardComponent,
-    AdminComponent
+    AdminComponent,
+    GroupSelectorComponent
   ],
   imports: [
     BrowserModule,

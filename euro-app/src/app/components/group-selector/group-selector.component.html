@@ -1,0 +1,13 @@
+<button mat-button [matMenuTriggerFor]="menu">
+    <ng-container *ngIf="selectedGroup$ | async as selectedGroup">
+        <mat-icon>group</mat-icon>
+        {{selectedGroup.displayName}}
+    </ng-container>
+    <mat-icon>keyboard_arrow_down</mat-icon>
+</button>
+<mat-menu #menu="matMenu">
+    <button mat-menu-item *ngFor="let group of groups$ | async">
+        <mat-icon>group</mat-icon>
+        {{group.displayName}}
+    </button>
+</mat-menu>

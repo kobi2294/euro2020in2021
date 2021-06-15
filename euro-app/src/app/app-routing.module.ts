@@ -9,9 +9,9 @@ import { ScoreboardComponent } from './components/scoreboard/scoreboard.componen
 const routes: Routes = [
   {path: '', redirectTo: 'guesses', pathMatch: 'full'},
   {path: 'login', component: LoginComponent, data: {animationOrder: '0'}}, 
-  {path: 'profile', component: ProfileComponent, data: {animationOrder: '1'}}, 
+  {path: 'scoreboard', component: ScoreboardComponent, data: {animationOrder: '1'}}, 
   {path: 'guesses', component: GuessesComponent, data: {animationOrder: '2'}}, 
-  {path: 'scoreboard', component: ScoreboardComponent, data: {animationOrder: '3'}}, 
+  {path: 'profile', component: ProfileComponent, data: {animationOrder: '3'}}, 
   {path: 'admin', component: AdminComponent, data: {animationOrder: '4'}}
 ];
 
