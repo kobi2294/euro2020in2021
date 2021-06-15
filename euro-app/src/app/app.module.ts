@@ -10,8 +10,6 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFireDatabaseModule } from '@angular/fire/database';
 import { environment } from 'src/environments/environment';
 import { LoginComponent } from './components/login/login.component';
-import { HomeComponent } from './components/home/home.component';
-import { AuthService } from './services/auth.service';
 import { ProfileComponent } from './components/profile/profile.component';
 import { NavBarComponent } from './components/nav-bar/nav-bar.component';
 import { GuessesComponent } from './components/guesses/guesses.component';
@@ -43,7 +41,6 @@ if (!environment.production) {
   declarations: [
     AppComponent,
     LoginComponent,
-    HomeComponent,
     ProfileComponent,
     NavBarComponent,
     GuessesComponent,

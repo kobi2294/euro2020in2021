@@ -1,6 +1,10 @@
 :host {
   display: grid;
-  grid-template-rows: auto 1fr;
+  grid-template-rows: auto auto 1fr;
+}
+
+h1 {
+  margin-bottom: 0px;
 }
 
 .nav {
