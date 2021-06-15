@@ -83,18 +83,18 @@ api.post('/users/guesses', async (req, res) => {
     console.log(email);
     console.log(JSON.stringify(guess));
 
-    // const match = (await admin.firestore()
-    //                          .collection('matches')
-    //                          .doc(guess.matchId.toString().padStart(2, '0'))
-    //                          .get()).data() as Match;
+    const match = (await admin.firestore()
+                             .collection('matches')
+                             .doc(guess.matchId.toString().padStart(2, '0'))
+                             .get()).data() as Match;
     
-    // if (Date.now() > new Date(match.date).valueOf()) {
-    //     // game has already started
-    //     console.warn('Refused: Game already started');
-    //     console.groupEnd();
-    //     res.status(400).send();
-    //     return;
-    // }
+    if (Date.now() > new Date(match.date).valueOf()) {
+        // game has already started
+        console.warn('Refused: Game already started');
+        console.groupEnd();
+        res.status(400).send();
+        return;
+    }
 
     await admin.firestore()
             .collection('users')

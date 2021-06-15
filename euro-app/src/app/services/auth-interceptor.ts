@@ -13,7 +13,6 @@ export class AuthInterceptor implements HttpInterceptor {
             first(), 
             switchMap(token => {
                 if (token) req = req.clone({ setHeaders: { Authorization: `Bearer ${token}`}});
-                console.log(token);
                 return next.handle(req);
             })
         )

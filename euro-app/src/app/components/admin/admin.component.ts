@@ -70,7 +70,6 @@ export class AdminComponent implements OnInit {
           date: new Date(match.date).toUTCString()
         }));
 
-      console.log(val);
       await this.funcs.saveMatches(val);
       await this.funcs.triggerPublishResults();
   }

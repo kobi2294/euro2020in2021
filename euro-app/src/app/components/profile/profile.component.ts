@@ -43,12 +43,7 @@ export class ProfileComponent implements OnInit {
   }
 
   async toggleSelection(groupId: string) {
-    console.log('toggle selection ', groupId);
-
     let user = await this.currentUser$.pipe(first()).toPromise();
-
-    console.log('before change', user);
-
     let groups = user.groups ?? [];
 
     groups = groups.includes(groupId) 

@@ -26,9 +26,8 @@ export class GuessesComponent implements OnInit {
     let now = Date.now().valueOf();
 
     this.records$ = combineLatest([timer(0, 60000), this.data.myMatchRecords$]).pipe(
-      tap(val => console.log('future guesses calc', val)), 
       map(([_, records]) => records
-                    // .filter(record => record.date.valueOf() > now)
+                    .filter(record => record.date.valueOf() > now)
                     .filter(record => record.match.home && record.match.away))
     );
     
