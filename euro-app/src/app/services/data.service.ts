@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable } from 'rxjs';
-import { map, switchMap } from 'rxjs/operators';
+import { debounceTime, map, shareReplay, switchMap } from 'rxjs/operators';
 import { Guess } from '../models/guess.model';
 import { MatchRecord } from '../models/match-record';
 import { Match } from '../models/match.model';
@@ -14,20 +14,28 @@ import { AuthService } from './auth.service';
 })
 export class DataService {
   readonly myMatchRecords$!: Observable<MatchRecord[]>;
+  readonly allMatches$!: Observable<Match[]>;
 
   constructor(
     private db: AngularFirestore,
     private auth: AuthService
   ) {
-    let matches$ = this.db.collection<Match>('matches').valueChanges();
     let guesses$ = this.auth.currentUser$.pipe(
       filterNotNull(),
       switchMap(user => this.db.collection('users').doc(user.email).collection<Guess>('guesses').valueChanges()), 
       map(guesses => toNumberMapping(guesses, guess => guess.matchId))
     );
 
-    this.myMatchRecords$ = combineLatest([matches$, guesses$]).pipe(
-      map(([matches, guesses]) => this.createRecords(matches, guesses))
+    this.allMatches$ = this.db.collection<Match>('matches').valueChanges()
+      .pipe(
+        debounceTime(100),
+        shareReplay(1)
+      );
+
+
+    this.myMatchRecords$ = combineLatest([this.allMatches$, guesses$]).pipe(
+      map(([matches, guesses]) => this.createRecords(matches, guesses)), 
+      shareReplay(1)
     );
   }
 

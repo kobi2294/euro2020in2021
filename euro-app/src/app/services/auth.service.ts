@@ -1,11 +1,10 @@
-import { R3TargetBinder } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { NavigationEnd, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import firebase from 'firebase/app';
-import { combineLatest, from, Observable, of } from 'rxjs';
-import { filter, first, map, startWith, switchMap, tap } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { map, shareReplay, startWith, switchMap, tap } from 'rxjs/operators';
 import { User } from '../models/user.model';
 import { filterNotUndefined } from '../tools/is-not-null';
 
@@ -33,7 +32,8 @@ export class AuthService {
                     ? db.doc<User>(`users/${user.email}`).valueChanges()
                     : of(null)), 
       filterNotUndefined(), 
-      startWith(null)
+      startWith(null), 
+      shareReplay(1)
     );
 
     this.isLoggedIn$ = this.currentUser$.pipe(

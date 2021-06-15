@@ -8,6 +8,7 @@ import { COUNTRIES } from 'src/app/models/country-enum.model';
 import { Match } from 'src/app/models/match.model';
 import { STAGES } from 'src/app/models/stage-enum.model';
 import { ApiService } from 'src/app/services/api.service';
+import { DataService } from 'src/app/services/data.service';
 import { toLocalIsoString } from 'src/app/tools/dates';
 
 @Component({
@@ -29,14 +30,12 @@ export class AdminComponent implements OnInit {
 
   constructor(
     private db: AngularFirestore, 
+    private data: DataService,
     private funcs: ApiService) { }
 
   ngOnInit(): void {
-    this.matches$ = this.db.collection<Match>('matches').valueChanges()
-      .pipe(
-        debounceTime(100),
-      )
-    ;
+    this.matches$ = this.data.allMatches$;
+    
     this.form$ = this.matches$.pipe(
       map(matches => this.buildForm(matches))
     );
