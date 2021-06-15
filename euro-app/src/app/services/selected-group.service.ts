@@ -8,8 +8,12 @@ import { Group } from '../models/group.model';
 import { GuessScore } from '../models/guess-score.model';
 import { Score } from '../models/score.model';
 import { UserMatchScore } from '../models/user-match-score.model';
+import { UserTableRow } from '../models/user-table-row.model';
 import { User } from '../models/user.model';
+import { sum } from '../tools/aggregations';
+import { groupByString } from '../tools/group-by';
 import { StringMapping, toStringMapping } from '../tools/mappings';
+import { selectMany } from '../tools/select-many';
 import { AuthService } from './auth.service';
 import { DataService } from './data.service';
 
@@ -25,19 +29,21 @@ export class SelectedGroupService {
   readonly userGroups$!: Observable<Group[]>;
   readonly selectedGroupScores$!: Observable<Score[]>;
   readonly selectedGroupExtendedScores$!: Observable<ExtendedScore[]>;
+  readonly selectedGroupTable$!: Observable<UserTableRow[]>;
+  readonly usersInSelectedGroup$!: Observable<User[]>;
 
   constructor(
-    private auth: AuthService, 
-    private db: AngularFirestore, 
-    private data: DataService 
-  ) { 
+    private auth: AuthService,
+    private db: AngularFirestore,
+    private data: DataService
+  ) {
     this.allGroups$ = this.db.collection<Group>('groups').valueChanges().pipe(
-      map(groups => toStringMapping(groups, group => group.id)), 
+      map(groups => toStringMapping(groups, group => group.id)),
       shareReplay(1)
     );
 
     this.userGroupIds$ = this.auth.currentUser$.pipe(
-      map(user => user?.groups ?? []), 
+      map(user => user?.groups ?? []),
     );
 
     let selectedGroupId$ = combineLatest([this.userSelection$, this.userGroupIds$]).pipe(
@@ -53,14 +59,17 @@ export class SelectedGroupService {
     );
 
     let allUsers$ = this.data.allUsers$.pipe(
-      map(users => toStringMapping(users, user => user.email)), 
+      map(users => toStringMapping(users, user => user.email)),
+    );
+
+    this.usersInSelectedGroup$ = combineLatest([this.selectedGroup$, allUsers$]).pipe(
+      map(([selectedGroup, allUsers]) => this.calcUsersInSelectedGroup(selectedGroup, allUsers))
     );
 
     let allScores$ = this.data.allScores$.pipe(
       map(scores => scores.sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf()))
     );
 
-    
     // now we need to reduce it to only the players in the current group
     this.selectedGroupScores$ = combineLatest([allScores$, this.selectedGroup$, allUsers$]).pipe(
       map(([allScores, selectedGroup, users]) => this.scoresOfGroup(allScores, selectedGroup, users))
@@ -70,6 +79,9 @@ export class SelectedGroupService {
       map(scores => scores.map(score => this.calcExtendedScore(score)))
     );
 
+    this.selectedGroupTable$ = combineLatest([this.selectedGroupExtendedScores$, this.usersInSelectedGroup$]).pipe(
+      map(([extendedScores, allUsers]) => this.calcGroupTable(extendedScores, allUsers))
+    );
   }
 
   setSelection(groupId: string) {
@@ -85,9 +97,9 @@ export class SelectedGroupService {
     return '';
   }
 
-  private scoresOfGroup(scores: Score[], group: Group | null, users: StringMapping<User>) : Score[] {
+  private scoresOfGroup(scores: Score[], group: Group | null, users: StringMapping<User>): Score[] {
     let res = scores.map(score => ({
-      ...score, 
+      ...score,
       userScores: this.userScoresOfGroup(score, group, users)
     }));
 
@@ -96,8 +108,8 @@ export class SelectedGroupService {
 
   private userScoresOfGroup(score: Score, group: Group | null, users: StringMapping<User>): UserMatchScore[] {
     return Object
-        .values(score.userScores)
-        .filter(userScore => this.isUserScoreInGroup(userScore, group, users));
+      .values(score.userScores)
+      .filter(userScore => this.isUserScoreInGroup(userScore, group, users));
   }
 
   private isUserScoreInGroup(userScore: UserMatchScore, group: Group | null, users: StringMapping<User>): boolean {
@@ -111,29 +123,53 @@ export class SelectedGroupService {
 
   private calcExtendedScore(score: Score): ExtendedScore {
     let correctCount = score.userScores
-          .filter(us => (us.guess) && (us.guess === score.correctGuess))
-          .length;
-    let pointPerCorrect = correctCount > 0 
-                              ? score.points / correctCount
-                              : 0;
+      .filter(us => (us.guess) && (us.guess === score.correctGuess))
+      .length;
+    let pointPerCorrect = correctCount > 0
+      ? score.points / correctCount
+      : 0;
     let isSolo = correctCount === 1;
 
     let isCorrect = (guess: GuessScore | null) => Boolean(guess) && guess === score.correctGuess;
 
     let res: ExtendedScore = {
-      ...score, 
-      correctGuessesCount: correctCount, 
-      hasScore: (score.awayScore!==null) && (score.homeScore !== null),
+      ...score,
+      correctGuessesCount: correctCount,
+      hasScore: (score.awayScore !== null) && (score.homeScore !== null),
       userScores: score.userScores
-                            .map<ExtendedUserScore>(us => ({
-                              ...us, 
-                              isCorrect: isCorrect(us.guess),
-                              points: isCorrect(us.guess) ? pointPerCorrect : 0, 
-                              isSolo: isCorrect(us.guess) ? isSolo : false
-                            }))
+        .map<ExtendedUserScore>(us => ({
+          ...us,
+          isCorrect: isCorrect(us.guess),
+          points: isCorrect(us.guess) ? pointPerCorrect : 0,
+          isSolo: isCorrect(us.guess) ? isSolo : false
+        }))
     }
 
     return res;
   }
 
+  private calcUsersInSelectedGroup(selectedGroup: Group | null, users: StringMapping<User>): User[] {
+    if (selectedGroup === null) return [];
+
+    return Object
+      .values(users)
+      .filter(user => user.groups && user.groups!.includes(selectedGroup.id));
+
+  }
+
+  private calcGroupTable(extendedScores: ExtendedScore[], allUsers: User[]): UserTableRow[] {
+    let allScores = selectMany(extendedScores, es => es.userScores);
+    let groups = groupByString(allScores, es => es.email);
+
+    return allUsers
+      .map<UserTableRow>(user => ({
+        displayName: user.displayName,
+        email: user.email,
+        photoUrl: user.photoUrl,
+        totalCorrect: groups[user.email].filter(es => es.isCorrect).length,
+        totalPoints: sum(groups[user.email], es => es.points),
+        totalSolo: groups[user.email].filter(es => es.isSolo).length
+      }))
+      .sort((a, b) => b.totalCorrect - a.totalCorrect);
+  }
 }

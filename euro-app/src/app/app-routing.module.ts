@@ -8,7 +8,7 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { ScoreboardComponent } from './components/scoreboard/scoreboard.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'home', pathMatch: 'full'},
+  {path: '', redirectTo: 'scoreboard', pathMatch: 'full'},
   {path: 'login', component: LoginComponent, data: {animationOrder: '0'}}, 
   {path: 'home', component: HomeComponent, data: {animationOrder: '1'}}, 
   {path: 'scoreboard', component: ScoreboardComponent, data: {animationOrder: '2'}}, 

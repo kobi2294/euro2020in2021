@@ -1,5 +1,51 @@
+:host {
+    display: flex;
+    flex-direction: column;
+}
+
 h1 {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+table {
+    align-self: center;
+    margin: 8px;
+    width: calc(100% - 16px);
+    max-width: 600px;
+}
+
+.mat-row:first-child {
+    background: var(--p50);
+}
+
+.mat-row:first-child .cell {
+    color: var(--p800);
+    font-weight: 500;
+}
+
+th.mat-header-cell {
+    padding: 4px;
+}
+
+img {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid var(--p800);
+    margin: 4px;
+}
+
+.cell {
+    margin: 8px;
+    font-size: 16px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.score {
+    font-weight: 500;
 }
