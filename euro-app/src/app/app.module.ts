@@ -31,6 +31,7 @@ import { GroupSelectorComponent } from './components/group-selector/group-select
 import { HomeComponent } from './components/home/home.component';
 import { FlagComponent } from './components/flag/flag.component';
 import { CountryComponent } from './components/country/country.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 const app = firebase.initializeApp(environment.firebase, 'euro2020at2021');
@@ -65,6 +66,12 @@ if (!environment.production) {
     AngularFirestoreModule,
     AngularFireAuthModule,
     AngularFireDatabaseModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production,
+      // Register the ServiceWorker as soon as the app is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    }),
   ],
   providers: [
     {
