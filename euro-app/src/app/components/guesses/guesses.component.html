@@ -1,5 +1,7 @@
 <h1>Your guess for the next matches</h1>
 
+<h2>Bank: {{pointsInBank$ | async}} pts</h2>
+
 <ng-container *ngIf="records$ | async as records">
     <div *ngFor="let record of records trackBy trackByMatchId">
         <mat-card>

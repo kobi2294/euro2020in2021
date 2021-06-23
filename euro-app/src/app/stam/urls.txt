@@ -1,0 +1,43 @@
+// group stage
+https://www.eurosport.com/_ajax_/results_v8_5/results_teamsports_v8_5.zone
+    ?   O2          =   1
+    &   langueid    =   0
+    &   domainid    =   135
+    &   mime        =   text/xml
+    &   dropletid   =   146
+    &   sportid     =   22
+    &   eventid     =   36881
+    &   SharedPageTheme =   black
+    &   DeviceType  =   desktop
+    &   roundid     =   5005
+
+https://www.eurosport.com/_ajax_/results_v8_5/results_teamsports_v8_5.zone
+    ?   O2          =   1
+    &   langueid    =   0
+    &   domainid    =   135
+    &   mime        =   text/xml
+    &   dropletid   =   146
+    &   sportid     =   22
+    &   eventid     =   36881   
+    &   SharedPageTheme =   black
+    &   DeviceType  =   desktop
+    &   roundid     =   5003
+
+https://www.eurosport.com/_ajax_/results_v8_5/results_teamsports_v8_5.zone
+    ?   O2          =   1
+    &   langueid    =   0
+    &   domainid    =   135
+    &   mime        =   text/xml
+    &   dropletid   =   146
+    &   sportid     =   22
+    &   eventid     =   36881
+    &   SharedPageTheme =   black
+    &   DeviceType  =   desktop
+    &   roundid     =   5016
+
+
+    Groups: 5005
+    round of 16: 5003
+    Quarters: 5016
+    Semi: 5050
+    Final: 5006

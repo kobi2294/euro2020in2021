@@ -1,6 +1,7 @@
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import * as cors from 'cors';
+import * as axios from 'axios';
 import * as express from 'express';
 import { validateUserToken } from "./middlewares/validate-user-token.middleware";
 import { Guess } from "./models/guess.model";
@@ -8,15 +9,19 @@ import { fetchAllCollection, publishScoresOfPastMatches } from "./tools/helper-f
 import { Match } from "./models/match.model";
 import { Stage } from "./models/stage.model";
 import { User } from "./models/user.model";
+import { parseMatches } from "./tools/crawl";
 
 const corsHandler = cors({ origin: true });
 const api = express();
-const openApi = express();
-
 api.use(corsHandler);
+api.use(validateUserToken);
+
+const openApi = express();
 openApi.use(corsHandler);
 
-api.use(validateUserToken);
+const crawl = express();
+crawl.use(corsHandler);
+
 admin.initializeApp();
 
 api.get('/hello', (req, res) => {
@@ -113,6 +118,15 @@ openApi.get('/triggerPublish', async (req, res) => {
     res.status(200).send();
 });
 
+crawl.get('/matches', async(req, res) => {
+    let url = 'https://www.eurosport.com/_ajax_/results_v8_5/results_teamsports_v8_5.zone?O2=1&langueid=0&domainid=135&mime=text/json&dropletid=146&sportid=22&eventid=36881&SharedPageTheme=black&DeviceType=desktop&roundid=5005';
+    let data = (await axios.default.get(url)).data as string;
+
+    let matches = parseMatches(data);    
+
+    console.log(matches);
+    res.status(200).send();
+});
 
 export const createUserRecord = functions.auth.user().onCreate(async user => {
     console.log('New user spotted');
@@ -139,5 +153,8 @@ export const publishScores = functions.pubsub.schedule('01 * * * *').onRun(async
 });
 
 
+
+
 exports.api = functions.https.onRequest(api);
 exports.openApi = functions.https.onRequest(openApi);
+exports.crawl = functions.https.onRequest(crawl);

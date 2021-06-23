@@ -21,6 +21,11 @@ export async function fetchAllCollection<T>(name: string, orderBy?: string): Pro
     return snapshot.docs.map(doc => doc.data() as T);
 }
 
+export function stageOf(match: Match, stages: Stage[]): Stage | undefined{
+    return stages.find(s => (s.displayName === (match.stage ?? ''))
+                        || (s.names && s.names.includes(match.stage??'')));
+  }
+
 export async function calcScore(match: Match, users: User[], stages: Stage[]): Promise<Score> {
     let guesses = await Promise.all(users.map(user => admin
         .firestore()
@@ -31,9 +36,7 @@ export async function calcScore(match: Match, users: User[], stages: Stage[]): P
     console.log('calc score');
     console.log(JSON.stringify(match));
 
-    let matchStage = match.stage?.toLowerCase() ?? '';
-
-    let points = stages.find(stage => matchStage.includes(stage.id.toLowerCase()))?.points ?? 0;
+    let points = stageOf(match, stages)?.points ?? 0;
 
     let userScores: UserMatchScore[] = guesses
         .map(pair => ({

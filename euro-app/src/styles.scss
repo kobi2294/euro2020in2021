@@ -1,8 +1,8 @@
 @use '~@angular/material' as mat;
 @import 'material-common';
 
-$plt-primary: mat.define-palette($mat-teal);
-$plt-accent: mat.define-palette($mat-red, A200, A100, A400);
+$plt-primary: mat.define-palette($mat-deep-purple);
+$plt-accent: mat.define-palette($mat-orange, A200, A100, A400);
 $plt-warn: mat.define-palette($mat-red);
 
 $theme: mat.define-light-theme((

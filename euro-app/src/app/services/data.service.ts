@@ -6,6 +6,7 @@ import { Guess } from '../models/guess.model';
 import { MatchRecord } from '../models/match-record';
 import { Match } from '../models/match.model';
 import { Score } from '../models/score.model';
+import { Stage } from '../models/stage.model';
 import { User } from '../models/user.model';
 import { filterNotNull } from '../tools/is-not-null';
 import { NumberMapping, toNumberMapping } from '../tools/mappings';
@@ -19,6 +20,7 @@ export class DataService {
   readonly allMatches$!: Observable<Match[]>;
   readonly allScores$!: Observable<Score[]>;
   readonly allUsers$!: Observable<User[]>;
+  readonly allStages$!: Observable<Stage[]>;
 
   constructor(
     private db: AngularFirestore,
@@ -46,6 +48,10 @@ export class DataService {
     );
 
     this.allUsers$ = this.db.collection<User>('users').valueChanges().pipe(
+      shareReplay(1)
+    );
+
+    this.allStages$ = this.db.collection<Stage>('stages').valueChanges().pipe(
       shareReplay(1)
     );
   }
