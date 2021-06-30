@@ -8,6 +8,7 @@ import { Match } from '../models/match.model';
 import { Score } from '../models/score.model';
 import { Stage } from '../models/stage.model';
 import { User } from '../models/user.model';
+import { sum } from '../tools/aggregations';
 import { filterNotNull } from '../tools/is-not-null';
 import { NumberMapping, toNumberMapping } from '../tools/mappings';
 import { AuthService } from './auth.service';
@@ -21,6 +22,7 @@ export class DataService {
   readonly allScores$!: Observable<Score[]>;
   readonly allUsers$!: Observable<User[]>;
   readonly allStages$!: Observable<Stage[]>;
+  readonly pointsInBank$!: Observable<number>;
 
   constructor(
     private db: AngularFirestore,
@@ -54,7 +56,20 @@ export class DataService {
     this.allStages$ = this.db.collection<Stage>('stages').valueChanges().pipe(
       shareReplay(1)
     );
+
+    this.pointsInBank$ = combineLatest([this.allMatches$, this.allStages$]).pipe(
+      map(([matches, stages]) => sum(matches
+        .filter(m => new Date(m.date).valueOf() > Date.now().valueOf())
+        .map(m => this.stageOf(m, stages)), item => item?.points??0))
+    );
+
   }
+
+  private stageOf(match: Match, stages: Stage[]): Stage | undefined{
+    return stages.find(s => (s.displayName === (match.stage ?? ''))
+                        || (s.names && s.names.includes(match.stage??'')));
+  }
+
 
   private createRecords(matches: Match[], guesses: NumberMapping<Guess>): MatchRecord[] {
     return matches

@@ -18,7 +18,6 @@ import { sum } from 'src/app/tools/aggregations';
 })
 export class GuessesComponent implements OnInit {
   records$!: Observable<MatchRecord[]>;
-  pointsInBank$!: Observable<number>;
 
   constructor(
     private data: DataService, 
@@ -33,19 +32,8 @@ export class GuessesComponent implements OnInit {
                     .filter(record => record.date.valueOf() > now)
                     .filter(record => record.match.home && record.match.away))
     );
-
-    this.pointsInBank$ = combineLatest([this.data.allMatches$, this.data.allStages$]).pipe(
-      map(([matches, stages]) => sum(matches
-        .filter(m => new Date(m.date).valueOf() > now)
-        .map(m => this.stageOf(m, stages)), item => item?.points??0))
-    );
-    
   }
 
-  private stageOf(match: Match, stages: Stage[]): Stage | undefined{
-    return stages.find(s => (s.displayName === (match.stage ?? ''))
-                        || (s.names && s.names.includes(match.stage??'')));
-  }
 
 
   trackByMatchId(index: number, record: MatchRecord) {
