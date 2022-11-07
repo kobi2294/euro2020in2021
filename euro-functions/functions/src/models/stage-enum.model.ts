@@ -11,6 +11,7 @@ export const STAGES = [
     'Round Of 16', 
     'Quarter Finals', 
     'Semi Finals', 
+    'Third Place', 
     'Finals'
 ] as const;
 
