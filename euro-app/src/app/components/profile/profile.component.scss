@@ -11,6 +11,7 @@
 
     .groups-panel {
         display: flex;
+        flex-wrap: wrap;
         flex-direction: row;
         user-select: none;
     

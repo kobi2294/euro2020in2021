@@ -4,5 +4,6 @@ export interface User {
     email: string, 
     displayName: string, 
     photoUrl: string, 
-    groups?: string[]
+    groups?: string[], 
+    admin?: boolean
 }

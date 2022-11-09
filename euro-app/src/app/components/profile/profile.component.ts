@@ -21,6 +21,8 @@ export class ProfileComponent implements OnInit {
   selectedGroups$!: Observable<StringMapping<true>>;
   hasGroups$!: Observable<boolean>;
 
+  admin$!: Observable<string>;
+
   constructor(
     private authService: AuthService,
     private db: AngularFirestore, 
@@ -40,6 +42,10 @@ export class ProfileComponent implements OnInit {
     this.hasGroups$ = this.selectedGroups$.pipe(
       map(groups => Object.keys(groups).length > 0)
     );
+
+    this.admin$ = this.authService.isAdmin$.pipe(
+      map(val => val ? 'an admin' : 'not an admin')
+    )
   }
 
   async toggleSelection(groupId: string) {

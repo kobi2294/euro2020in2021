@@ -16,6 +16,7 @@ export class AuthService {
   currentFirebaseUser$!: Observable<firebase.User | null>;
   currentUser$!: Observable<User | null>;
   isLoggedIn$!: Observable<boolean>;
+  isAdmin$!: Observable<boolean>;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -36,6 +37,10 @@ export class AuthService {
     this.isLoggedIn$ = this.currentUser$.pipe(
       map(user => user !== null)
     );
+
+    this.isAdmin$ = this.currentUser$.pipe(
+      map(user => Boolean(user?.admin))
+    )
   }
 
   facebookAuth(): Promise<firebase.auth.UserCredential> {

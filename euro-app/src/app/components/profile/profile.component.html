@@ -2,6 +2,7 @@
     <h1>{{user.displayName}} Profile Settings</h1>
 
     <div class="content">
+        <h3 class="info">You are {{admin$ | async}}.</h3>
         <ng-container *ngIf="selectedGroups$ | async as selected">
             <h2>Select your groups</h2>
             <div class="groups-panel">
