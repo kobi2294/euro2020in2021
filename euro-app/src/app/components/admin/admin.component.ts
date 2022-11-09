@@ -58,7 +58,6 @@ export class AdminComponent implements OnInit {
     let date = new Date(dateStr);
     //date.setFullYear(2022);
     const res = toLocalIsoString(date).slice(0, 16);
-    console.log(dateStr, res);
     return res;
   }
 

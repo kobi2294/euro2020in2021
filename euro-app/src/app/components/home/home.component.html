@@ -1,51 +1,83 @@
-<h1>
+<ng-container *ngIf="hasScores$ | async">
+  <h1>
     Latest Bets
     <app-group-selector></app-group-selector>
-</h1>
-
-<div *ngFor="let score of (scores$ | async)">
+  </h1>
+  <div *ngFor="let score of scores$ | async">
     <mat-card>
-        <mat-card-title>{{score.stage}}: {{score.date | date:'MMMM dd, HH:mm'}}</mat-card-title>
-        <mat-card-content>
-            <div class="match-details">
-                <app-country [name]="score.home"></app-country>
-                <div class="match-final-score">
-                    <div>
-                        {{score.points}} points
-                    </div>
-                    <div class="final-score">
-                        {{score.homeScore}} : {{score.awayScore}}
-                    </div>
-                    <div class="details">
-                        {{score.correctGuess}}
-                    </div>
-                </div>
-                <app-country [name]="score.away"></app-country>
+      <mat-card-title
+        >{{ score.stage }}:
+        {{ score.date | date: "MMMM dd, HH:mm" }}</mat-card-title
+      >
+      <mat-card-content>
+        <div class="match-details">
+          <app-country [name]="score.home"></app-country>
+          <div class="match-final-score">
+            <div>{{ score.points }} points</div>
+            <div class="final-score">
+              {{ score.homeScore }} : {{ score.awayScore }}
             </div>
-            <div class="user-guesses">
-                <div class="user" *ngFor="let userGuess of score.userScores">
-                    <div class="user-name">{{userGuess.displayName}}</div>
-                    <div class="user-guess"
-                        [class.correct]="score.hasScore && userGuess.isCorrect"
-                        [class.wrong]="score.hasScore && !userGuess.isCorrect"
-                    >
-                    <ng-container *ngIf="score.hasScore">
-                        <mat-icon *ngIf="userGuess.isCorrect">check</mat-icon>
-                        <mat-icon *ngIf="!userGuess.isCorrect">clear</mat-icon>    
-                    </ng-container>
-                    {{userGuess.guess??'---'}}
-
-                    <ng-container *ngIf="userGuess.isCorrect">
-                        ({{userGuess.points}} points
-                        <ng-container *ngIf="userGuess.isSolo">
-                            <mat-icon color="accent">new_releases</mat-icon>
-                        </ng-container>)
-                    </ng-container>
-
-                </div>
-                </div>
+            <div class="details">
+              {{ score.correctGuess }}
             </div>
-        </mat-card-content>
+          </div>
+          <app-country [name]="score.away"></app-country>
+        </div>
+        <div class="user-guesses">
+          <div class="user" *ngFor="let userGuess of score.userScores">
+            <div class="user-name">{{ userGuess.displayName }}</div>
+            <div
+              class="user-guess"
+              [class.correct]="score.hasScore && userGuess.isCorrect"
+              [class.wrong]="score.hasScore && !userGuess.isCorrect"
+            >
+              <ng-container *ngIf="score.hasScore">
+                <mat-icon *ngIf="userGuess.isCorrect">check</mat-icon>
+                <mat-icon *ngIf="!userGuess.isCorrect">clear</mat-icon>
+              </ng-container>
+              {{ userGuess.guess ?? "---" }}
 
+              <ng-container *ngIf="userGuess.isCorrect">
+                ({{ userGuess.points }} points
+                <ng-container *ngIf="userGuess.isSolo">
+                  <mat-icon color="accent"
+                    >new_releases</mat-icon
+                  > </ng-container
+                >)
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
     </mat-card>
-</div>
+  </div>
+</ng-container>
+
+<ng-container *ngIf="!(hasScores$ | async)">
+  <h1>Welcome!</h1>
+  <h2>The game will start soon</h2>
+  <p>
+    In the "Home" <mat-icon>home</mat-icon> page (this page), you will be able
+    to see the bets and results of matches that have already started, or
+    completed.
+  </p>
+
+  <p>
+    In the "Scoreboard" <mat-icon>list_alt</mat-icon> page, you can see the
+    current standings of all players in your group
+  </p>
+
+  <p>
+    In the "Guesses" <mat-icon>edit</mat-icon> page, you can view and modify
+    your guesses for future matches. Note that once the match starts, you will
+    not be able to modify your guess anymore
+  </p>
+
+  <p>
+    In the "User Profile" <mat-icon>group</mat-icon> page, you can set the
+    groups that you want to play in. You can set more than one group, but you
+    use the same guesses in all of your groups.
+  </p>
+
+  <h3>Good luck, and Enjoy :-)</h3>
+</ng-container>

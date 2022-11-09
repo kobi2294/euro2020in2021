@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { map, tap } from 'rxjs/operators';
 import { ExtendedScore } from 'src/app/models/extended-score.model';
 import { SelectedGroupService } from 'src/app/services/selected-group.service';
 
@@ -11,6 +12,8 @@ import { SelectedGroupService } from 'src/app/services/selected-group.service';
 export class HomeComponent implements OnInit {
   scores$!: Observable<ExtendedScore[]>;
 
+  hasScores$!: Observable<boolean>;
+
   constructor(
     private groupService: SelectedGroupService
   ) { }
@@ -18,6 +21,11 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     // now we need to reduce it to only the players in the current group
     this.scores$ = this.groupService.selectedGroupExtendedScores$;
+
+    this.hasScores$ = this.scores$.pipe(
+      map(all => all.length > 0), 
+      tap(val => console.log('has scores', val))
+    )
   }
 
 

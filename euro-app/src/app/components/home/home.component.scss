@@ -4,6 +4,35 @@ h1 {
     justify-content: space-between;
 }
 
+h2, h3 {
+    text-align: center;
+    margin: auto;
+    color: var(--p400);
+    font-size: 3em;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 2em;
+}
+
+p {
+    margin: auto;
+    padding: 8px;
+    max-width: 450px;
+    font-size: 1.5em;
+    line-height: 1.6em;
+    margin-bottom: 10px;
+
+    mat-icon {
+        width: auto;
+        height: auto;
+        color: var(--p500);
+        font-size: 1.5em;
+        vertical-align: bottom;
+    }
+}
+
 mat-card-title {
     display: flex;
     justify-content: center;
