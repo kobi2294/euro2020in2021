@@ -1,9 +1,22 @@
 <h1>First, let's login</h1>
 
 <div class="main">
-    <h3>Please select a provider: </h3>
-    <div class="providers">
-        <img (click)="authenticateFacebook()" src="/assets/facebook.png">
-        <img (click)="authenticateGoogle()" src="/assets/Google.png">
-    </div>
+    <ng-container *ngIf="!isBusy && !err">
+        <h3>Please select a provider: </h3>
+        <div class="providers">
+            <img (click)="authenticateFacebook()" src="/assets/facebook.png">
+            <img (click)="authenticateGoogle()" src="/assets/Google.png">
+            <img (click)="authenticateTwitter()" src="/assets/Twitter.png">
+        </div>    
+    </ng-container>
+    <ng-container *ngIf="isBusy && !err">
+        <h3>{{busyMessage}}</h3>
+        <h4>This may take up to 30 seconds</h4>
+        <span class="loader"></span>
+    </ng-container>
+    <ng-container *ngIf="err">
+        <h2>There was an error signing you in. The message is:</h2>
+        <p>{{err}}</p>
+        <h2>Please refresh the page and try again</h2>
+    </ng-container>
 </div>

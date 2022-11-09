@@ -23,7 +23,8 @@ export class AuthService {
     private db: AngularFirestore,
     private router: Router
   ) {
-    this.currentFirebaseUser$ = this.afAuth.user;
+    this.currentFirebaseUser$ = this.afAuth.user.pipe(
+    );
 
     this.currentUser$ = this.currentFirebaseUser$.pipe(
       switchMap(user => (user && user.email) 
@@ -31,7 +32,7 @@ export class AuthService {
                     : of(null)), 
       filterNotUndefined(), 
       startWith(null), 
-      shareReplay(1)
+      shareReplay(1), 
     );
 
     this.isLoggedIn$ = this.currentUser$.pipe(
@@ -43,20 +44,24 @@ export class AuthService {
     )
   }
 
-  facebookAuth(): Promise<firebase.auth.UserCredential> {
-    return this.authLogin(new firebase.auth.FacebookAuthProvider());
+  async facebookAuth(): Promise<void> {
+    await this.authLogin(() => new firebase.auth.FacebookAuthProvider());
   }
 
-  googleAuth(): Promise<firebase.auth.UserCredential> {
-    return this.authLogin(new firebase.auth.GoogleAuthProvider());
+  async googleAuth(): Promise<void> {
+    await this.authLogin(() => new firebase.auth.GoogleAuthProvider());
+  }
+
+  async twitterAuth(): Promise<void> {
+    await this.authLogin(() => new firebase.auth.TwitterAuthProvider());
   }
 
   logout(): Promise<void> {
     return this.afAuth.signOut();
   }
 
-  async authLogin(provider: firebase.auth.AuthProvider): Promise<firebase.auth.UserCredential> {
+  async authLogin(provider :() => firebase.auth.AuthProvider): Promise<void> {
     await this.afAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-    return await this.afAuth.signInWithPopup(provider);
+    await this.afAuth.signInWithPopup(provider());
   }
 }

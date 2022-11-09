@@ -7,6 +7,10 @@ import { AuthService } from 'src/app/services/auth.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
+  isBusy: boolean = false;
+  busyMessage: string = '';
+  err: string = '';
+
 
   constructor(
     private authService: AuthService
@@ -16,11 +20,29 @@ export class LoginComponent implements OnInit {
   }
 
   async authenticateFacebook() {
-    await this.authService.facebookAuth();
+    this.busyMessage = 'Authentication with Facebook';
+    await this.auth(() => this.authService.facebookAuth())
   }
 
   async authenticateGoogle() {
-    await this.authService.googleAuth();
+    this.busyMessage = 'Authentication with Google';
+    await this.auth(() => this.authService.googleAuth())
+  }
+
+  async authenticateTwitter() {
+    this.busyMessage = 'Authentication with Twitter';
+    await this.auth(() => this.authService.twitterAuth())
+  }
+
+  async auth(action:  () => Promise<any>) {
+    this.isBusy = true;
+    try {
+      await action()
+    } catch (err) {
+      this.err = String(err);
+    } finally {
+      this.isBusy = false;
+    }
   }
 
 }
