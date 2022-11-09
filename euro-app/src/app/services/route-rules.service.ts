@@ -44,6 +44,7 @@ export class RouteRulesService {
   private calcRequiredRoute(url: string, user: User | null): UrlTree | null {
     if (url === '/legal') return null;
     if (url === '/privacy') return null;
+    if (url === '/datadel') return null;
 
     if (user === null) return this.router.createUrlTree(['login']);
     if ((!user.groups) || (user.groups.length == 0)) return this.router.createUrlTree(['profile']);

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { AdminComponent } from './components/admin/admin.component';
+import { DataDeletionComponent } from './components/data-deletion/data-deletion.component';
 import { GuessesComponent } from './components/guesses/guesses.component';
 import { HomeComponent } from './components/home/home.component';
 import { LegalComponent } from './components/legal/legal.component';
@@ -18,7 +19,8 @@ const routes: Routes = [
   {path: 'profile', component: ProfileComponent, data: {animationOrder: '4'}}, 
   {path: 'admin', component: AdminComponent, data: {animationOrder: '5'}}, 
   {path: 'legal', component: LegalComponent, data: {animationOrder: '6'}}, 
-  {path: 'privacy', component: PrivacyComponent, data: {animationOrder: '7'}}
+  {path: 'privacy', component: PrivacyComponent, data: {animationOrder: '7'}}, 
+  {path: 'datadel', component: DataDeletionComponent, data: {amimationOrder: '8'}}
 ];
 
 @NgModule({
