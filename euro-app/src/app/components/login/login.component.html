@@ -9,7 +9,7 @@
             <img (click)="authenticateTwitter()" src="/assets/Twitter.png">
         </div>    
     </ng-container>
-    <ng-container *ngIf="isBusy && !err">
+    <ng-container *ngIf="isBusy">
         <h3>{{busyMessage}}</h3>
         <h4>This may take up to 30 seconds</h4>
         <span class="loader"></span>

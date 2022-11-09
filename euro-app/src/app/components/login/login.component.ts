@@ -40,9 +40,7 @@ export class LoginComponent implements OnInit {
       await action()
     } catch (err) {
       this.err = String(err);
-    } finally {
-      this.isBusy = false;
-    }
+    } 
   }
 
 }
