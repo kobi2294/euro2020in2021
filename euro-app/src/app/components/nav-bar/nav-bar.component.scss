@@ -10,7 +10,7 @@
 
 a {
     color: var(--p50);
-    padding: 6px;
+    padding: 8px 6px;
     text-decoration: none;
     display: flex;
     justify-content: center;
@@ -20,5 +20,9 @@ a {
 
 a.active {
     background-color: var(--p700);
+}
+
+mat-icon {
+    font-size: 28px;
 }
 
