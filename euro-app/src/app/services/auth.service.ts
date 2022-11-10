@@ -34,6 +34,7 @@ export class AuthService {
                     ? db.doc<User>(`users/${user.email}`).valueChanges()
                     : of(null)), 
       filterNotUndefined(), 
+      map(user => this.fixPhoto(user)),
       startWith(null), 
       shareReplay(1), 
     );
@@ -45,6 +46,16 @@ export class AuthService {
     this.isAdmin$ = this.currentUser$.pipe(
       map(user => Boolean(user?.admin))
     )
+  }
+
+  fixPhoto(user: User | null): User | null {
+    if (!user) return user;
+    if (user.photoUrl) return user;
+
+    return {
+      ...user, 
+      photoUrl: 'assets/guest.png'
+    }
   }
 
   async facebookAuth(): Promise<void> {

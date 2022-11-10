@@ -105,6 +105,9 @@ app-country {
 
         .user-name {
             width: 120px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
         }
 
         .user-guess {

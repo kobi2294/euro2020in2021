@@ -71,6 +71,10 @@ export class RouteRulesService {
         res.push(this.router.createUrlTree(['scoreboard']));
         res.push(this.router.createUrlTree(['guesses']));
       }
+
+      if (!user.admin) {
+        res.push(this.router.createUrlTree(['admin']));
+      }
     }
 
     return res;
