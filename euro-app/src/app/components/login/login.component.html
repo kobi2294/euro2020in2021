@@ -12,7 +12,7 @@
     <ng-container *ngIf="isBusy">
         <h3>{{busyMessage}}</h3>
         <h4>This may take up to 30 seconds</h4>
-        <span class="loader"></span>
+        <app-spinner></app-spinner>
     </ng-container>
     <ng-container *ngIf="err">
         <h2>There was an error signing you in. The message is:</h2>

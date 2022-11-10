@@ -50,8 +50,6 @@ export class ProfileComponent implements OnInit {
     let user = await this.currentUser$.pipe(first()).toPromise();
     let groups = user.groups ?? [];
 
-    await new Promise(res => setTimeout(res, 2000));
-
     groups = newValue
       ? [...groups, groupId]
       : groups.filter(item => item !== groupId);
