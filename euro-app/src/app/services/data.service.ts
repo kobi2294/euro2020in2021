@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable } from 'rxjs';
-import { debounceTime, map, shareReplay, switchMap, tap } from 'rxjs/operators';
+import { debounceTime, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
+import { Group } from '../models/group.model';
 import { Guess } from '../models/guess.model';
 import { MatchRecord } from '../models/match-record';
 import { Match } from '../models/match.model';
@@ -11,6 +12,7 @@ import { User } from '../models/user.model';
 import { sum } from '../tools/aggregations';
 import { filterNotNull } from '../tools/is-not-null';
 import { NumberMapping, toNumberMapping } from '../tools/mappings';
+import { ApiService } from './api.service';
 import { AuthService } from './auth.service';
 
 @Injectable({
@@ -23,10 +25,12 @@ export class DataService {
   readonly allUsers$!: Observable<User[]>;
   readonly allStages$!: Observable<Stage[]>;
   readonly pointsInBank$!: Observable<number>;
+  readonly allGroups$!: Observable<Group[]>;
 
   constructor(
     private db: AngularFirestore,
-    private auth: AuthService
+    private auth: AuthService, 
+    private api: ApiService
   ) {
     let guesses$ = this.auth.currentUser$.pipe(
       filterNotNull(),
@@ -50,6 +54,10 @@ export class DataService {
     );
 
     this.allUsers$ = this.db.collection<User>('users').valueChanges().pipe(
+      shareReplay(1)
+    );
+
+    this.allGroups$ = this.db.collection<Group>('groups').valueChanges().pipe(
       shareReplay(1)
     );
 
@@ -80,5 +88,35 @@ export class DataService {
       }))
       .sort((a, b) => a.date.valueOf() - b.date.valueOf());
   }
+
+  async ensureGroup(groupId: string) {
+    console.log('ensure group', groupId);
+    let user = await this.auth.currentUser$.pipe(
+      filterNotNull(),
+      take(1))
+      .toPromise();
+    console.log('user', user); 
+
+    let allGroups = await this.allGroups$.pipe(take(1)).toPromise();
+    console.log('all groups', allGroups);
+    let group = allGroups.find(g => g.id === groupId);
+    console.log('group', group);
+
+    if (!user || !group) return;    
+    if (user.groups?.includes(groupId)) return;
+
+    const groups = [...(user.groups ?? []), groupId];
+
+    user = {
+      ...user, 
+      groups
+    }
+
+    console.log('updating user');
+
+    await this.api.updateUser(user);
+  }
+
+
 
 }

@@ -1,0 +1,13 @@
+:host {
+    display: flex;
+    flex-direction: column;
+}
+
+h2 {
+    color: var(--p500);
+    align-self: center;
+}
+
+app-spinner {
+    align-self: center;
+}

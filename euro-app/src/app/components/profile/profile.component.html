@@ -1,20 +1,32 @@
 <ng-container *ngIf="currentUser$ | async as user">
-    <h1>{{user.displayName}} Profile Settings</h1>
-
-    <div class="content">
-        <h3 class="info">You are {{admin$ | async}}.</h3>
-        <ng-container *ngIf="selectedGroups$ | async as selected">
-            <h2>Select your groups</h2>
-            <div class="groups-panel">
-                <app-on-off-pending-button *ngFor="let group of groups$ | async"
-                    [value]="selected[group.id]"
-                    (change)="toggleSelection(group.id, $event)"
-                    >
-                    <mat-icon>group</mat-icon>
-                    <h3>{{group.displayName}}</h3>
-                </app-on-off-pending-button>
-            </div>
-            <h3 class="warn" *ngIf="!(hasGroups$ | async)">You must join at least one group</h3>
-        </ng-container>    
-    </div>
+  <ng-container *ngIf="userGroups$ | async as groups">
+    <ng-container *ngIf="groups.length > 0">
+      <h1>{{ user.displayName }} Profile Settings</h1>
+      <div class="content">
+        <h3 class="info">You are {{ admin$ | async }}.</h3>
+        <h2>Your groups</h2>
+        <div class="groups-panel">
+          <app-on-off-pending-button
+            *ngFor="let group of groups"
+            [value]="true"
+            [clickWhenOn]="false"
+          >
+            <mat-icon>group</mat-icon>
+            <h3>{{ group.displayName }}</h3>
+          </app-on-off-pending-button>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="groups.length === 0">
+      <h1>Welcome to "You Betcha!"</h1>
+      <div class="content">
+        <h3>You are currently not in any group</h3>
+        <p>
+          In order to play, you need to join one group <mat-icon>group</mat-icon> (or more). Please contact one of the
+          <i>group admins</i> and ask them to send <mat-icon>send</mat-icon> you an
+          <strong>Invite Link</strong>
+        </p>
+      </div>
+    </ng-container>
+  </ng-container>
 </ng-container>

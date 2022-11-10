@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
+import { DataService } from 'src/app/services/data.service';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +15,9 @@ export class LoginComponent implements OnInit {
 
 
   constructor(
-    private authService: AuthService
+    private authService: AuthService, 
+    private route: ActivatedRoute, 
+    private dataService: DataService
   ) { }
 
   ngOnInit(): void {
@@ -37,7 +41,7 @@ export class LoginComponent implements OnInit {
   async auth(action:  () => Promise<any>) {
     this.isBusy = true;
     try {
-      await action()
+      await action();
     } catch (err) {
       this.err = String(err);
     } 

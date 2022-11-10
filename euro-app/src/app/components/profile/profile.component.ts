@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { merge, Observable, Subject } from 'rxjs';
+import { combineLatest, merge, Observable, Subject } from 'rxjs';
 import { first, map } from 'rxjs/operators';
 import { Group } from 'src/app/models/group.model';
 import { User } from 'src/app/models/user.model';
@@ -16,9 +16,7 @@ import { mapStrings, StringMapping } from 'src/app/tools/mappings';
 })
 export class ProfileComponent implements OnInit {
   currentUser$!: Observable<User>;
-  groups$!: Observable<Group[]>;
-  selectedGroups$!: Observable<StringMapping<true>>;
-  hasGroups$!: Observable<boolean>;
+  userGroups$!: Observable<Group[]>;
   admin$!: Observable<string>;
 
   constructor(
@@ -31,14 +29,9 @@ export class ProfileComponent implements OnInit {
       filterNotNull()
     );
 
-    this.groups$ = this.db.collection<Group>('groups').valueChanges();
-
-    this.selectedGroups$ = this.currentUser$.pipe(
-      map(user => mapStrings(user.groups ?? []))
-    )
-
-    this.hasGroups$ = this.selectedGroups$.pipe(
-      map(groups => Object.keys(groups).length > 0)
+    const allGroups$ = this.db.collection<Group>('groups').valueChanges();
+    this.userGroups$ = combineLatest([allGroups$, this.currentUser$]).pipe(
+      map(([all, user]) => all.filter(g => user.groups && user.groups.includes(g.id)))
     );
 
     this.admin$ = this.authService.isAdmin$.pipe(

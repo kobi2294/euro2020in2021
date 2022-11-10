@@ -23,8 +23,7 @@ export class HomeComponent implements OnInit {
     this.scores$ = this.groupService.selectedGroupExtendedScores$;
 
     this.hasScores$ = this.scores$.pipe(
-      map(all => all.length > 0), 
-      tap(val => console.log('has scores', val))
+      map(all => all.length > 0)
     )
   }
 

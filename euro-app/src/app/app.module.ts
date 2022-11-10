@@ -37,6 +37,7 @@ import { PrivacyComponent } from './components/privacy/privacy.component';
 import { DataDeletionComponent } from './components/data-deletion/data-deletion.component';
 import { OnOffPendingButtonComponent } from './components/on-off-pending-button/on-off-pending-button.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
+import { JoinGroupComponent } from './components/join-group/join-group.component';
 
 
 const app = firebase.initializeApp(environment.firebase, 'euro2020at2021');
@@ -63,7 +64,8 @@ if (!environment.production) {
     PrivacyComponent,
     DataDeletionComponent,
     OnOffPendingButtonComponent,
-    SpinnerComponent
+    SpinnerComponent,
+    JoinGroupComponent,
   ],
   imports: [
     BrowserModule,
