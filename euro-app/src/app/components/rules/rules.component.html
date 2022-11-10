@@ -1,0 +1,58 @@
+<h1>How to play</h1>
+<h3>Guesses</h3>
+<p>
+  You may place your guesses in the <b>Guesses Page <mat-icon>edit</mat-icon></b
+  >. You may change your guess at any time as long as the match has not started.
+  You only need to guess the result (who wins, or if there was a tie). For
+  knockout games, you guess the result after 90 or 120 minutes, not including
+  penalties, so a <b>tie is possible</b>.
+</p>
+
+<p>
+    You will not be able to see what other players in your group have guessed before the match starts.
+    You can, however, see what your friends have guessed, 
+    and how they have scored, in all matches that have already started.
+    To see this, go to the <b>Home Page <mat-icon>home</mat-icon></b>
+</p>
+
+<h3>Scoring</h3>
+<p>
+  Each match has a pre-allocated amount of points. The points will be distributed
+  evenly between players who have guessed the result of the match correctly. So
+  the more players guess the match result correctly, the less points each player
+  receives.
+</p>
+<p>
+  <b>Example: </b> if the match is worth 20 points, and 4 players have guessed
+  it correctly, they each receive 5 points.
+</p>
+
+<h3>Strategy</h3>
+<p>
+    Since you get more points for guessing the results correctly, if as few as possible players have also guessed it correctly, 
+    it is a good idea to bet on supprises every once in a while. 
+    Scoring a <b>Solo Bet <mat-icon color="accent">new_releases</mat-icon></b>, where you are the only player in your group, who have guessed the score correctly,
+    can earn you a substantial amount of points.
+    However, it is not a good idea to look <b>only</b>only for surprises. The winners are usually those who
+    find the right balance between surprises and predicted results (and of course those who guess correctly <mat-icon>insert_emoticon</mat-icon>)
+</p>
+
+<h3>Match Points</h3>
+<p>The matches total points are according to the stage of the tournament:</p>
+<table>
+  <thead>
+    <tr>
+      <th>Stage</th>
+      <th>Points</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let stage of (stages$ | async)">
+        <td>{{stage.displayName}}</td>
+        <td>{{stage.points}}</td>
+    </tr>
+  </tbody>
+</table>
+
+
+<h2>Good Luck!</h2>

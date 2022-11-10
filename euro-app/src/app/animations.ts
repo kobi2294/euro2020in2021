@@ -41,7 +41,7 @@ export const slideRight = [
 
 export const slideInAnimation = trigger(
     'slideInOut', [
-        transition(upRoutes(6), slideLeft), 
-        transition(downRoutes(6), slideRight)
+        transition(upRoutes(7), slideLeft), 
+        transition(downRoutes(7), slideRight)
     ]
 );

@@ -1,5 +1,6 @@
 <div class="root">
     <a routerLink="home" routerLinkActive="active"><mat-icon>home</mat-icon></a>
+    <a routerLink="rules" routerLinkActive="active"><mat-icon>info</mat-icon></a>
     <ng-container *ngIf="hasGroups$ | async">
         <a routerLink="scoreboard" routerLinkActive="active"><mat-icon>list_alt</mat-icon></a>
         <a routerLink="guesses" routerLinkActive="active"><mat-icon>edit</mat-icon></a>    

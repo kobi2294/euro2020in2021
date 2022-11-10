@@ -1,0 +1,59 @@
+h2, h3 {
+    max-width: 450px;
+    margin: auto;
+    color: var(--p400);
+    font-size: 2.4em;
+}
+
+h3 {
+    font-size: 1.8em;
+    border-bottom: 1px solid var(--p500);
+}
+
+h2 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+p {
+    margin: auto;
+    padding: 4px 0px;
+    max-width: 450px;
+    font-size: 1.25em;
+    line-height: 1.6em;
+    margin-bottom: 10px;
+
+    mat-icon {
+        width: auto;
+        height: auto;
+        color: var(--p500);
+        font-size: 1.5em;
+        vertical-align: bottom;
+    }
+}
+
+table {
+    max-width: 450px;
+    margin: auto;
+    font-size: 1.3em;
+
+    tr {
+        background-color: var(--p50);
+        padding: 2px;
+
+        &:nth-child(2n) {
+            background-color: var(--p100);
+        }        
+    }
+
+    td, th {
+        padding: 8px 16px;
+    }
+    th {
+        background-color: var(--p600);
+        color: var(--pc600);
+        font-weight: normal;
+    }
+
+}
+
