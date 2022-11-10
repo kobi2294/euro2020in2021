@@ -16,6 +16,10 @@ export class OnOffPendingButtonComponent implements OnInit {
     this._value = val;
   }
 
+  @Input()
+  clickWhenOn = true;
+  
+
   @Output()
   change = new EventEmitter<boolean>();
 
@@ -27,6 +31,8 @@ export class OnOffPendingButtonComponent implements OnInit {
   }
 
   toggle() {
+    if (!this.clickWhenOn && this._value) return;
+
     this.isPending = true;
     this.change.emit(!this._value);
   }

@@ -47,3 +47,13 @@ button.selected {
     background: var(--a200);
 }
 
+app-on-off-pending-button {
+    position: relative;
+    top: 10px;
+    font-weight: 500;
+    --padding: 6px 12px;
+    --v-offset: -12px;
+    --selected-bg: var(--a200);
+    --selected-border-color: var(--a400);
+}
+

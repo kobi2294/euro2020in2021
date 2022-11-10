@@ -41,10 +41,13 @@ export class GuessesComponent implements OnInit {
   }
 
   async setGuess(matchId: number, score: GuessScore) {
+
     let guess: Guess = {
       matchId, 
       score
     };
+
+    await new Promise(res => setTimeout(res, 2000));
 
     await this.api.setUserGuess(guess);    
   }

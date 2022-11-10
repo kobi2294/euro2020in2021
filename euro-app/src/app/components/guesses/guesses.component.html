@@ -1,21 +1,43 @@
 <h1>Your guess for the next matches</h1>
 
 <ng-container *ngIf="records$ | async as records">
-    <div *ngFor="let record of records trackBy trackByMatchId">
-        <mat-card>
-            <mat-card-title>{{record.match.stage}}: {{record.match.date | date:'MMMM dd, HH:mm'}}</mat-card-title>
-            <mat-card-content>
-                <app-country [name]="record.match.home"></app-country>
-                <button mat-stroked-button (click)="setGuess(record.match.id, 'home')"
+  <div *ngFor="let record of records; trackBy: trackByMatchId">
+    <mat-card>
+      <mat-card-title
+        >{{ record.match.stage }}:
+        {{ record.match.date | date: "MMMM dd, HH:mm" }}</mat-card-title
+      >
+      <mat-card-content>
+        <app-country [name]="record.match.home"></app-country>
+        <!-- <button mat-stroked-button (click)="setGuess(record.match.id, 'home')"
                     [class.selected]="record.guess?.score === 'home'">Home</button>
 
                 <button mat-stroked-button (click)="setGuess(record.match.id, 'tie')"
                     [class.selected]="record.guess?.score === 'tie'">Tie</button>
 
                 <button mat-stroked-button (click)="setGuess(record.match.id, 'away')"
-                    [class.selected]="record.guess?.score === 'away'">Away</button>
-                <app-country [name]="record.match.away"></app-country>
-            </mat-card-content>
-        </mat-card>
-    </div>
+                    [class.selected]="record.guess?.score === 'away'">Away</button> -->
+
+        <app-on-off-pending-button
+          [clickWhenOn]="false"
+          [value]="record.guess?.score === 'home'"
+          (change)="setGuess(record.match.id, 'home')"
+          >Home</app-on-off-pending-button
+        >
+        <app-on-off-pending-button
+          [clickWhenOn]="false"
+          [value]="record.guess?.score === 'tie'"
+          (change)="setGuess(record.match.id, 'tie')"
+          >Tie</app-on-off-pending-button
+        >
+        <app-on-off-pending-button
+          [clickWhenOn]="false"
+          [value]="record.guess?.score === 'away'"
+          (change)="setGuess(record.match.id, 'away')"
+          >Away</app-on-off-pending-button
+        >
+        <app-country [name]="record.match.away"></app-country>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </ng-container>
