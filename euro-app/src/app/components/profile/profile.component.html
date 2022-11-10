@@ -7,7 +7,7 @@
             <h2>Select your groups</h2>
             <div class="groups-panel">
                 <mat-card class="group-item" *ngFor="let group of groups$ | async" 
-                        [class.selected]="selected[group.id]"
+                        [class.selected]="selected[group.id]"                        
                         (click)="toggleSelection(group.id)">
                         <mat-icon>group</mat-icon>
                         <h3>{{group.displayName}}</h3>

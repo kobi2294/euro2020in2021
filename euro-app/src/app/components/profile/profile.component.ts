@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { combineLatest, Observable } from 'rxjs';
-import { filter, first, map } from 'rxjs/operators';
+import { merge, Observable, Subject } from 'rxjs';
+import { first, map } from 'rxjs/operators';
 import { Group } from 'src/app/models/group.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ApiService } from 'src/app/services/api.service';
-import { filterNotNull, isNotNull } from 'src/app/tools/is-not-null';
+import { filterNotNull } from 'src/app/tools/is-not-null';
 import { mapStrings, StringMapping } from 'src/app/tools/mappings';
 
 @Component({
@@ -20,8 +19,10 @@ export class ProfileComponent implements OnInit {
   groups$!: Observable<Group[]>;
   selectedGroups$!: Observable<StringMapping<true>>;
   hasGroups$!: Observable<boolean>;
-
   admin$!: Observable<string>;
+
+  userModified$ = new Subject<User>();
+
 
   constructor(
     private authService: AuthService,
@@ -29,7 +30,7 @@ export class ProfileComponent implements OnInit {
     private api: ApiService) { }
 
   ngOnInit(): void {
-    this.currentUser$ = this.authService.currentUser$.pipe(
+    this.currentUser$ = merge(this.authService.currentUser$, this.userModified$).pipe(
       filterNotNull()
     );
 
@@ -60,6 +61,8 @@ export class ProfileComponent implements OnInit {
       ...user, 
       groups: groups
     };
+
+    this.userModified$.next(user);
 
     await this.api.updateUser(user);
   }
