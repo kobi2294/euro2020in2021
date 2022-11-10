@@ -6,6 +6,7 @@
         transition: 0.3s;
         position: relative;
         padding: var(--padding, 16px);
+        border: 2px solid transparent;
     
         .content {
             display: flex;
