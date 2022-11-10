@@ -47,8 +47,6 @@ export class GuessesComponent implements OnInit {
       score
     };
 
-    await new Promise(res => setTimeout(res, 2000));
-
     await this.api.setUserGuess(guess);    
   }
 
