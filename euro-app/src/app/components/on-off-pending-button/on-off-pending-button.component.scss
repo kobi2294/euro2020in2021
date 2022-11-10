@@ -1,0 +1,29 @@
+mat-card {
+    margin: 4px;
+    cursor:pointer;
+    display: grid;
+    transition: 0.3s;
+    position: relative;
+
+    .content {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &.on {
+        background-color: var(--p100);
+        border: 2px solid var(--p200);
+    }
+    &.pending {
+        opacity: 0.6;
+    }
+
+    app-spinner {
+        position: absolute;
+        bottom: -3px;
+        transform: scale(0.5);
+        left: calc(50% - 43px);
+
+    }
+}
+

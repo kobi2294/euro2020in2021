@@ -21,16 +21,13 @@ export class ProfileComponent implements OnInit {
   hasGroups$!: Observable<boolean>;
   admin$!: Observable<string>;
 
-  userModified$ = new Subject<User>();
-
-
   constructor(
     private authService: AuthService,
     private db: AngularFirestore, 
     private api: ApiService) { }
 
   ngOnInit(): void {
-    this.currentUser$ = merge(this.authService.currentUser$, this.userModified$).pipe(
+    this.currentUser$ = this.authService.currentUser$.pipe(
       filterNotNull()
     );
 
@@ -49,20 +46,20 @@ export class ProfileComponent implements OnInit {
     )
   }
 
-  async toggleSelection(groupId: string) {
+  async toggleSelection(groupId: string, newValue: boolean) {
     let user = await this.currentUser$.pipe(first()).toPromise();
     let groups = user.groups ?? [];
 
-    groups = groups.includes(groupId) 
-      ? groups.filter(item => item !== groupId)
-      : [...groups, groupId];
+    await new Promise(res => setTimeout(res, 2000));
+
+    groups = newValue
+      ? [...groups, groupId]
+      : groups.filter(item => item !== groupId);
 
     user = {
       ...user, 
       groups: groups
     };
-
-    this.userModified$.next(user);
 
     await this.api.updateUser(user);
   }

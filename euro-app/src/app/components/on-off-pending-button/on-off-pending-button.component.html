@@ -1,0 +1,10 @@
+<mat-card 
+    [class.on]="value" (click)="toggle()"
+    [class.pending]="isPending"
+    >
+    <div class="content">
+        <ng-content></ng-content>
+    </div>
+    <app-spinner *ngIf="isPending"></app-spinner>
+
+</mat-card>

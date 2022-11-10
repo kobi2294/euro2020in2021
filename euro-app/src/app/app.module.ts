@@ -35,6 +35,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { LegalComponent } from './components/legal/legal.component';
 import { PrivacyComponent } from './components/privacy/privacy.component';
 import { DataDeletionComponent } from './components/data-deletion/data-deletion.component';
+import { OnOffPendingButtonComponent } from './components/on-off-pending-button/on-off-pending-button.component';
+import { SpinnerComponent } from './components/spinner/spinner.component';
 
 
 const app = firebase.initializeApp(environment.firebase, 'euro2020at2021');
@@ -59,7 +61,9 @@ if (!environment.production) {
     CountryComponent,
     LegalComponent,
     PrivacyComponent,
-    DataDeletionComponent
+    DataDeletionComponent,
+    OnOffPendingButtonComponent,
+    SpinnerComponent
   ],
   imports: [
     BrowserModule,
