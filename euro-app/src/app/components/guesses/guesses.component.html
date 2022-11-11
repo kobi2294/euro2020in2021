@@ -1,6 +1,4 @@
 <h1>Your guess for the next matches</h1>
-<h2>Guesses are for the result after 90 or 120 minutes (not including penalties)</h2>
-
 <ng-container *ngIf="records$ | async as records">
   <div *ngFor="let record of records; trackBy: trackByMatchId">
     <mat-card>
