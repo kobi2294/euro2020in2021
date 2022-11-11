@@ -1,5 +1,5 @@
 app-content {
-  max-width: 450px;
+  max-width: var(--max-width, 450px);
   align-self: center;
   padding: 4px;
   font-size: 14px;
