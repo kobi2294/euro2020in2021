@@ -39,6 +39,7 @@ import { OnOffPendingButtonComponent } from './components/on-off-pending-button/
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { JoinGroupComponent } from './components/join-group/join-group.component';
 import { RulesComponent } from './components/rules/rules.component';
+import { ContentComponent } from './components/content/content.component';
 
 
 const app = firebase.initializeApp(environment.firebase, 'euro2020at2021');
@@ -68,6 +69,7 @@ if (!environment.production) {
     SpinnerComponent,
     JoinGroupComponent,
     RulesComponent,
+    ContentComponent,
   ],
   imports: [
     BrowserModule,

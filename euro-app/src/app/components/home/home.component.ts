@@ -13,6 +13,7 @@ export class HomeComponent implements OnInit {
   scores$!: Observable<ExtendedScore[]>;
 
   hasScores$!: Observable<boolean>;
+  hasGroups$!: Observable<boolean>;
 
   constructor(
     private groupService: SelectedGroupService
@@ -24,7 +25,9 @@ export class HomeComponent implements OnInit {
 
     this.hasScores$ = this.scores$.pipe(
       map(all => all.length > 0)
-    )
+    );
+
+    this.hasGroups$ = this.groupService.userHasGroups$;
   }
 
 

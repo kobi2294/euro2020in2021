@@ -27,6 +27,8 @@ export class SelectedGroupService {
 
   readonly selectedGroup$!: Observable<Group | null>;
   readonly userGroups$!: Observable<Group[]>;
+
+  readonly userHasGroups$!: Observable<boolean>;
   readonly selectedGroupScores$!: Observable<Score[]>;
   readonly selectedGroupExtendedScores$!: Observable<ExtendedScore[]>;
   readonly selectedGroupTable$!: Observable<UserTableRow[]>;
@@ -57,6 +59,10 @@ export class SelectedGroupService {
     this.userGroups$ = combineLatest([this.userGroupIds$, this.allGroups$]).pipe(
       map(([userGroupIds, allGroups]) => userGroupIds.map(id => allGroups[id]))
     );
+
+    this.userHasGroups$ = this.userGroups$.pipe(
+      map(groups => groups && groups.length > 0)
+    )
 
     let allUsers$ = this.data.allUsers$.pipe(
       map(users => toStringMapping(users, user => user.email)),

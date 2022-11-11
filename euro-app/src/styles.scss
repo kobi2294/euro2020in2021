@@ -1,20 +1,21 @@
-@use '~@angular/material' as mat;
-@import 'material-common';
+@use "~@angular/material" as mat;
+@import "material-common";
 
 $plt-primary: mat.define-palette($mat-indigo);
 $plt-accent: mat.define-palette($mat-green, A200, A100, A400);
 $plt-warn: mat.define-palette($mat-red);
 
-$theme: mat.define-light-theme((
-  color: (
-    primary: $plt-primary, 
-    accent: $plt-accent, 
-    warn: $plt-warn
-  )));  
+$theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $plt-primary,
+      accent: $plt-accent,
+      warn: $plt-warn,
+    ),
+  )
+);
 
 @include material-common($plt-primary, $plt-accent, $plt-warn, $theme);
-
-
 
 div {
   display: grid;
@@ -49,7 +50,8 @@ h1 {
 }
 
 mat-icon {
-  width: auto!important;
-  height: auto!important;
+  width: auto !important;
+  height: auto !important;
   margin: 4px;
 }
+

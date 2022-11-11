@@ -116,7 +116,7 @@ export class RouteRulesService {
     if (forbiddenUrls.some(fu => currentRoute.includes(fu))) 
     {
       // console.log('navigate because forbidden', currentRoute);
-      this.router.navigate(['profile']);
+      this.router.navigate(['home']);
     }
   }
 }
