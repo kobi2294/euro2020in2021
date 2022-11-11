@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, merge, Observable, Subject } from 'rxjs';
-import { first, map } from 'rxjs/operators';
+import { first, map, tap } from 'rxjs/operators';
 import { Group } from 'src/app/models/group.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ApiService } from 'src/app/services/api.service';
 import { filterNotNull } from 'src/app/tools/is-not-null';
 import { mapStrings, StringMapping } from 'src/app/tools/mappings';
+import { DialogsService } from 'src/app/services/dialogs.service';
 
 @Component({
   selector: 'app-profile',
@@ -19,14 +20,22 @@ export class ProfileComponent implements OnInit {
   userGroups$!: Observable<Group[]>;
   admin$!: Observable<string>;
 
+  displayNameBusy: boolean = false;
+  photoBusy: boolean = false;
+
   constructor(
     private authService: AuthService,
     private db: AngularFirestore, 
-    private api: ApiService) { }
+    private api: ApiService, 
+    private dialogs: DialogsService) { }
 
   ngOnInit(): void {
     this.currentUser$ = this.authService.currentUser$.pipe(
-      filterNotNull()
+      filterNotNull(), 
+      tap(_ => {
+        this.photoBusy = false;
+        this.displayNameBusy = false;
+      })
     );
 
     const allGroups$ = this.db.collection<Group>('groups').valueChanges();
@@ -39,20 +48,36 @@ export class ProfileComponent implements OnInit {
     )
   }
 
-  async toggleSelection(groupId: string, newValue: boolean) {
-    let user = await this.currentUser$.pipe(first()).toPromise();
-    let groups = user.groups ?? [];
+  async editDisplayName() {
 
-    groups = newValue
-      ? [...groups, groupId]
-      : groups.filter(item => item !== groupId);
+    const user = await this.currentUser$.pipe(first()).toPromise();
+    const res = await this.dialogs.prompt('Name', user.displayName);
 
-    user = {
-      ...user, 
-      groups: groups
-    };
+    if (res && (res !== user.displayName)) {
+      const newUser:User = {
+        ...user, 
+        displayName: res
+      };
 
-    await this.api.updateUser(user);
+      this.displayNameBusy = true;
+      this.api.updateUser(newUser);
+    }
+  }
+
+  async editPhotoUrl() {
+
+    const user = await this.currentUser$.pipe(first()).toPromise();
+    const res = await this.dialogs.prompt('Photo Url', user.photoUrl);
+
+    if (res && (res !== user.photoUrl)) {
+      const newUser:User = {
+        ...user, 
+        photoUrl: res
+      };
+
+      this.photoBusy = true;
+      this.api.updateUser(newUser);
+    }
   }
 
 }

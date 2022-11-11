@@ -1,61 +1,106 @@
 :host {
   display: flex;
   flex-direction: column;
-}
 
-.content {
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-
-  h2, h3 {
-    text-align: center;
-    margin: auto;
-    color: var(--p400);
-    font-size: 3em;
-    margin-bottom: 10px;
-
-    &.info {
-        align-self: stretch;
-        margin: unset;
-        margin-bottom: 8px;
-    }
-}
-
-h3 {
-    font-size: 2em;
-}
-
-  p {
-    margin: auto;
-    padding: 8px;
-    max-width: 450px;
-    font-size: 1.5em;
-    line-height: 1.6em;
-    margin-bottom: 10px;
-  }
-  mat-icon {
-    width: auto;
-    height: auto;
-    color: var(--p500);
-    font-size: 1.4em;
-    vertical-align: bottom;
-  }
-
-  .groups-panel {
+  .form {
+    margin: 0px 8px;
     display: flex;
-    flex-wrap: wrap;
-    flex-direction: row;
-    user-select: none;
+    flex-direction: column;
 
-    mat-icon {
-      color: var(--p500);
-      font-size: 40px;
-      align-self: center;
+    .spinner-host {
+      position: relative;
+      app-spinner {
+        transform: scale(0.5);
+        position: absolute;
+        top: -16px;
+        left: -29px;
+      }
     }
 
-    h4 {
-      margin: 4px;
+    .photo-host {
+      display: flex;
+      flex-direction: row;
+
+      img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 4px solid var(--p700);
+        object-fit: cover;
+        margin-bottom: 16px;
+      }
+
+      button {
+        position: relative;
+        top: 0px;
+        left: -4px;
+        opacity: 0.5;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+
+    }
+
+    .display-name {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      font-size: 2.4em;
+      font-weight: 500;
+      color: var(--p700);
+      margin-bottom: 12px;
+
+      button {
+        position: relative;
+        top: -15px;
+        left: -4px;
+        opacity: 0.5;
+
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+    }
+
+    .email {
+      font-size: 1.5em;
+      color: var(--p400);
+    }
+
+    .admin {
+      color: var(--w500);
+      font-size: 1.2em;
+      font-weight: 500;
+    }
+
+    .groups {
+      margin-top: 16px;
+      border: 1px solid var(--a200);
+      background-color: var(--a100);
+      .title {
+        font-size: 2em;
+        background-color: var(--a200);
+        padding: 8px 4px;
+      }
+
+      .no-groups {
+        font-size: 1.5em;
+        margin: 8px;
+        opacity: 0.8;
+      }
+
+      .group-item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        font-size: 1.6em;
+        mat-icon {
+          font-size: 1.6em;
+          color: var(--a700);
+        }
+      }
     }
   }
 }

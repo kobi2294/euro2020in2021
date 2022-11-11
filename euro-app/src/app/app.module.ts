@@ -43,6 +43,7 @@ import { ContentComponent } from './components/content/content.component';
 import { InfoComponent } from './components/info/info.component';
 import { HelpComponent } from './components/info/help/help.component';
 import { AboutMeComponent } from './components/info/about-me/about-me.component';
+import { PromptComponent } from './components/prompt/prompt.component';
 
 
 const app = firebase.initializeApp(environment.firebase, 'euro2020at2021');
@@ -76,6 +77,7 @@ if (!environment.production) {
     InfoComponent,
     HelpComponent,
     AboutMeComponent,
+    PromptComponent,
   ],
   imports: [
     BrowserModule,

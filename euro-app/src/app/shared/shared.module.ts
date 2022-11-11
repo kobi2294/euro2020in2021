@@ -12,6 +12,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule } from '@angular/material/dialog';
 
 const exportables = [
   MatIconModule,
@@ -26,6 +27,7 @@ const exportables = [
   MatCardModule,
   MatMenuModule,
   MatTabsModule,
+  MatDialogModule,
 ];
 
 @NgModule({

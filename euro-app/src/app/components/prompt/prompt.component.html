@@ -1,0 +1,13 @@
+<mat-form-field appearance="fill">
+    <mat-label>{{data.title}}</mat-label>
+    <input matInput 
+    #input type="text" 
+    [value]="data.value" 
+    cdkFocusInitial
+    (focus)="input.select()"
+    (keydown.enter)="ok(input.value)">
+</mat-form-field>
+<div mat-dialog-actions>
+    <button mat-button (click)="cancel()">Cancel</button>
+    <button #okButton mat-button [mat-dialog-close]="input.value">Ok</button>
+</div>

@@ -1,32 +1,54 @@
 <ng-container *ngIf="currentUser$ | async as user">
-  <ng-container *ngIf="userGroups$ | async as groups">
-    <ng-container *ngIf="groups.length > 0">
-      <h1>{{ user.displayName }} Profile Settings</h1>
-      <div class="content">
-        <h3 class="info">You are {{ admin$ | async }}.</h3>
-        <h2>Your groups</h2>
-        <div class="groups-panel">
-          <app-on-off-pending-button
-            *ngFor="let group of groups"
-            [value]="true"
-            [clickWhenOn]="false"
-          >
+  <h1>{{ user.displayName }} Profile</h1>
+  <div class="form">
+    <div class="photo-host">
+      <img [src]="user.photoUrl" />
+      <button
+        mat-icon-button
+        color="primary"
+        [disabled]="photoBusy"
+        title="Modify Photo Url"
+        (click)="editPhotoUrl()"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <div class="spinner-host">
+        <app-spinner *ngIf="photoBusy"></app-spinner>
+      </div>
+    </div>
+
+    <div class="display-name">
+      {{ user.displayName }}
+      <button
+        mat-icon-button
+        color="primary"
+        [disabled]="displayNameBusy"
+        title="Modify Name"
+        (click)="editDisplayName()"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <div class="spinner-host">
+        <app-spinner *ngIf="displayNameBusy"></app-spinner>
+      </div>
+    </div>
+    <div class="email">{{ user.email }}</div>
+
+    <div class="admin" *ngIf="admin$ | async">Admin</div>
+
+    <ng-container *ngIf="userGroups$ | async as groups">
+      <div class="groups">
+        <div class="title">Groups</div>
+        <ng-container *ngIf="groups.length > 0">
+          <div class="group-item" *ngFor="let group of groups">
             <mat-icon>group</mat-icon>
-            <h3>{{ group.displayName }}</h3>
-          </app-on-off-pending-button>
-        </div>
+            {{ group.displayName }}
+          </div>
+        </ng-container>
+        <ng-container *ngIf="groups.length === 0">
+          <div class="no-groups">No Groups</div>
+        </ng-container>
       </div>
     </ng-container>
-    <ng-container *ngIf="groups.length === 0">
-      <h1>Welcome to "You Betcha!"</h1>
-      <div class="content">
-        <h3>You are currently not in any group</h3>
-        <p>
-          In order to play, you need to join one group <mat-icon>group</mat-icon> (or more). Please contact one of the
-          <i>group admins</i> and ask them to send <mat-icon>send</mat-icon> you an
-          <strong>Invite Link</strong>
-        </p>
-      </div>
-    </ng-container>
-  </ng-container>
+  </div>
 </ng-container>
