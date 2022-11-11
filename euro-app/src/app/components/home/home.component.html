@@ -1,9 +1,9 @@
 <ng-container *ngIf="!(hasGroups$ | async)">
   <h1>Welcome to "You Betcha!"</h1>
   <app-content>
-    <h3>You are currently not in any group</h3>
+    <h3>You are not in any group</h3>
     <p>
-      In order to play, you need to join one group <mat-icon>group</mat-icon> (or more). Please contact one of the
+      In order to play, you need to join at least one group. <mat-icon>group</mat-icon> Please contact one of the
       <i>group admins</i> and ask them to send <mat-icon>send</mat-icon> you an
       <strong>Invite Link</strong>
     </p>
@@ -78,37 +78,7 @@
   <ng-container *ngIf="!(hasScores$ | async)">
     <h1>Welcome to "You Betcha!"</h1> 
     <app-content>
-      <h2>The game will start soon</h2>
-      <p>
-        In the "Home" <mat-icon>home</mat-icon> page (this page), you will be able
-        to see the bets and results of matches that have already started, or
-        completed.
-      </p>
-    
-      <p>
-        In the "Scoreboard" <mat-icon>list_alt</mat-icon> page, you can see the
-        current standings of all players in your group
-      </p>
-    
-      <p>
-        In the "Guesses" <mat-icon>edit</mat-icon> page, you can view and modify
-        your guesses for future matches. Note that once the match starts, you will
-        not be able to modify your guess anymore
-      </p>
-    
-      <p>
-        In the "User Profile" <mat-icon>group</mat-icon> page, you can set the
-        groups that you want to play in. You can set more than one group, but you
-        use the same guesses in all of your groups.
-      </p>
-    
-      <h3>Contact me</h3>
-      <p>
-        My name is <strong>Kobi Hari</strong>. I am a freelance software developer, instructor, and consultant 
-        specializing in <strong><em>Angular and dot Net Core</em></strong>. Feel free to drop me a line at
-        <a href="mailto:hari@applicolors.com">hari@applicolors.com</a>
-      </p>
-    
+      <h2>The game will start soon</h2>      
       <h3>Good luck, and Enjoy :-)</h3>
   
     </app-content> 

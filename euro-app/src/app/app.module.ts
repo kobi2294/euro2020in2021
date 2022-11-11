@@ -38,8 +38,11 @@ import { DataDeletionComponent } from './components/data-deletion/data-deletion.
 import { OnOffPendingButtonComponent } from './components/on-off-pending-button/on-off-pending-button.component';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { JoinGroupComponent } from './components/join-group/join-group.component';
-import { RulesComponent } from './components/rules/rules.component';
+import { RulesComponent } from './components/info/rules/rules.component';
 import { ContentComponent } from './components/content/content.component';
+import { InfoComponent } from './components/info/info.component';
+import { HelpComponent } from './components/info/help/help.component';
+import { AboutMeComponent } from './components/info/about-me/about-me.component';
 
 
 const app = firebase.initializeApp(environment.firebase, 'euro2020at2021');
@@ -70,6 +73,9 @@ if (!environment.production) {
     JoinGroupComponent,
     RulesComponent,
     ContentComponent,
+    InfoComponent,
+    HelpComponent,
+    AboutMeComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,9 +2,11 @@ app-content {
   max-width: 450px;
   align-self: center;
   padding: 4px;
-  font-size: 16px;
+  font-size: 14px;
 
   .content {
+    padding: 0px 4px 0px 8px;
+
     h2,
     h3 {
       color: var(--p400);
