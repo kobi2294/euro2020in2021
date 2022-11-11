@@ -2,6 +2,10 @@
   display: flex;
   flex-direction: column;
 
+  h1 {
+    align-self: stretch;
+  }
+
   .form {
     margin: 0px 8px;
     display: flex;
@@ -48,15 +52,17 @@
       flex-direction: row;
       align-items: flex-start;
       font-size: 2.4em;
+      line-height: 1;
       font-weight: 500;
       color: var(--p700);
-      margin-bottom: 12px;
+      margin-bottom: 4px;
 
       button {
         position: relative;
-        top: -15px;
-        left: -4px;
+        top: -4px;
+        left: -2px;
         opacity: 0.5;
+        margin: -6px;
 
         &:hover {
           opacity: 0.8;

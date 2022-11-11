@@ -46,5 +46,7 @@ img {
     width: 42px;
     height: 42px;
     border-radius: 50%;
+    border: 1px solid var(--p900);
     cursor: pointer;
+    object-fit: cover;
 }
