@@ -4,4 +4,5 @@ export interface User {
     photoUrl: string;
     groups?: string[];
     admin?: boolean;
+    super?: boolean;
 }

@@ -19,6 +19,7 @@ export class AuthService {
   currentUser$!: Observable<User | null>;
   isLoggedIn$!: Observable<boolean>;
   isAdmin$!: Observable<boolean>;
+  isSuper$!: Observable<boolean>;
 
   constructor(
     private afAuth: AngularFireAuth,
@@ -44,8 +45,12 @@ export class AuthService {
     );
 
     this.isAdmin$ = this.currentUser$.pipe(
-      map(user => Boolean(user?.admin))
-    )
+      map(user => Boolean(user?.admin) || Boolean(user?.super))
+    );
+
+    this.isSuper$ = this.currentUser$.pipe(
+      map(user => Boolean(user?.super))
+    );
   }
 
   fixPhoto(user: User | null): User | null {
