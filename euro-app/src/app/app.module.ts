@@ -44,6 +44,8 @@ import { InfoComponent } from './components/info/info.component';
 import { HelpComponent } from './components/info/help/help.component';
 import { AboutMeComponent } from './components/info/about-me/about-me.component';
 import { PromptComponent } from './components/prompt/prompt.component';
+import { PwaService } from './services/pwa.service';
+import { PwaMessageComponent } from './components/home/pwa-message/pwa-message.component';
 
 
 const app = firebase.initializeApp(environment.firebase, 'euro2020at2021');
@@ -78,6 +80,7 @@ if (!environment.production) {
     HelpComponent,
     AboutMeComponent,
     PromptComponent,
+    PwaMessageComponent,
   ],
   imports: [
     BrowserModule,
@@ -101,6 +104,11 @@ if (!environment.production) {
     {
       provide: APP_INITIALIZER, useFactory: (service: RouteRulesService) => () => service.init(),
       deps: [RouteRulesService],
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER, useFactory: (service: PwaService) => () => service.init(), 
+      deps: [PwaService], 
       multi: true
     },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}, 

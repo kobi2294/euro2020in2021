@@ -16,11 +16,8 @@ export class HomeComponent implements OnInit {
   hasScores$!: Observable<boolean>;
   hasGroups$!: Observable<boolean>;
 
-  showInstallMessage$!: Observable<boolean>;
-
   constructor(
     private groupService: SelectedGroupService, 
-    private pwa: PwaService
   ) { }
 
   ngOnInit(): void {
@@ -33,11 +30,6 @@ export class HomeComponent implements OnInit {
 
     this.hasGroups$ = this.groupService.userHasGroups$;
 
-    this.showInstallMessage$ = this.pwa.showMessage$;    
-  }
-
-  installLocally() {
-    this.pwa.install();
   }
 
 

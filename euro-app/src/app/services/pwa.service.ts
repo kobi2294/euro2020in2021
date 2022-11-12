@@ -1,24 +1,25 @@
 import { Injectable } from '@angular/core';
-import { getMatIconFailedToSanitizeLiteralError } from '@angular/material/icon';
 import { BehaviorSubject } from 'rxjs';
-import { distinctUntilChanged } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PwaService {
-  private _showMessage$ = new BehaviorSubject<boolean>(false);
-  showMessage$ = this._showMessage$.asObservable();
+  private _showInstall$ = new BehaviorSubject<boolean>(false);
+  showInstall$ = this._showInstall$.asObservable();
+
+  private _showIosMessage$ = new BehaviorSubject<boolean>(false);
+  showIosMessage$ = this._showIosMessage$.asObservable();
 
   private deferredPrompt: any = null;
 
   onBeforeInstallPrompt(e: any) {
     this.deferredPrompt = e;
-    this._showMessage$.next(true);
+    this._showInstall$.next(true);
   }
 
   onAppInstalled() {
-    this._showMessage$.next(false);
+    this._showInstall$.next(false);
     this.deferredPrompt = null;
   }
 
@@ -28,6 +29,21 @@ export class PwaService {
 
     console.log(choice);
     this.deferredPrompt = null;
+  }
+
+  init() {
+    console.log('testing if in IOS and not standalone');
+    const userAgent = window.navigator.userAgent.toLowerCase();
+    const isIos = /iphone|ipad|ipod/.test(userAgent);
+    const isStandalone = ('standalone' in window.navigator) && ((window.navigator as any).standalone);
+
+    console.log(userAgent);
+    console.log(isIos);
+    console.log(isStandalone);
+
+    if (isIos && !isStandalone) {
+      this._showIosMessage$.next(true);
+    }
   }
 
 
