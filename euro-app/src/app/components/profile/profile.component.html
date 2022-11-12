@@ -35,6 +35,7 @@
     <div class="email">{{ user.email }}</div>
 
     <div class="admin" *ngIf="admin$ | async">Admin</div>
+    <div class="admin" *ngIf="super$ | async">Super</div>
 
     <ng-container *ngIf="userGroups$ | async as groups">
       <div class="groups">

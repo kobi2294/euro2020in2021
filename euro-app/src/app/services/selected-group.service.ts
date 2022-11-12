@@ -44,10 +44,16 @@ export class SelectedGroupService {
       shareReplay(1)
     );
 
-    this.userGroupIds$ = this.auth.currentUser$.pipe(
-      map(user => user?.groups ?? []),
-    );
+    const userGroupsProperty$ = this.auth.currentUser$.pipe(
+      map(user => user?.groups ?? [])
+    ); 
 
+    const allGroupIds$ = this.allGroups$.pipe(map(g => Object.keys(g)));
+
+    this.userGroupIds$ = this.auth.isSuper$.pipe(
+      switchMap(isSuper => isSuper ? allGroupIds$ : userGroupsProperty$)
+    );
+    
     let selectedGroupId$ = combineLatest([this.userSelection$, this.userGroupIds$]).pipe(
       map(([userSelection, userGroupIds]) => this.calcEffectiveSelection(userSelection, userGroupIds))
     );

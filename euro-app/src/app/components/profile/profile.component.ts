@@ -9,6 +9,8 @@ import { ApiService } from 'src/app/services/api.service';
 import { filterNotNull } from 'src/app/tools/is-not-null';
 import { mapStrings, StringMapping } from 'src/app/tools/mappings';
 import { DialogsService } from 'src/app/services/dialogs.service';
+import { throwToolbarMixedModesError } from '@angular/material/toolbar';
+import { SelectedGroupService } from 'src/app/services/selected-group.service';
 
 @Component({
   selector: 'app-profile',
@@ -19,6 +21,7 @@ export class ProfileComponent implements OnInit {
   currentUser$!: Observable<User>;
   userGroups$!: Observable<Group[]>;
   admin$!: Observable<boolean>;
+  super$!: Observable<boolean>;
 
   displayNameBusy: boolean = false;
   photoBusy: boolean = false;
@@ -27,6 +30,7 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private db: AngularFirestore, 
     private api: ApiService, 
+    private groupsServices: SelectedGroupService,
     private dialogs: DialogsService) { }
 
   ngOnInit(): void {
@@ -44,6 +48,7 @@ export class ProfileComponent implements OnInit {
     );
 
     this.admin$ = this.authService.isAdmin$;
+    this.super$ = this.authService.isSuper$;
   }
 
   async editDisplayName() {
