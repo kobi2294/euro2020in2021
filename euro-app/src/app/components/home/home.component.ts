@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ExtendedScore } from 'src/app/models/extended-score.model';
+import { PwaService } from 'src/app/services/pwa.service';
 import { SelectedGroupService } from 'src/app/services/selected-group.service';
 
 @Component({
@@ -15,8 +16,11 @@ export class HomeComponent implements OnInit {
   hasScores$!: Observable<boolean>;
   hasGroups$!: Observable<boolean>;
 
+  showInstallMessage$!: Observable<boolean>;
+
   constructor(
-    private groupService: SelectedGroupService
+    private groupService: SelectedGroupService, 
+    private pwa: PwaService
   ) { }
 
   ngOnInit(): void {
@@ -28,6 +32,12 @@ export class HomeComponent implements OnInit {
     );
 
     this.hasGroups$ = this.groupService.userHasGroups$;
+
+    this.showInstallMessage$ = this.pwa.showMessage$;    
+  }
+
+  installLocally() {
+    this.pwa.install();
   }
 
 

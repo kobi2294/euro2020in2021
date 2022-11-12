@@ -25,6 +25,17 @@
       Latest Bets
       <app-group-selector></app-group-selector>
     </h1>
+    <ng-container *ngIf="(showInstallMessage$ | async)">
+      <h3>Install application</h3>
+      <p>This web site runs better when installed on your device. You will enjoy the following benefits</p>
+      <ul>
+        <li>An shortcut icon on your home screen</li>
+        <li>avoid re-entering your username and password</li>
+        <li>Faster loading time</li>
+      </ul>
+      <button class="install-button" mat-raised-button color="primary" (click)="installLocally()">Install Locally</button>
+    </ng-container>  
+
     <div *ngFor="let score of scores$ | async">
       <mat-card>
         <mat-card-title
@@ -78,6 +89,17 @@
   <ng-container *ngIf="!(hasScores$ | async)">
     <h1>Welcome to "You Betcha!"</h1> 
     <app-content>
+      <ng-container *ngIf="(showInstallMessage$ | async)">
+        <h3>Install application</h3>
+        <p>This web site runs better when installed on your device. You will enjoy the following benefits</p>
+        <ul>
+          <li>An shortcut icon on your home screen</li>
+          <li>avoid re-entering your username and password</li>
+          <li>Faster loading time</li>
+        </ul>
+        <button class="install-button" mat-raised-button color="primary" (click)="installLocally()">Install Locally</button>
+      </ng-container>  
+
       <h2>The game will start soon</h2>      
       <h3>Good luck, and Enjoy :-)</h3>
   

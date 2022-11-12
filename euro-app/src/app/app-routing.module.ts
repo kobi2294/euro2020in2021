@@ -15,7 +15,7 @@ import { ScoreboardComponent } from './components/scoreboard/scoreboard.componen
 import { JoinGroupService } from './services/join-group.service';
 
 const routes: Routes = [
-  {path: '', redirectTo: 'scoreboard', pathMatch: 'full'},
+  {path: '', redirectTo: 'home', pathMatch: 'full'},
   {path: 'group/:id', component:JoinGroupComponent, resolve: {group: JoinGroupService}},
   {path: 'login', component: LoginComponent, data: {animationOrder: '0'}}, 
   {path: 'home', component: HomeComponent, data: {animationOrder: '1'}}, 

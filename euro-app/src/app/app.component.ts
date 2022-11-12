@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Observable } from 'rxjs';
 import { Match } from './models/match.model';
@@ -9,50 +9,56 @@ import { RouterOutlet } from '@angular/router';
 import { slideInAnimation } from './animations';
 import { User } from './models/user.model';
 import { RouteRulesService } from './services/route-rules.service';
+import { PwaService } from './services/pwa.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss'], 
-  animations: [
-    slideInAnimation
-  ]
+  styleUrls: ['./app.component.scss'],
+  animations: [slideInAnimation],
 })
 export class AppComponent implements OnInit {
   user$!: Observable<User | null>;
   hasRequired$!: Observable<boolean>;
 
   constructor(
-    private authService: AuthService, 
-    private routeRulesService: RouteRulesService) { }
+    private authService: AuthService,
+    private pwa: PwaService,
+    private routeRulesService: RouteRulesService
+  ) {}
 
   ngOnInit(): void {
     this.user$ = this.authService.currentUser$;
     this.hasRequired$ = this.routeRulesService.required$.pipe(
-      map(required => required !== null)
+      map((required) => required !== null)
     );
   }
 
   prepareRoute(outlet: RouterOutlet) {
-    return outlet 
-      && outlet.activatedRouteData
-      && outlet.activatedRouteData['animationOrder']
+    return (
+      outlet &&
+      outlet.activatedRouteData &&
+      outlet.activatedRouteData['animationOrder']
+    );
   }
 
   async logout() {
     await this.authService.logout();
   }
 
-  // async addGuess(gameNumber: number, result: string) {
-  //   let user = (await this.user$).user?.email;
-  //   let obj = {
-  //     "game": gameNumber, 
-  //     "result": result, 
-  //     "user": user, 
-  //     "timestamp": firebase.firestore.FieldValue.serverTimestamp()
-  //   }
+  deferredPrompt: any;
+  showInstallButton: boolean = false;
 
-  //   await this.store.collection('guesses').add(obj);
-  // }
+  // PWA support
+  @HostListener('window:beforeinstallprompt', ['$event'])
+  onBeforeInstallPrompot(e: any) {
+    console.log('before install', e);
+    e.preventDefault();
+    this.pwa.onBeforeInstallPrompt(e);
+  }
 
+  @HostListener('window:appinstalled')
+  onAppInstalled() {
+    this.pwa.onAppInstalled();
+  }
 }
