@@ -12,7 +12,9 @@
     margin: 0px 8px;
     display: flex;
     flex-direction: column;
+    width: calc(100% - 16px);
     max-width: 600px;
+
 
     .spinner-host {
       position: relative;
