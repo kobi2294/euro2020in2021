@@ -22,7 +22,6 @@ export class DataService {
   readonly myMatchRecords$!: Observable<MatchRecord[]>;
   readonly allMatches$!: Observable<Match[]>;
   readonly allScores$!: Observable<Score[]>;
-  readonly allUsers$!: Observable<User[]>;
   readonly allStages$!: Observable<Stage[]>;
   readonly pointsInBank$!: Observable<number>;
   readonly allGroups$!: Observable<Group[]>;
@@ -50,10 +49,6 @@ export class DataService {
     );
 
     this.allScores$ = this.db.collection<Score>('scores').valueChanges().pipe(
-      shareReplay(1)
-    );
-
-    this.allUsers$ = this.db.collection<User>('users').valueChanges().pipe(
       shareReplay(1)
     );
 

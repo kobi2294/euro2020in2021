@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { ExtendedScore } from '../models/extended-score.model';
 import { ExtendedUserScore } from '../models/extended-user-score.model';
 import { Group } from '../models/group.model';
@@ -64,12 +64,13 @@ export class SelectedGroupService {
       map(groups => groups && groups.length > 0)
     )
 
-    let allUsers$ = this.data.allUsers$.pipe(
-      map(users => toStringMapping(users, user => user.email)),
-    );
+    this.usersInSelectedGroup$ = this.selectedGroup$.pipe(
+      map(group => group?.id??''), 
+      switchMap(id => this.db.collection<User>('users', ref => ref.where('groups', 'array-contains', id)).valueChanges())      
+    );    
 
-    this.usersInSelectedGroup$ = combineLatest([this.selectedGroup$, allUsers$]).pipe(
-      map(([selectedGroup, allUsers]) => this.calcUsersInSelectedGroup(selectedGroup, allUsers))
+    let mappedUsers$ = this.usersInSelectedGroup$.pipe(
+      map(users => toStringMapping(users, user => user.email)),
     );
 
     let allScores$ = this.data.allScores$.pipe(
@@ -77,7 +78,7 @@ export class SelectedGroupService {
     );
 
     // now we need to reduce it to only the players in the current group
-    this.selectedGroupScores$ = combineLatest([allScores$, this.selectedGroup$, allUsers$]).pipe(
+    this.selectedGroupScores$ = combineLatest([allScores$, this.selectedGroup$, mappedUsers$]).pipe(
       map(([allScores, selectedGroup, users]) => this.scoresOfGroup(allScores, selectedGroup, users))
     );
 
@@ -152,15 +153,6 @@ export class SelectedGroupService {
     }
 
     return res;
-  }
-
-  private calcUsersInSelectedGroup(selectedGroup: Group | null, users: StringMapping<User>): User[] {
-    if (selectedGroup === null) return [];
-
-    return Object
-      .values(users)
-      .filter(user => user.groups && user.groups!.includes(selectedGroup.id));
-
   }
 
   private calcGroupTable(extendedScores: ExtendedScore[], allUsers: User[]): UserTableRow[] {
