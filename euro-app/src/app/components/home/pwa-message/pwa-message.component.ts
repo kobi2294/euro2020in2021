@@ -27,7 +27,8 @@ export class PwaMessageComponent implements OnInit {
     );
   }
 
-  installLocally() {
+  async installLocally() {
+    await this.pwa.install();
     
   }
 
