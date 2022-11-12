@@ -18,7 +18,7 @@ import { DialogsService } from 'src/app/services/dialogs.service';
 export class ProfileComponent implements OnInit {
   currentUser$!: Observable<User>;
   userGroups$!: Observable<Group[]>;
-  admin$!: Observable<string>;
+  admin$!: Observable<boolean>;
 
   displayNameBusy: boolean = false;
   photoBusy: boolean = false;
@@ -43,9 +43,7 @@ export class ProfileComponent implements OnInit {
       map(([all, user]) => all.filter(g => user.groups && user.groups.includes(g.id)))
     );
 
-    this.admin$ = this.authService.isAdmin$.pipe(
-      map(val => val ? 'an admin' : 'not an admin')
-    )
+    this.admin$ = this.authService.isAdmin$;
   }
 
   async editDisplayName() {
