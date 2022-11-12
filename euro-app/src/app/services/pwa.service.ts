@@ -27,19 +27,13 @@ export class PwaService {
     this.deferredPrompt.prompt();
     const choice = await this.deferredPrompt.userChoice;
 
-    console.log(choice);
     this.deferredPrompt = null;
   }
 
   init() {
-    console.log('testing if in IOS and not standalone');
     const userAgent = window.navigator.userAgent.toLowerCase();
     const isIos = /iphone|ipad|ipod/.test(userAgent);
     const isStandalone = ('standalone' in window.navigator) && ((window.navigator as any).standalone);
-
-    console.log(userAgent);
-    console.log(isIos);
-    console.log(isStandalone);
 
     if (isIos && !isStandalone) {
       this._showIosMessage$.next(true);

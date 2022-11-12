@@ -6,6 +6,8 @@ app-content {
 
   .content {
     padding: 0px 4px 0px 8px;
+    display: flex;
+    flex-direction: column;
 
     h2,
     h3 {
