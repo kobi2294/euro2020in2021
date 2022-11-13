@@ -74,7 +74,7 @@ export class RouteRulesService {
         }
       }
 
-      if (!user.admin) {
+      if (!(Boolean(user.admin) || Boolean(user.super))) {
         res.push(this.router.createUrlTree(['admin']));
       }
     }
@@ -117,7 +117,6 @@ export class RouteRulesService {
     // if we got here, targetUrl == null or it is equal to current route, and in any case may be ignored
     if (forbiddenUrls.some(fu => currentRoute.includes(fu))) 
     {
-      // console.log('navigate because forbidden', currentRoute);
       this.router.navigate(['home']);
     }
   }
