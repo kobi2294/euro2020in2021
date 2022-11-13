@@ -2,8 +2,11 @@
   <h3>Guesses</h3>
   <ul>
     <li>
-      Place your guesses in the <b><mat-icon>edit</mat-icon> Guesses Page</b>
+      Place your guesses in the <b><mat-icon>edit</mat-icon> Guesses Page</b>.
     </li>
+  </ul>
+    <img class="screenshot" src="assets/screenshots/guess.png" />
+  <ul>
     <li>You may change them only before the match begins.</li>
     <li>You only need to guess who wins, (or a tie).</li>
     <li>
@@ -11,13 +14,14 @@
       penalties, so a <b>tie is possible</b>.
     </li>
     <li>You can't see what other players guessed before the match begins.</li>
-    <li>
-      The <b>Home Page <mat-icon>home</mat-icon></b> shows you what your friends
-      have guessed and how they have scored, in all past matches.
-    </li>
   </ul>
 
   <h3>Scoring</h3>
+  <p>
+    The <b>Home Page <mat-icon>home</mat-icon></b> shows you what your friends
+    have guessed and how they have scored, in all past matches.
+  </p>
+  <img class="screenshot" src="assets/screenshots/results.png" style="max-width: 400px">
   <p>
     Each match has a pre-allocated amount of points. The points will be
     distributed evenly between players who have guessed correctly. So the more
@@ -29,43 +33,48 @@
     <b>4</b> players have guessed it correctly, they each receive
     <b>30</b> points.
   </p>
+  <p>
+    In the <b>Scoreboard page <mat-icon>list_alt</mat-icon></b> you can see the current standings of all players in your group.    
+  </p>
+  <img class="screenshot" src="assets/screenshots/scoreboard.png">
+  <p>The table is sorted by points, and also shows the amount of correct guesses <mat-icon>done_all</mat-icon>
+    , and the number of "solo" guesses <mat-icon>new_releases</mat-icon></p>
 
-  <h3>Strategy</h3>
+    <h3>Match Points</h3>
+    <p>The matches total points are according to the stage of the tournament:</p>
+    <table>
+      <thead>
+        <tr>
+          <th>Stage</th>
+          <th>Points</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let stage of stages$ | async">
+          <td>{{ stage.displayName }}</td>
+          <td>{{ stage.points }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3>Strategy</h3>
   <ul>
     <li>
       The less players guess the match correctly, the more points each one gets.
       Therefore, it is a good idea to bet on supprises every once in a while.
     </li>
     <li>
-      Scoring a <b>Solo Bet <mat-icon color="accent">new_releases</mat-icon></b>, 
-      where you are the only player in your group to have guessed the score, 
+      Scoring a <b>Solo Bet <mat-icon color="accent">new_releases</mat-icon></b
+      >, where you are the only player in your group to have guessed the score,
       earns you a substantial amount of points.
-    </li> 
+    </li>
     <li>
-      However, it is not a good idea to look <b>only</b> for surprises. The winners
-      are usually those who find the right balance between surprises and predicted
-      results (and of course those who guess correctly
+      However, it is not a good idea to look <b>only</b> for surprises. The
+      winners are usually those who find the right balance between surprises and
+      predicted results (and of course those who guess correctly
       <mat-icon>insert_emoticon</mat-icon>)
-    </li> 
+    </li>
   </ul>
-  
-
-  <h3>Match Points</h3>
-  <p>The matches total points are according to the stage of the tournament:</p>
-  <table>
-    <thead>
-      <tr>
-        <th>Stage</th>
-        <th>Points</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let stage of stages$ | async">
-        <td>{{ stage.displayName }}</td>
-        <td>{{ stage.points }}</td>
-      </tr>
-    </tbody>
-  </table>
 
   <h2>Good Luck!</h2>
 </app-content>
