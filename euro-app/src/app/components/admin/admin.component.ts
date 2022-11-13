@@ -54,6 +54,10 @@ export class AdminComponent implements OnInit {
     ))
   }
 
+  getGroups(formArray: FormArray) {
+    return formArray.controls as FormGroup[]
+  }
+
   private fixDateForForm(dateStr: string): string {
     let date = new Date(dateStr);
     //date.setFullYear(2022);

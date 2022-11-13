@@ -13,7 +13,7 @@ h1 {
   flex-direction: row;
 }
 
-.nav>button {
+.nav > button {
   margin: 4px;
 }
 
@@ -30,93 +30,91 @@ h1 {
   }
 }
 
-
-
-mat-table {
+mat-card {
   width: 760px;
+  display: flex;
+  flex-direction: column;
 
-  mat-row {
-    height: 48px;
-  }
+  .row,
+  .header-row {
+    display: flex;
+    height: 52px;
+    flex-direction: row;
+    border-bottom: 1px solid var(--f-divider);
 
-  mat-cell, mat-header-cell {
-    width: var(--column-width);
-    flex-basis: var(--column-width);
-    flex-grow: 0;
+    .column {
+      padding: 8px;
+      width: var(--column-width);
+      flex-basis: var(--column-width);
+      --field-width: calc(var(--column-width) - 30px);
+      flex-grow: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
 
-    mat-form-field {
-      max-width: 100%;
+      &:first-child {
+        border-right: 1px solid transparent;
+      }
     }
   }
 
-  .mat-column-id {
+  .header-row {
+    .column {
+      font-weight: 500;
+      color: var(--f-secondary-text);
+    }
+  }
+
+  .row {
+    .column {
+      &:first-child {
+        border-right: 1px solid var(--f-secondary-text);
+      }
+
+      &.column-id {
+        justify-content: center;
+      }
+    }
+  }
+
+  .column-id {
     --column-width: 55px;
   }
-  .mat-column-stage {
-    --column-width: 135px;
+  .column-stage {
+    --column-width: 145px;
   }
-  .mat-column-date {
+  .column-date {
     --column-width: 170px;
-    --field-width: 140px;
   }
-  .mat-column-home, .mat-column-away {
+  .column-home,
+  .mat-column-away {
     --column-width: 135px;
   }
-  .mat-column-score {
+  .column-score {
     --column-width: 130px;
-  }
-}
 
+    position: relative;
+    z-index: 20;
+    padding: 0px 12px;
 
-mat-cell.mat-column-id {
-    width: 12px;
-    border-right: 1px solid currentColor;
-    padding: 0px 12px;    
-    text-align: center;
-}
+    .pair {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
 
-.mat-column-stage, .mat-column-home, .mat-column-away {
-     padding: 0px 12px;
-     mat-form-field {
-       max-width: 110px;
-     }
-     mat-select{
-      max-width: 110px;
-    }  
-}
+      input {
+        width: 40px;
+        font-size: 26px;
+        margin: 2px;
+        border: 1px solid var(--p100);
+        border-radius: 4px;
+        color: var(--p500);
+        outline: transparent;
+      }
 
-.mat-column-date {
-  padding: 0px 12px;
-}
-
-.mat-column-score {
-  position: relative;
-  z-index: 20;
-  padding: 0px 12px;
-
-  .pair {
-    display: flex;
-    flex-direction: row;
-    align-items: center;  
-
-    input {
-      width: 40px;
-      font-size: 26px;
-      margin: 2px;
-      border: 1px solid var(--p100);
-      border-radius: 4px;
-      color: var(--p500);
-      outline: transparent;
-    }
-
-    input:focus {
-      border: 1px solid var(--p500);
+      input:focus {
+        border: 1px solid var(--p500);
+      }
     }
   }
-
 }
-
-  mat-header-cell {
-      font-weight: bold;
-  }
-

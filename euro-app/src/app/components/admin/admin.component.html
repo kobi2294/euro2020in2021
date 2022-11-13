@@ -6,16 +6,20 @@
     </div>
     <div class="table-relative">
         <div class="table-absolute">
-            <mat-table [dataSource]="form.controls" class="mat-elevation-z8">
-                <ng-container matColumnDef="id">
-                    <mat-header-cell *matHeaderCellDef>Index</mat-header-cell>
-                    <mat-cell *matCellDef="let group; let i = index" [formGroup]="group">
-                        {{group.value.id}}
-                    </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="stage">
-                    <mat-header-cell *matHeaderCellDef>Stage</mat-header-cell>
-                    <mat-cell *matCellDef="let group; let i = index" [formGroup]="group">
+            <mat-card class="mat-elevation-z8">
+                <div class="header-row">
+                    <div class="column column-id">Index</div>
+                    <div class="column column-stage">Stage</div>
+                    <div class="column column-date">Date</div>
+                    <div class="column column-home">Home</div>
+                    <div class="column column-home">Away</div>
+                    <div class="column column-score">Score</div>
+                </div>
+                <div class="row" *ngFor="let group of getGroups(form); let i = index"
+                    [formGroup]="group"
+                >
+                    <div class="column column-id">{{i+1}}</div>
+                    <div class="column column-stage">
                         <mat-form-field appearance="legacy">
                             <mat-select formControlName="stage">
                                 <mat-option *ngFor="let stage of stages" [value]="stage">
@@ -23,21 +27,13 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                    </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="date">
-                    <mat-header-cell *matHeaderCellDef>Date</mat-header-cell>
-                    <mat-cell *matCellDef="let group; let i = index" [formGroup]="group">
+                    </div>
+                    <div class="column column-date">
                         <mat-form-field appearance="legacy">
                             <input matInput type="datetime-local" formControlName="date" step="1800">
                         </mat-form-field>
-                    </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="home">
-                    <mat-header-cell *matHeaderCellDef>Home</mat-header-cell>
-                    <mat-cell *matCellDef="let group; let i = index" [formGroup]="group">
+                    </div>
+                    <div class="column column-home">
                         <mat-form-field appearance="legacy">
                             <mat-select formControlName="home">
                                 <mat-option *ngFor="let country of countries" [value]="country">
@@ -45,12 +41,8 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                    </mat-cell>
-                </ng-container>
-
-                <ng-container matColumnDef="away">
-                    <mat-header-cell *matHeaderCellDef>Away</mat-header-cell>
-                    <mat-cell *matCellDef="let group; let i = index" [formGroup]="group">
+                    </div>
+                    <div class="column column-home">
                         <mat-form-field appearance="legacy">
                             <mat-select formControlName="away">
                                 <mat-option *ngFor="let country of countries" [value]="country">
@@ -58,24 +50,16 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
-                    </mat-cell>
-                </ng-container>
-
-                <ng-component matColumnDef="score">
-                    <mat-header-cell *matHeaderCellDef>Score</mat-header-cell>
-                    <mat-cell mat-cell *matCellDef="let group; let i = index" [formGroup]="group">
+                    </div>
+                    <div class="column column-score">
                         <div class="pair">
                             <input type="number" min="0" max="9" formControlName="homeScore">
                             :
                             <input type="number" min="0" max="9" formControlName="awayScore">
                         </div>
-                    </mat-cell>
-                </ng-component>
-
-                <mat-header-row *matHeaderRowDef="columns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: columns;"></mat-row>
-
-            </mat-table>
+                    </div>
+                </div>
+            </mat-card>
         </div>
     </div>
 </ng-container>
