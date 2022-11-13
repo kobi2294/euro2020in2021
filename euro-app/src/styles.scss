@@ -55,4 +55,9 @@ mat-icon {
   margin: 4px;
 }
 
+div.mat-form-field-infix {
+  max-width: 100%;
+  width: var(--field-width, 180px);
+}
+
 
