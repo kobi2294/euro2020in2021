@@ -68,7 +68,7 @@ mat-card {
   .row {
     .column {
       &:first-child {
-        border-right: 1px solid var(--f-secondary-text);
+        border-right: 1px solid var(--f-divider);
       }
 
       &.column-id {
@@ -116,5 +116,13 @@ mat-card {
         border: 1px solid var(--p500);
       }
     }
+  }
+
+  input[type=datetime-local] {
+    border: 0px solid transparent;
+    font-family: Roboto;
+    font-size: 14px;
+    outline: 0px solid;
+
   }
 }

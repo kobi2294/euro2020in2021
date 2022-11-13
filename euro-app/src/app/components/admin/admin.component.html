@@ -1,65 +1,83 @@
 <h1>Matches Schedule and Results</h1>
 <ng-container *ngIf="form$ | async as form">
-    <div class="nav">
-        <button mat-raised-button color="accent" (click)="save(form)" [disabled]="form.pristine">Save</button>
-        <button mat-raised-button color="accent" (click)="triggerPublishResults()">Trigger Results Calculation</button>
-    </div>
-    <div class="table-relative">
-        <div class="table-absolute">
-            <mat-card class="mat-elevation-z8">
-                <div class="header-row">
-                    <div class="column column-id">Index</div>
-                    <div class="column column-stage">Stage</div>
-                    <div class="column column-date">Date</div>
-                    <div class="column column-home">Home</div>
-                    <div class="column column-home">Away</div>
-                    <div class="column column-score">Score</div>
-                </div>
-                <div class="row" *ngFor="let group of getGroups(form); let i = index"
-                    [formGroup]="group"
-                >
-                    <div class="column column-id">{{i+1}}</div>
-                    <div class="column column-stage">
-                        <mat-form-field appearance="legacy">
-                            <mat-select formControlName="stage">
-                                <mat-option *ngFor="let stage of stages" [value]="stage">
-                                    {{stage}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="column column-date">
-                        <mat-form-field appearance="legacy">
-                            <input matInput type="datetime-local" formControlName="date" step="1800">
-                        </mat-form-field>
-                    </div>
-                    <div class="column column-home">
-                        <mat-form-field appearance="legacy">
-                            <mat-select formControlName="home">
-                                <mat-option *ngFor="let country of countries" [value]="country">
-                                    {{country}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="column column-home">
-                        <mat-form-field appearance="legacy">
-                            <mat-select formControlName="away">
-                                <mat-option *ngFor="let country of countries" [value]="country">
-                                    {{country}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="column column-score">
-                        <div class="pair">
-                            <input type="number" min="0" max="9" formControlName="homeScore">
-                            :
-                            <input type="number" min="0" max="9" formControlName="awayScore">
-                        </div>
-                    </div>
-                </div>
-            </mat-card>
+  <div class="nav">
+    <button
+      mat-raised-button
+      color="accent"
+      (click)="save(form)"
+      [disabled]="form.pristine"
+    >
+      Save
+    </button>
+    <button mat-raised-button color="accent" (click)="triggerPublishResults()">
+      Trigger Results Calculation
+    </button>
+  </div>
+  <div class="table-relative">
+    <div class="table-absolute">
+      <mat-card class="mat-elevation-z8">
+        <div class="header-row">
+          <div class="column column-id">Index</div>
+          <div class="column column-stage">Stage</div>
+          <div class="column column-date">Date</div>
+          <div class="column column-home">Home</div>
+          <div class="column column-home">Away</div>
+          <div class="column column-score">Score</div>
         </div>
+        <div
+          class="row"
+          *ngFor="let group of getGroups(form); let i = index"
+          [formGroup]="group"
+        >
+          <div class="column column-id">{{ i + 1 }}</div>
+          <div class="column column-stage">
+            <mat-select formControlName="stage">
+              <mat-option *ngFor="let stage of stages" [value]="stage">
+                {{ stage }}
+              </mat-option>
+            </mat-select>
+          </div>
+          <div class="column column-date">
+            <input
+            matInput
+            type="datetime-local"
+            formControlName="date"
+            step="1800"
+          />  
+      </div>
+          <div class="column column-home">
+            <mat-select formControlName="home">
+              <mat-option *ngFor="let country of countries" [value]="country">
+                {{ country }}
+              </mat-option>
+            </mat-select>
+          </div>
+          <div class="column column-home">
+            <mat-select formControlName="away">
+              <mat-option *ngFor="let country of countries" [value]="country">
+                {{ country }}
+              </mat-option>
+            </mat-select>
+          </div>
+          <div class="column column-score">
+            <div class="pair">
+              <input
+                type="number"
+                min="0"
+                max="9"
+                formControlName="homeScore"
+              />
+              :
+              <input
+                type="number"
+                min="0"
+                max="9"
+                formControlName="awayScore"
+              />
+            </div>
+          </div>
+        </div>
+      </mat-card>
     </div>
+  </div>
 </ng-container>
