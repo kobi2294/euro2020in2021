@@ -14,6 +14,8 @@ export class PwaMessageComponent implements OnInit {
   showIos$!: Observable<boolean>;
   showMessage$!: Observable<boolean>;
 
+  showingMessage: boolean = false;
+
   constructor(
     private pwa: PwaService
   ) { }
@@ -23,7 +25,8 @@ export class PwaMessageComponent implements OnInit {
     this.showIos$ = this.pwa.showIosMessage$;
 
     this.showMessage$ = combineLatest([this.showInstall$, this.showIos$]).pipe(
-      map(([a, b]) => a || b)
+      map(([a, b]) => a || b), 
+      tap(val => this.showingMessage = val)
     );
   }
 

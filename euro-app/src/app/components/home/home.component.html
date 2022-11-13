@@ -79,12 +79,8 @@
   
   <ng-container *ngIf="!(hasScores$ | async)">
     <h1>Welcome to "You Betcha!"</h1> 
-    <app-content>
-      <app-pwa-message></app-pwa-message>
-
-      <h2>Scores will be presented here</h2>
-  
-    </app-content> 
+    <app-pwa-message #pwa></app-pwa-message>
+    <div class="bg" [class.pwa]="pwa.showingMessage"><div>Scores will be presented here</div></div>
   </ng-container>
   
 </ng-container>
