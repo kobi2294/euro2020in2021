@@ -31,7 +31,7 @@ h1 {
 }
 
 mat-card {
-  width: 760px;
+  width: 680px;
   display: flex;
   flex-direction: column;
 
@@ -78,20 +78,20 @@ mat-card {
   }
 
   .column-id {
-    --column-width: 55px;
+    --column-width: 30px;
   }
   .column-stage {
-    --column-width: 145px;
+    --column-width: 130px;
   }
   .column-date {
-    --column-width: 170px;
+    --column-width: 160px;
   }
   .column-home,
   .mat-column-away {
-    --column-width: 135px;
+    --column-width: 120px;
   }
   .column-score {
-    --column-width: 130px;
+    --column-width: 120px;
 
     position: relative;
     z-index: 20;
