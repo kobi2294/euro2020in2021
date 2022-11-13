@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { of } from 'rxjs';
+import { combineLatest, of } from 'rxjs';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Group } from 'src/app/models/group.model';
+import { AuthService } from 'src/app/services/auth.service';
 import { SelectedGroupService } from 'src/app/services/selected-group.service';
+import { browseableGroups } from 'src/app/tools/user-functions';
 
 @Component({
   selector: 'app-group-selector',
@@ -15,11 +18,15 @@ export class GroupSelectorComponent implements OnInit {
   selectedGroup$!: Observable<Group | null>;
 
   constructor(
+    private auth: AuthService,
     private selectedGroupService: SelectedGroupService
   ) { }
 
   ngOnInit(): void {
-    this.groups$ = this.selectedGroupService.userGroups$;
+    this.groups$ = combineLatest([this.auth.currentUser$, this.selectedGroupService.allGroups$]).pipe(
+      map(([user, groups]) => browseableGroups(user, groups))
+    );
+
     this.selectedGroup$ = this.selectedGroupService.selectedGroup$; 
   }
 

@@ -1,8 +1,10 @@
 <div class="root">
     <a routerLink="home" routerLinkActive="active"><mat-icon>home</mat-icon></a>
     <a routerLink="info" routerLinkActive="active"><mat-icon>info</mat-icon></a>
-    <ng-container *ngIf="hasGroups$ | async">
+    <ng-container *ngIf="canSeeGroups$ | async">
         <a routerLink="scoreboard" routerLinkActive="active"><mat-icon>list_alt</mat-icon></a>
+    </ng-container>
+    <ng-container *ngIf="canBet$ | async">
         <a routerLink="guesses" routerLinkActive="active"><mat-icon>edit</mat-icon></a>    
     </ng-container>
     <a routerLink="profile" routerLinkActive="active"><mat-icon>group</mat-icon></a>

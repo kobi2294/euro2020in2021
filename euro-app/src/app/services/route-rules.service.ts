@@ -68,8 +68,10 @@ export class RouteRulesService {
 
       const groupsCount = user.groups?.length ?? 0;
       if (groupsCount === 0) {
-        res.push(this.router.createUrlTree(['scoreboard']));
         res.push(this.router.createUrlTree(['guesses']));
+        if (!Boolean(user.super)) {
+          res.push(this.router.createUrlTree(['scoreboard']));
+        }
       }
 
       if (!user.admin) {

@@ -1,3 +1,4 @@
+import { getInterpolationArgsLength } from '@angular/compiler/src/render3/view/util';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
@@ -14,6 +15,7 @@ import { sum } from '../tools/aggregations';
 import { groupByString } from '../tools/group-by';
 import { StringMapping, toStringMapping } from '../tools/mappings';
 import { selectMany } from '../tools/select-many';
+import { browseableGroups } from '../tools/user-functions';
 import { AuthService } from './auth.service';
 import { DataService } from './data.service';
 
@@ -23,7 +25,7 @@ import { DataService } from './data.service';
 export class SelectedGroupService {
   private userSelection$ = new BehaviorSubject<string>('');
   readonly userGroupIds$!: Observable<string[]>;
-  private allGroups$!: Observable<StringMapping<Group>>;
+  readonly allGroups$!: Observable<StringMapping<Group>>;
 
   readonly selectedGroup$!: Observable<Group | null>;
   readonly userGroups$!: Observable<Group[]>;
@@ -44,15 +46,14 @@ export class SelectedGroupService {
       shareReplay(1)
     );
 
-    const userGroupsProperty$ = this.auth.currentUser$.pipe(
-      map(user => user?.groups ?? [])
-    ); 
-
-    const allGroupIds$ = this.allGroups$.pipe(map(g => Object.keys(g)));
-
-    this.userGroupIds$ = this.auth.isSuper$.pipe(
-      switchMap(isSuper => isSuper ? allGroupIds$ : userGroupsProperty$)
+    this.userGroups$ = combineLatest([this.auth.currentUser$, this.allGroups$]).pipe(
+      map(([user, allGroups]) => browseableGroups(user, allGroups))
     );
+
+
+    this.userGroupIds$ = this.userGroups$.pipe(
+      map(groups => (groups??[]).map(g => g.id))
+    ); 
     
     let selectedGroupId$ = combineLatest([this.userSelection$, this.userGroupIds$]).pipe(
       map(([userSelection, userGroupIds]) => this.calcEffectiveSelection(userSelection, userGroupIds))
@@ -62,9 +63,6 @@ export class SelectedGroupService {
       map(([selectedGroupId, allGroups]) => selectedGroupId !== '' ? allGroups[selectedGroupId] : null)
     );
 
-    this.userGroups$ = combineLatest([this.userGroupIds$, this.allGroups$]).pipe(
-      map(([userGroupIds, allGroups]) => userGroupIds.map(id => allGroups[id]))
-    );
 
     this.userHasGroups$ = this.userGroups$.pipe(
       map(groups => groups && groups.length > 0)

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { ExtendedScore } from 'src/app/models/extended-score.model';
+import { DataService } from 'src/app/services/data.service';
 import { PwaService } from 'src/app/services/pwa.service';
 import { SelectedGroupService } from 'src/app/services/selected-group.service';
 
@@ -18,6 +19,7 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private groupService: SelectedGroupService, 
+    private data:DataService
   ) { }
 
   ngOnInit(): void {
