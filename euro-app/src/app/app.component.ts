@@ -61,4 +61,10 @@ export class AppComponent implements OnInit {
   onAppInstalled() {
     this.pwa.onAppInstalled();
   }
+
+  @HostListener('scroll', ['$event'])
+  onScroll(e: any) {
+    e.preventDefault();
+    window.scrollTo(0, 0);
+  }
 }
