@@ -26,7 +26,10 @@ export class PwaMessageComponent implements OnInit {
 
     this.showMessage$ = combineLatest([this.showInstall$, this.showIos$]).pipe(
       map(([a, b]) => a || b), 
-      tap(val => this.showingMessage = val)
+      tap(async val => {
+        await new Promise(res => setTimeout(res, 10));
+        this.showingMessage = val;
+      })
     );
   }
 
