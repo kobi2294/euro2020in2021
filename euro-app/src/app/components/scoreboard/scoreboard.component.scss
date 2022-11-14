@@ -39,11 +39,11 @@ table {
     max-width: 600px;
 }
 
-.mat-row:first-child {
+.mat-row.me {
     background: var(--p50);
 }
 
-.mat-row:first-child .cell {
+.mat-row.me .cell {
     color: var(--p800);
     font-weight: 500;
 }
