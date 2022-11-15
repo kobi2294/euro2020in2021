@@ -95,12 +95,23 @@ export class AuthService {
       this._progressMessage$.next(`Authentication with ${label}`);
       this._errorState$.next('');
       await this.afAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-      await this.afAuth.signInWithPopup(provider());  
+      await this.afAuth.signInWithRedirect(provider());  
     } catch(err) {
       this._errorState$.next(String(err));
     } finally {
       this._progressMessage$.next('');
     }
+  }
+
+  async getRedirectResult() {
+    let res: firebase.auth.UserCredential| null = null;
+    try {
+      res = await this.afAuth.getRedirectResult();
+    } catch (err) {
+      this._errorState$.next(String(err));
+    }
+
+    return res;
   }
 
 }
