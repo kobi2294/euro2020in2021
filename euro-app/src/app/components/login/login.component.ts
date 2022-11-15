@@ -23,6 +23,8 @@ export class LoginComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    const res = this.authService.getRedirectResult();
+
     this.busyMessage$ = this.authService.progressMessage$;
     this.isBusy$ = this.busyMessage$.pipe(map(msg => msg !== ''));
     this.err$ = this.authService.errorState$;
