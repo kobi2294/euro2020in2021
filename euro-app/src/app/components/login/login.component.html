@@ -1,7 +1,7 @@
 <h1>First, let's login</h1>
 
 <div class="main">
-    <ng-container *ngIf="!isBusy && !err">
+    <ng-container *ngIf="idle$ | async">
         <h3>Please select a provider: </h3>
         <div class="providers">
             <img (click)="authenticateFacebook()" src="/assets/facebook.png">
@@ -9,12 +9,12 @@
             <img (click)="authenticateTwitter()" src="/assets/Twitter.png">
         </div>    
     </ng-container>
-    <ng-container *ngIf="isBusy">
-        <h3>{{busyMessage}}</h3>
+    <ng-container *ngIf="isBusy$ | async">
+        <h3>{{busyMessage$ | async}}</h3>
         <h4>This may take up to 30 seconds</h4>
         <app-spinner></app-spinner>
     </ng-container>
-    <ng-container *ngIf="err">
+    <ng-container *ngIf="err$ | async as err">
         <h2>There was an error signing you in. The message is:</h2>
         <p>{{err}}</p>
         <h2>Please refresh the page and try again</h2>

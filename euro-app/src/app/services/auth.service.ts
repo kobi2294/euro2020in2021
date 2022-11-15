@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import firebase from 'firebase/app';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { map, shareReplay, startWith, switchMap, take, tap } from 'rxjs/operators';
 import { Group } from '../models/group.model';
 import { User } from '../models/user.model';
@@ -15,6 +15,13 @@ import { ApiService } from './api.service';
   providedIn: 'root'
 })
 export class AuthService {
+
+  private _progressMessage$ = new BehaviorSubject<string>('');
+  readonly progressMessage$ = this._progressMessage$.asObservable();
+  
+  private _errorState$ = new BehaviorSubject<string>('');
+  readonly errorState$ = this._errorState$.asObservable();
+
   currentFirebaseUser$!: Observable<firebase.User | null>;
   currentUser$!: Observable<User | null>;
   isLoggedIn$!: Observable<boolean>;
@@ -27,6 +34,8 @@ export class AuthService {
     private router: Router, 
     private api: ApiService
   ) {
+
+
     this.currentFirebaseUser$ = this.afAuth.user.pipe(
     );
 
@@ -64,24 +73,34 @@ export class AuthService {
   }
 
   async facebookAuth(): Promise<void> {
-    await this.authLogin(() => new firebase.auth.FacebookAuthProvider());
+    await this.authLogin('Facebook', () => new firebase.auth.FacebookAuthProvider());
   }
 
   async googleAuth(): Promise<void> {
-    await this.authLogin(() => new firebase.auth.GoogleAuthProvider());
+    await this.authLogin('Google (Gmail)', () => new firebase.auth.GoogleAuthProvider());
   }
 
   async twitterAuth(): Promise<void> {
-    await this.authLogin(() => new firebase.auth.TwitterAuthProvider());
+    await this.authLogin('Twitter', () => new firebase.auth.TwitterAuthProvider());
   }
 
   logout(): Promise<void> {
     return this.afAuth.signOut();
   }
 
-  async authLogin(provider :() => firebase.auth.AuthProvider): Promise<void> {
-    await this.afAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
-    await this.afAuth.signInWithPopup(provider());
+  async authLogin(label: string, provider :() => firebase.auth.AuthProvider): Promise<void> {
+    if (this._progressMessage$.value !== '') return;
+
+    try {
+      this._progressMessage$.next(`Authentication with ${label}`);
+      this._errorState$.next('');
+      await this.afAuth.setPersistence(firebase.auth.Auth.Persistence.LOCAL);
+      await this.afAuth.signInWithPopup(provider());  
+    } catch(err) {
+      this._errorState$.next(String(err));
+    } finally {
+      this._progressMessage$.next('');
+    }
   }
 
 }

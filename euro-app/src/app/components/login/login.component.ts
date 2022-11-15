@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { combineChange } from '@angular/fire/firestore';
 import { ActivatedRoute } from '@angular/router';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
 
@@ -9,42 +12,39 @@ import { DataService } from 'src/app/services/data.service';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-  isBusy: boolean = false;
-  busyMessage: string = '';
-  err: string = '';
+  isBusy$!: Observable<boolean>;
+  busyMessage$!: Observable<string>;
+  err$!: Observable<string>;
+  idle$!: Observable<boolean>;
 
 
   constructor(
     private authService: AuthService, 
-    private route: ActivatedRoute, 
-    private dataService: DataService
   ) { }
 
   ngOnInit(): void {
+    this.busyMessage$ = this.authService.progressMessage$;
+    this.isBusy$ = this.busyMessage$.pipe(map(msg => msg !== ''));
+    this.err$ = this.authService.errorState$;
+    this.idle$ = combineLatest([this.isBusy$, this.err$]).pipe(
+      map(([isBusy, err]) => !isBusy && !err)
+    );
   }
 
   async authenticateFacebook() {
-    this.busyMessage = 'Authentication with Facebook';
     await this.auth(() => this.authService.facebookAuth())
   }
 
   async authenticateGoogle() {
-    this.busyMessage = 'Authentication with Google';
     await this.auth(() => this.authService.googleAuth())
   }
 
   async authenticateTwitter() {
-    this.busyMessage = 'Authentication with Twitter';
     await this.auth(() => this.authService.twitterAuth())
   }
 
   async auth(action:  () => Promise<any>) {
-    this.isBusy = true;
-    try {
-      await action();
-    } catch (err) {
-      this.err = String(err);
-    } 
+    await action();
   }
 
 }
