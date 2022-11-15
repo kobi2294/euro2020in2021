@@ -85,17 +85,13 @@ export class DataService {
   }
 
   async ensureGroup(groupId: string) {
-    console.log('ensure group', groupId);
     let user = await this.auth.currentUser$.pipe(
       filterNotNull(),
       take(1))
       .toPromise();
-    console.log('user', user); 
 
     let allGroups = await this.allGroups$.pipe(take(1)).toPromise();
-    console.log('all groups', allGroups);
     let group = allGroups.find(g => g.id === groupId);
-    console.log('group', group);
 
     if (!user || !group) return;    
     if (user.groups?.includes(groupId)) return;
@@ -106,8 +102,6 @@ export class DataService {
       ...user, 
       groups
     }
-
-    console.log('updating user');
 
     await this.api.updateUser(user);
   }

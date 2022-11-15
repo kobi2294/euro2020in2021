@@ -52,7 +52,6 @@ export class AppComponent implements OnInit {
   // PWA support
   @HostListener('window:beforeinstallprompt', ['$event'])
   onBeforeInstallPrompot(e: any) {
-    console.log('before install', e);
     e.preventDefault();
     this.pwa.onBeforeInstallPrompt(e);
   }
