@@ -1,7 +1,7 @@
 <h1>First, let's login</h1>
 
 <div class="main">
-    <ng-container *ngIf="idle$ | async">
+    <ng-container *ngIf="userNull$ | async">
         <h3>Please select a provider: </h3>
         <div class="providers">
             <img (click)="authenticateFacebook()" src="/assets/facebook.png">
@@ -10,6 +10,7 @@
         </div>    
     </ng-container>
     <ng-container *ngIf="isBusy$ | async">
+        <h2>Please wait...</h2>
         <h3>{{busyMessage$ | async}}</h3>
         <h4>This may take up to 30 seconds</h4>
         <app-spinner></app-spinner>
