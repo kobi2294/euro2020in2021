@@ -49,6 +49,7 @@ import { GroupSelectorComponent } from './components/widgets/group-selector/grou
 import { OnOffPendingButtonComponent } from './components/widgets/on-off-pending-button/on-off-pending-button.component';
 import { SpinnerComponent } from './components/widgets/spinner/spinner.component';
 import { SuperPageComponent } from './components/pages/super-page/super-page.component';
+import { AppUpdateService } from './services/app-update.service';
 
 
 
@@ -110,7 +111,7 @@ if (!environment.production) {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
       // or after 30 seconds (whichever comes first).
-      registrationStrategy: 'registerWhenStable:30000'
+      registrationStrategy: 'registerWhenStable:30000'      
     }),
   ],
   providers: [
@@ -122,6 +123,11 @@ if (!environment.production) {
     {
       provide: APP_INITIALIZER, useFactory: (service: PwaService) => () => service.init(), 
       deps: [PwaService], 
+      multi: true
+    },
+    {
+      provide: APP_INITIALIZER, useFactory: (service: AppUpdateService) => () => service.init(), 
+      deps: [AppUpdateService], 
       multi: true
     },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}, 
