@@ -11,6 +11,7 @@ import { LoginPageComponent } from './components/pages/login-page/login-page.com
 import { PrivacyPageComponent } from './components/pages/privacy-page/privacy-page.component';
 import { ProfilePageComponent } from './components/pages/profile-page/profile-page.component';
 import { ScoreboardPageComponent } from './components/pages/scoreboard-page/scoreboard-page.component';
+import { SuperPageComponent } from './components/pages/super-page/super-page.component';
 import { JoinGroupService } from './services/join-group.service';
 
 const routes: Routes = [
@@ -23,6 +24,7 @@ const routes: Routes = [
   {path: 'guesses', component: GuessesPageComponent, data: {animationOrder: '4'}}, 
   {path: 'profile', component: ProfilePageComponent, data: {animationOrder: '5'}}, 
   {path: 'admin', component: AdminPageComponent, data: {animationOrder: '6'}}, 
+  {path: 'super', component: SuperPageComponent, data: {animationOrder: '7'}},
   {path: 'legal', component: LegalPageComponent }, 
   {path: 'privacy', component: PrivacyPageComponent }, 
   {path: 'datadel', component: DataDeletionPageComponent },

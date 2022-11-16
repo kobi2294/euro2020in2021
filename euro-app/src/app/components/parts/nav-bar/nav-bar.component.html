@@ -11,4 +11,7 @@
     <ng-container *ngIf="isAdmin$ | async">
         <a routerLink="admin" routerLinkActive="active"><mat-icon>settings</mat-icon>Admin</a>
     </ng-container>
+    <ng-container *ngIf="isSuper$ | async">
+        <a routerLink="super" routerLinkActive="active"><mat-icon>developer_mode</mat-icon>Super</a>
+    </ng-container>
 </div>

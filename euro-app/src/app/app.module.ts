@@ -48,6 +48,7 @@ import { FlagComponent } from './components/widgets/flag/flag.component';
 import { GroupSelectorComponent } from './components/widgets/group-selector/group-selector.component';
 import { OnOffPendingButtonComponent } from './components/widgets/on-off-pending-button/on-off-pending-button.component';
 import { SpinnerComponent } from './components/widgets/spinner/spinner.component';
+import { SuperPageComponent } from './components/pages/super-page/super-page.component';
 
 
 
@@ -77,6 +78,7 @@ if (!environment.production) {
     PrivacyPageComponent,
     ProfilePageComponent,
     ScoreboardPageComponent,
+    SuperPageComponent,
 
     // dialogs
     PromptDialogComponent,

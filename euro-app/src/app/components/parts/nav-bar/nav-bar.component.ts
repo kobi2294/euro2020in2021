@@ -15,6 +15,8 @@ export class NavBarComponent implements OnInit {
 
   isAdmin$!: Observable<boolean>;
 
+  isSuper$!: Observable<boolean>;
+
   canSeeGroups$!: Observable<boolean>;
 
   canBet$!: Observable<boolean>;
@@ -26,6 +28,8 @@ export class NavBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.isAdmin$ = this.auth.isAdmin$;
+
+    this.isSuper$ = this.auth.isSuper$;
 
     this.canSeeGroups$ = combineLatest([this.auth.currentUser$, this.groups.allGroups$]).pipe(
       map(([user, groups]) => browseableGroups(user, groups).length > 0)
