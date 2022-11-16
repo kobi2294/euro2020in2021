@@ -10,11 +10,13 @@ import { Match } from "./models/match.model";
 import { Stage } from "./models/stage.model";
 import { User } from "./models/user.model";
 import { parseMatches } from "./tools/crawl";
+import { logRequest } from "./middlewares/log-request.middleware";
 
 const corsHandler = cors({ origin: true });
 const api = express();
 api.use(corsHandler);
 api.use(validateUserToken);
+api.use(logRequest);
 
 const openApi = express();
 openApi.use(corsHandler);
@@ -70,8 +72,11 @@ api.post('/stages', async (req, res) => {
 
 
 api.post('/users', async (req, res) => {
+    console.log('updating user');
     const users = admin.firestore().collection('users');
     const data = JSON.parse(req.body) as User;
+
+    console.log('email', data);
 
     await users.doc(data.email).set({
         ...data
@@ -143,9 +148,7 @@ export const createUserRecord = functions.auth.user().onCreate(async user => {
                 displayName: user.displayName,
                 photoUrl: user.photoURL
             });
-        
-        await publishScoresOfPastMatches();
-    }
+            }
 });
 
 export const publishScores = functions.pubsub.schedule('01 * * * *').onRun(async context => {
