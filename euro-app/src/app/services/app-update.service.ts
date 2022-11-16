@@ -26,7 +26,6 @@ export class AppUpdateService {
     stable$.then(() => {
       this.updates.available.subscribe(async ev => {
         await this.updates.activateUpdate();
-        await new Promise(res => setTimeout(res, 5000));
         document.location.reload();
 
       });
@@ -36,7 +35,7 @@ export class AppUpdateService {
         document.location.reload();
       });
 
-      timer(45000, 20000).subscribe(async () => {
+      timer(45000, 15 * 60 * 1000).subscribe(async () => {
         try {
           await this.updates.checkForUpdate();
         } catch (err) {
