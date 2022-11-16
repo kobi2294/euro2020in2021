@@ -1,4 +1,22 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { combineLatest, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { Group } from 'src/app/models/group.model';
+import { User } from 'src/app/models/user.model';
+import { groupByString } from 'src/app/tools/group-by';
+import { toStringMapping } from 'src/app/tools/mappings';
+import { selectMany } from 'src/app/tools/select-many';
+import { Clipboard } from '@angular/cdk/clipboard';
+
+interface GroupVm extends Group {
+  readonly users: User[];
+}
+
+interface ViewModel {
+  readonly usersCount: number, 
+  readonly groups: GroupVm[]
+}
 
 @Component({
   selector: 'app-super-page',
@@ -6,10 +24,49 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./super-page.component.scss']
 })
 export class SuperPageComponent implements OnInit {
+  vm$!: Observable<ViewModel>;
 
-  constructor() { }
 
-  ngOnInit(): void {
+  constructor(
+    private db: AngularFirestore, 
+    private clipboard: Clipboard
+  ) { }
+
+  async ngOnInit() {
+    const all$ =  [
+      this.db.collection<User>('users').valueChanges(),
+      this.db.collection<Group>('groups').valueChanges()
+    ] as const;
+
+    this.vm$ = combineLatest([...all$]).pipe(
+      map(all => this.calcVm(...all))
+    );
   }
+
+  calcVm(users: User[], groups: Group[]): ViewModel {
+    const pairs = selectMany(users, user => (user.groups??[]).map(group => ({user, group})));
+    const groupsMap = toStringMapping(groups, gr => gr.id);
+    const grouped = groupByString(pairs, pair => pair.group);
+    const vmGroups: GroupVm[] = groups.map(
+      g => ({
+        ...g,
+        users: (grouped[g.id]??[]).map(pair => pair.user)
+      })
+    )
+
+    return {
+      usersCount: users.length, 
+      groups: vmGroups
+    }
+  }
+
+  copyGroupLink(groupId: string) {
+    const url = `${location.origin}/group/${groupId}`;
+    console.log(url);
+    this.clipboard.copy(url);
+
+  }
+
+
 
 }

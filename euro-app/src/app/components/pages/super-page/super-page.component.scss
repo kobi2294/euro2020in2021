@@ -1,0 +1,36 @@
+mat-card {
+    margin: 4px 8px;
+    background-color: var(--p50);
+    border: 1px solid var(--p100);
+    max-width: 600px;
+}
+
+mat-card-title {
+    font-size: 1.3em;
+    color: var(--p700);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-bottom: 1px solid var(--p200);
+
+    .group-title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        flex: 1
+    }
+    button {
+        width: auto;
+        height: auto;
+        mat-icon {
+            font-size: 20px;
+        }
+    }
+}
+
+
+.user {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
