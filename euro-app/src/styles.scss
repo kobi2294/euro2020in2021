@@ -21,10 +21,11 @@ div {
   display: grid;
 }
 
-h1 {
+.mat-typography h1 {
   font-size: 24px;
   background-color: var(--p100);
-  padding: 6px;
+  padding: 2px 6px;
+  margin: 0px 0px 8px 0px;
 }
 
 .warn {
@@ -58,6 +59,22 @@ mat-icon {
 div.mat-form-field-infix {
   max-width: 100%;
   width: var(--field-width, 180px);
+}
+
+.mat-toolbar.mat-toolbar-single-row {
+  height: 56px;
+}
+
+
+
+@media only screen and (max-height: 900px) {
+  .mat-toolbar.mat-toolbar-single-row {
+    height: 48px;
+  } 
+  
+  mat-tab-header .mat-tab-label {
+    height: 30px;
+  }
 }
 
 
