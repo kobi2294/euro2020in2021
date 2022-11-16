@@ -27,6 +27,11 @@ app-content {
       margin-bottom: 20px;
     }
 
+    a {
+      color: var(--pc50);
+      text-decoration: var(--a700) underline;
+    }
+
     p,
     ul {
       font-size: 1.4em;

@@ -3,7 +3,7 @@
   <app-content>
     <h2>Counters</h2>
     <ul>
-      <li><mat-icon>face</mat-icon>{{ vm.usersCount }} Users</li>
+      <li><mat-icon>face</mat-icon>{{ vm.usersCount }} Users <span class="groupless-count">({{vm.grouplessUsers.length}} groupless)</span></li>
       <li><mat-icon>group</mat-icon>{{ vm.groups.length }} Groups</li>
     </ul>
     <h2>Group Details</h2>

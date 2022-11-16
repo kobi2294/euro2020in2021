@@ -17,7 +17,11 @@ mat-card-title {
         display: flex;
         flex-direction: row;
         align-items: center;
-        flex: 1
+        flex: 1;
+
+        .groupless-count {
+            color: var(--w500);
+        }
     }
     button {
         width: auto;
