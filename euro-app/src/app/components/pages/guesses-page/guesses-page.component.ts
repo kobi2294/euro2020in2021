@@ -13,10 +13,10 @@ import { sum } from 'src/app/tools/aggregations';
 
 @Component({
   selector: 'app-guesses',
-  templateUrl: './guesses.component.html',
-  styleUrls: ['./guesses.component.scss']
+  templateUrl: './guesses-page.component.html',
+  styleUrls: ['./guesses-page.component.scss']
 })
-export class GuessesComponent implements OnInit {
+export class GuessesPageComponent implements OnInit {
   records$!: Observable<MatchRecord[]>;
 
   constructor(

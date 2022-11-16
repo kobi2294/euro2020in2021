@@ -1,23 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { combineLatest, merge, Observable, Subject } from 'rxjs';
+import { combineLatest, Observable } from 'rxjs';
 import { first, map, tap } from 'rxjs/operators';
 import { Group } from 'src/app/models/group.model';
 import { User } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { ApiService } from 'src/app/services/api.service';
 import { filterNotNull } from 'src/app/tools/is-not-null';
-import { mapStrings, StringMapping } from 'src/app/tools/mappings';
 import { DialogsService } from 'src/app/services/dialogs.service';
-import { throwToolbarMixedModesError } from '@angular/material/toolbar';
-import { SelectedGroupService } from 'src/app/services/selected-group.service';
 
 @Component({
-  selector: 'app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss']
+  selector: 'app-profile-page',
+  templateUrl: './profile-page.component.html',
+  styleUrls: ['./profile-page.component.scss']
 })
-export class ProfileComponent implements OnInit {
+export class ProfilePageComponent implements OnInit {
   currentUser$!: Observable<User>;
   userGroups$!: Observable<Group[]>;
   admin$!: Observable<boolean>;
@@ -30,7 +27,6 @@ export class ProfileComponent implements OnInit {
     private authService: AuthService,
     private db: AngularFirestore, 
     private api: ApiService, 
-    private groupsServices: SelectedGroupService,
     private dialogs: DialogsService) { }
 
   ngOnInit(): void {

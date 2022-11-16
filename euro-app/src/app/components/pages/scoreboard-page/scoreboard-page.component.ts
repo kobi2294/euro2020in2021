@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { combineLatest, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Group } from 'src/app/models/group.model';
 import { UserTableRow } from 'src/app/models/user-table-row.model';
 import { AuthService } from 'src/app/services/auth.service';
 import { DataService } from 'src/app/services/data.service';
@@ -15,11 +13,11 @@ interface ViewModel {
 }
 
 @Component({
-  selector: 'app-scoreboard',
-  templateUrl: './scoreboard.component.html',
-  styleUrls: ['./scoreboard.component.scss']
+  selector: 'app-scoreboard-page',
+  templateUrl: './scoreboard-page.component.html',
+  styleUrls: ['./scoreboard-page.component.scss']
 })
-export class ScoreboardComponent implements OnInit {
+export class ScoreboardPageComponent implements OnInit {
   tableRows$!: Observable<UserTableRow[]>;
   pointsInBank$!: Observable<number>;
   me$!: Observable<string>;

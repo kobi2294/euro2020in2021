@@ -8,11 +8,11 @@ import { Group } from 'src/app/models/group.model';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
-  selector: 'app-join-group',
-  templateUrl: './join-group.component.html',
-  styleUrls: ['./join-group.component.scss']
+  selector: 'app-join-page-group',
+  templateUrl: './join-group-page.component.html',
+  styleUrls: ['./join-group-page.component.scss']
 })
-export class JoinGroupComponent implements OnInit {
+export class JoinGroupPageComponent implements OnInit {
   group$!: Observable<string>; 
 
   constructor(

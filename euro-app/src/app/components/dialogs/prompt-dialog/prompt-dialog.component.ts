@@ -9,14 +9,14 @@ export interface PromptInput {
 
 
 @Component({
-  selector: 'app-prompt',
-  templateUrl: './prompt.component.html',
-  styleUrls: ['./prompt.component.scss']
+  selector: 'app-prompt-dialog',
+  templateUrl: './prompt-dialog.component.html',
+  styleUrls: ['./prompt-dialog.component.scss']
 })
-export class PromptComponent implements OnInit {
+export class PromptDialogComponent implements OnInit {
 
   constructor(
-    private dialogRef: MatDialogRef<PromptComponent>, 
+    private dialogRef: MatDialogRef<PromptDialogComponent>, 
     @Inject(MAT_DIALOG_DATA) public data: PromptInput
   ) { }
 

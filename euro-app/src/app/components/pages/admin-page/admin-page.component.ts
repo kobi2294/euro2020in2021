@@ -12,14 +12,14 @@ import { DataService } from 'src/app/services/data.service';
 import { toLocalIsoString } from 'src/app/tools/dates';
 
 @Component({
-  selector: 'app-admin',
-  templateUrl: './admin.component.html',
-  styleUrls: ['./admin.component.scss'], 
+  selector: 'app-admin-page',
+  templateUrl: './admin-page.component.html',
+  styleUrls: ['./admin-page.component.scss'], 
   providers: [
     {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}
   ]
 })
-export class AdminComponent implements OnInit {
+export class AdminPageComponent implements OnInit {
   matches$!: Observable<Match[]>;
   readonly columns = ['id', 'stage', 'date', 'home', 'away', 'score'];
   readonly stages = STAGES;

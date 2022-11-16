@@ -1,32 +1,31 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AdminComponent } from './components/admin/admin.component';
-import { DataDeletionComponent } from './components/data-deletion/data-deletion.component';
-import { GuessesComponent } from './components/guesses/guesses.component';
-import { InfoComponent } from './components/info/info.component';
-import { HomeComponent } from './components/home/home.component';
-import { JoinGroupComponent } from './components/join-group/join-group.component';
-import { LegalComponent } from './components/legal/legal.component';
-import { LoginComponent } from './components/login/login.component';
-import { PrivacyComponent } from './components/privacy/privacy.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { RulesComponent } from './components/info/rules/rules.component';
-import { ScoreboardComponent } from './components/scoreboard/scoreboard.component';
+import { AdminPageComponent } from './components/pages/admin-page/admin-page.component';
+import { DataDeletionPageComponent } from './components/pages/data-deletion-page/data-deletion-page.component';
+import { GuessesPageComponent } from './components/pages/guesses-page/guesses-page.component';
+import { HomePageComponent } from './components/pages/home-page/home-page.component';
+import { InfoPageComponent } from './components/pages/info-page/info-page.component';
+import { JoinGroupPageComponent } from './components/pages/join-group-page/join-group-page.component';
+import { LegalPageComponent } from './components/pages/legal-page/legal-page.component';
+import { LoginPageComponent } from './components/pages/login-page/login-page.component';
+import { PrivacyPageComponent } from './components/pages/privacy-page/privacy-page.component';
+import { ProfilePageComponent } from './components/pages/profile-page/profile-page.component';
+import { ScoreboardPageComponent } from './components/pages/scoreboard-page/scoreboard-page.component';
 import { JoinGroupService } from './services/join-group.service';
 
 const routes: Routes = [
   {path: '', redirectTo: 'home', pathMatch: 'full'},
-  {path: 'group/:id', component:JoinGroupComponent, resolve: {group: JoinGroupService}},
-  {path: 'login', component: LoginComponent, data: {animationOrder: '0'}}, 
-  {path: 'home', component: HomeComponent, data: {animationOrder: '1'}}, 
-  {path: 'info', component: InfoComponent, data: {animationOrder: '2'}},
-  {path: 'scoreboard', component: ScoreboardComponent, data: {animationOrder: '3'}}, 
-  {path: 'guesses', component: GuessesComponent, data: {animationOrder: '4'}}, 
-  {path: 'profile', component: ProfileComponent, data: {animationOrder: '5'}}, 
-  {path: 'admin', component: AdminComponent, data: {animationOrder: '6'}}, 
-  {path: 'legal', component: LegalComponent }, 
-  {path: 'privacy', component: PrivacyComponent }, 
-  {path: 'datadel', component: DataDeletionComponent },
+  {path: 'group/:id', component:JoinGroupPageComponent, resolve: {group: JoinGroupService}},
+  {path: 'login', component: LoginPageComponent, data: {animationOrder: '0'}}, 
+  {path: 'home', component: HomePageComponent, data: {animationOrder: '1'}}, 
+  {path: 'info', component: InfoPageComponent, data: {animationOrder: '2'}},
+  {path: 'scoreboard', component: ScoreboardPageComponent, data: {animationOrder: '3'}}, 
+  {path: 'guesses', component: GuessesPageComponent, data: {animationOrder: '4'}}, 
+  {path: 'profile', component: ProfilePageComponent, data: {animationOrder: '5'}}, 
+  {path: 'admin', component: AdminPageComponent, data: {animationOrder: '6'}}, 
+  {path: 'legal', component: LegalPageComponent }, 
+  {path: 'privacy', component: PrivacyPageComponent }, 
+  {path: 'datadel', component: DataDeletionPageComponent },
 ];
 
 @NgModule({
