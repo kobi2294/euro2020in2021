@@ -1,14 +1,50 @@
 <h1>Info</h1>
 <div class="tabs">
-  <mat-tab-group>
+  <nav mat-tab-nav-bar>
+    <a
+      mat-tab-link
+      routerLink="rules"
+      routerLinkActive
+      #rla1="routerLinkActive"
+      [active]="rla1.isActive"
+    >
+      <mat-icon>thumb_up</mat-icon>
+      Rules
+    </a>
+    <a
+      mat-tab-link
+      routerLink="help"
+      routerLinkActive
+      #rla2="routerLinkActive"
+      [active]="rla2.isActive"
+    >
+    <mat-icon>help_outline</mat-icon>
+    Help
+</a>
+    <a
+      mat-tab-link
+      routerLink="contact"
+      routerLinkActive
+      #rla3="routerLinkActive"
+      [active]="rla3.isActive"
+    >
+    <mat-icon>mail_outline</mat-icon>
+    Contact
+</a>
+  </nav>
+
+  <div class="tab-content-wrapper">
+    <div class="tab-content">
+      <router-outlet></router-outlet>  
+    </div>
+  </div>
+
+  <!-- <mat-tab-group>
     <mat-tab>
-      <ng-template mat-tab-label>
-        <mat-icon>thumb_up</mat-icon>
-        Rules
-      </ng-template>
+      <ng-template mat-tab-label> </ng-template>
       <app-rules></app-rules>
     </mat-tab>
-  
+
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon>help_outline</mat-icon>
@@ -16,7 +52,7 @@
       </ng-template>
       <app-help></app-help>
     </mat-tab>
-  
+
     <mat-tab>
       <ng-template mat-tab-label>
         <mat-icon>mail_outline</mat-icon>
@@ -24,6 +60,5 @@
       </ng-template>
       <app-about-me></app-about-me>
     </mat-tab>
-  </mat-tab-group>
-  
+  </mat-tab-group> -->
 </div>
