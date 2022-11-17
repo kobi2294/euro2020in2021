@@ -1,0 +1,15 @@
+<ng-container *ngIf="comingUp$ | async as matches">
+    <ng-container *ngIf="matches.length > 0">
+        <app-content>
+            <h3>Coming UP!</h3>
+            <div class="match" *ngFor="let match of matches">
+                <app-country [name]="match.home"></app-country>
+                <div class="details">
+                    <div class="stage">{{match.stage}}</div>
+                    <div class="time">{{match.date | date:'MMM d HH:mm'}}</div>
+                </div>
+                <app-country [name]="match.away"></app-country>
+            </div>
+        </app-content>
+    </ng-container>
+</ng-container>

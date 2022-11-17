@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { combineLatest, Observable } from 'rxjs';
 import { map, tap } from 'rxjs/operators';
 import { PwaService } from 'src/app/services/pwa.service';
@@ -9,6 +9,9 @@ import { PwaService } from 'src/app/services/pwa.service';
   styleUrls: ['./pwa-message.component.scss']
 })
 export class PwaMessageComponent implements OnInit {
+
+  @Input()
+  minimized: boolean = false;
 
   showInstall$!: Observable<boolean>;
   showIos$!: Observable<boolean>;

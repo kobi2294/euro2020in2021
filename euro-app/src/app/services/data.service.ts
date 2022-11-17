@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { combineLatest, Observable, timer } from 'rxjs';
+import { combineLatest, interval, Observable, timer } from 'rxjs';
 import { debounceTime, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 import { Group } from '../models/group.model';
 import { Guess } from '../models/guess.model';
@@ -21,6 +21,10 @@ import { AuthService } from './auth.service';
 export class DataService {
   readonly myNextGuesses$!: Observable<MatchRecord[]>;
   readonly allMatches$!: Observable<Match[]>;
+
+  readonly recentMatches$!: Observable<Match[]>;
+  readonly comingUpMatches$!: Observable<Match[]>;
+
   readonly allScores$!: Observable<Score[]>;
   readonly allStages$!: Observable<Stage[]>;
   readonly pointsInBank$!: Observable<number>;
@@ -40,6 +44,16 @@ export class DataService {
     this.allMatches$ = this.db.collection<Match>('matches').valueChanges()
       .pipe(
         debounceTime(100),
+        shareReplay(1)
+      );
+
+    this.comingUpMatches$ = combineLatest([timer(0, 60000), this.allMatches$]) .pipe(
+        map(([_, all]) => this.nextMatches(all)), 
+        shareReplay(1)
+      );
+
+    this.recentMatches$ = combineLatest([timer(0, 60000), this.allMatches$]) .pipe(
+        map(([_, all]) => this.recentMatches(all)), 
         shareReplay(1)
       );
 
@@ -88,6 +102,33 @@ export class DataService {
       .sort((a, b) => a.date.valueOf() - b.date.valueOf());
   }
 
+  private nextMatches(allMatches: Match[]): Match[] {
+    const now = Date.now().valueOf();
+    const futureMatches = allMatches
+      .filter(m => new Date(m.date).valueOf() > now)
+      .filter(m => m.away && m.home)
+      .sort((a, b) => new Date(a.date).valueOf() - new Date(b.date).valueOf());
+
+      if (futureMatches.length === 0) return [];
+
+      const res = futureMatches.filter(m => m.date === futureMatches[0].date);
+      return res;
+  }
+
+  private recentMatches(allMatches: Match[]): Match[] {
+    const now = Date.now().valueOf();
+
+    const pastMatches = allMatches
+      .filter(m => new Date(m.date).valueOf() <= now)
+      .filter(m => m.away && m.home)
+      .sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf());
+    
+    if (pastMatches.length === 0) return [];
+
+    const res = pastMatches.filter(m => m.date === pastMatches[0].date);
+    return res;
+  }
+
   async ensureGroup(groupId: string) {
     let user = await this.auth.currentUser$.pipe(
       filterNotNull(),
@@ -109,6 +150,8 @@ export class DataService {
 
     await this.api.updateUser(user);
   }
+
+
 
 
 

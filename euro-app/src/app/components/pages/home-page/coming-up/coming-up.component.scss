@@ -1,0 +1,34 @@
+:host {
+    display: flex;
+    flex-direction: column;
+
+    app-content {
+        width: 100%;
+    }
+}
+
+
+.match {
+    align-self: center;
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+
+    .details {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 10px 20px;
+
+        .stage {
+            color: var(--p600);
+            font-size: 1.3em;
+        }
+
+        .time {
+            color: var(--p900);
+            font-size: 1.5em;
+        }
+    }
+}

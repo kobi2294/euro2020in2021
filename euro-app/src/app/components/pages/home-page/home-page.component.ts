@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { ExtendedScore } from 'src/app/models/extended-score.model';
 import { DataService } from 'src/app/services/data.service';
 import { SelectedGroupService } from 'src/app/services/selected-group.service';

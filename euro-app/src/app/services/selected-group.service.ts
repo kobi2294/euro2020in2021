@@ -1,7 +1,7 @@
 import { getInterpolationArgsLength } from '@angular/compiler/src/render3/view/util';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, interval, Observable } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { ExtendedScore } from '../models/extended-score.model';
 import { ExtendedUserScore } from '../models/extended-user-score.model';
@@ -35,6 +35,8 @@ export class SelectedGroupService {
   readonly selectedGroupExtendedScores$!: Observable<ExtendedScore[]>;
   readonly selectedGroupTable$!: Observable<UserTableRow[]>;
   readonly usersInSelectedGroup$!: Observable<User[]>;
+
+  readonly recentExtendedScore$!: Observable<ExtendedScore[]>;
 
   constructor(
     private auth: AuthService,
@@ -89,6 +91,12 @@ export class SelectedGroupService {
 
     this.selectedGroupExtendedScores$ = this.selectedGroupScores$.pipe(
       map(scores => scores.map(score => this.calcExtendedScore(score))), 
+      shareReplay(1)
+    );
+
+    this.recentExtendedScore$ = combineLatest([this.data.recentMatches$, this.selectedGroupExtendedScores$]).pipe
+    (
+      map(([matches, scores]) => scores.filter(s => matches.length > 0 && s.date === matches[0].date)), 
       shareReplay(1)
     );
 

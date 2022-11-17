@@ -1,31 +1,39 @@
 <app-content *ngIf="showMessage$ | async">
   <h3>Install application</h3>
   <p>
-    This web site runs better when installed on your device. The benfits are:
+    This web site runs better when installed on your device. 
   </p>
-  <ul>
-    <li>A shortcut icon on your home screen</li>
-    <li>avoid re-entering your username and password</li>
-    <li>Faster loading time</li>
-  </ul>
-  <button
-    class="install-button"
-    mat-raised-button
-    color="primary"
-    *ngIf="showInstall$ | async"
-    (click)="installLocally()"
-  >
-    Install Locally
-  </button>
 
-  <ng-container *ngIf="showIos$ | async">
-    <p>
-      To Install, click on the
-      <b>share <img class="share" src="assets/iosShare.jpg" /> icon</b>
-    </p>
-    <p>
-      Then select <b>Add To Home Screen</b>
-      <img class="add-to-home" src="assets/addtohome.png" />
-    </p>
+  <ng-container *ngIf="minimized">
+    <a routerLink="/info/help">Click here to see how to install it</a>
   </ng-container>
+  <ng-container *ngIf="!minimized">
+    <ul>
+      <li>A shortcut icon on your home screen</li>
+      <li>avoid re-entering your username and password</li>
+      <li>Faster loading time</li>
+    </ul>
+    <button
+      class="install-button"
+      mat-raised-button
+      color="primary"
+      *ngIf="showInstall$ | async"
+      (click)="installLocally()"
+    >
+      Install Locally
+    </button>
+  
+    <ng-container *ngIf="showIos$ | async">
+      <p>
+        To Install, click on the
+        <b>share <img class="share" src="assets/iosShare.jpg" /> icon</b>
+      </p>
+      <p>
+        Then select <b>Add To Home Screen</b>
+        <img class="add-to-home" src="assets/addtohome.png" />
+      </p>
+    </ng-container>
+  
+  </ng-container>
+
 </app-content>

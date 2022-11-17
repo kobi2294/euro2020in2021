@@ -53,6 +53,8 @@ import { AppUpdateService } from './services/app-update.service';
 import { MatchDetailsComponent } from './components/parts/match-details/match-details.component';
 import { ScoreTableComponent } from './components/pages/scoreboard-page/score-table/score-table.component';
 import { ScoreDetailsComponent } from './components/pages/scoreboard-page/score-details/score-details.component';
+import { RecentScoresComponent } from './components/pages/home-page/recent-scores/recent-scores.component';
+import { ComingUpComponent } from './components/pages/home-page/coming-up/coming-up.component';
 
 
 
@@ -101,6 +103,8 @@ if (!environment.production) {
     MatchDetailsComponent,
     ScoreTableComponent,
     ScoreDetailsComponent,
+    RecentScoresComponent,
+    ComingUpComponent,
   ],
   imports: [
     BrowserModule,

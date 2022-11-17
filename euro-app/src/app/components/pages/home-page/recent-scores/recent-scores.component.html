@@ -1,0 +1,5 @@
+<ng-container *ngIf="recentScores$ | async as scores">
+    <app-match-details *ngFor="let score of scores"
+        [score]="score"></app-match-details>
+
+</ng-container>
