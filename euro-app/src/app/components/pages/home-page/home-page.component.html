@@ -3,34 +3,28 @@
   <app-content>
     <h3>You are not in any group</h3>
     <p>
-      In order to play, you need to join at least one group. <mat-icon>group</mat-icon> Please contact one of the
+      In order to play, you need to join at least one group.
+      <mat-icon>group</mat-icon> Please contact one of the
       <i>group admins</i> and ask them to send <mat-icon>send</mat-icon> you an
       <strong>Invite Link</strong>
     </p>
     <p>
-      The <a routerLink="/info"><b>Info Page <mat-icon>info</mat-icon></b></a> will tell you more...
+      The
+      <a routerLink="/info"
+        ><b>Info Page <mat-icon>info</mat-icon></b></a
+      >
+      will tell you more...
     </p>
   </app-content>
 </ng-container>
 
 <ng-container *ngIf="hasGroups$ | async">
-  <ng-container *ngIf="hasScores$ | async">
-    <h1>
-      Latest Bets
-      <app-group-selector></app-group-selector>
-    </h1>
-    <app-pwa-message></app-pwa-message>
-
-    <div *ngFor="let score of scores$ | async">
-      <app-match-details [score]="score"></app-match-details>
-    </div>
-  </ng-container>
-  
-  <ng-container *ngIf="!(hasScores$ | async)">
-    <h1>Welcome to "You Betcha!"</h1> 
-    <app-pwa-message #pwa></app-pwa-message>
-    <div class="bg" [class.pwa]="pwa.showingMessage"><div>Scores will be presented here</div></div>
-  </ng-container>
-  
+  <h1>
+    Home
+    <app-group-selector></app-group-selector>
+  </h1>
+  <app-pwa-message #pwa></app-pwa-message>
+  <div class="bg" [class.pwa]="pwa.showingMessage">
+    <div>Scores will be presented here</div>
+  </div>
 </ng-container>
-

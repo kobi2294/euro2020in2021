@@ -13,6 +13,8 @@ import { LegalPageComponent } from './components/pages/legal-page/legal-page.com
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
 import { PrivacyPageComponent } from './components/pages/privacy-page/privacy-page.component';
 import { ProfilePageComponent } from './components/pages/profile-page/profile-page.component';
+import { ScoreDetailsComponent } from './components/pages/scoreboard-page/score-details/score-details.component';
+import { ScoreTableComponent } from './components/pages/scoreboard-page/score-table/score-table.component';
 import { ScoreboardPageComponent } from './components/pages/scoreboard-page/scoreboard-page.component';
 import { SuperPageComponent } from './components/pages/super-page/super-page.component';
 import { JoinGroupService } from './services/join-group.service';
@@ -24,11 +26,15 @@ const routes: Routes = [
   {path: 'home', component: HomePageComponent, data: {animationOrder: '1'}}, 
   {path: 'info', component: InfoPageComponent, data: {animationOrder: '2'}, children: [
     {path: '', redirectTo: 'rules', pathMatch: 'full'},
-    {path: 'rules', component: RulesComponent}, 
-    {path: 'help', component: HelpComponent}, 
-    {path: 'contact', component: AboutMeComponent}
+    {path: 'rules', component: RulesComponent, data: {animationOrder: '0'}}, 
+    {path: 'help', component: HelpComponent, data: {animationOrder: '1'}},
+    {path: 'contact', component: AboutMeComponent, data: {animationOrder: '2'}}
   ]},
-  {path: 'scoreboard', component: ScoreboardPageComponent, data: {animationOrder: '3'}}, 
+  {path: 'scoreboard', component: ScoreboardPageComponent, data: {animationOrder: '3'}, children: [
+    {path: '', redirectTo: 'table', pathMatch: 'full'},
+    {path: 'table', component: ScoreTableComponent, data: {animationOrder: '0'}}, 
+    {path: 'details', component: ScoreDetailsComponent, data: {animationOrder: '1'}}, 
+  ]}, 
   {path: 'guesses', component: GuessesPageComponent, data: {animationOrder: '4'}}, 
   {path: 'profile', component: ProfilePageComponent, data: {animationOrder: '5'}}, 
   {path: 'admin', component: AdminPageComponent, data: {animationOrder: '6'}}, 

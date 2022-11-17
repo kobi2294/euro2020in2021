@@ -11,23 +11,23 @@ import { SelectedGroupService } from 'src/app/services/selected-group.service';
   styleUrls: ['./home-page.component.scss']
 })
 export class HomePageComponent implements OnInit {
-  scores$!: Observable<ExtendedScore[]>;
+  // scores$!: Observable<ExtendedScore[]>;
 
-  hasScores$!: Observable<boolean>;
+  // hasScores$!: Observable<boolean>;
   hasGroups$!: Observable<boolean>;
 
   constructor(
     private groupService: SelectedGroupService, 
-    private data:DataService
+    // private data:DataService
   ) { }
 
   ngOnInit(): void {
     // now we need to reduce it to only the players in the current group
-    this.scores$ = this.groupService.selectedGroupExtendedScores$;
+    // this.scores$ = this.groupService.selectedGroupExtendedScores$;
 
-    this.hasScores$ = this.scores$.pipe(
-      map(all => all.length > 0)
-    );
+    // this.hasScores$ = this.scores$.pipe(
+    //   map(all => all.length > 0)
+    // );
 
     this.hasGroups$ = this.groupService.userHasGroups$;
 

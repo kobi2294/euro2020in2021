@@ -1,1 +1,3 @@
-<p>score-details works!</p>
+<ng-container *ngFor="let score of scores$ | async">
+  <app-match-details [score]="score"></app-match-details>
+</ng-container>
