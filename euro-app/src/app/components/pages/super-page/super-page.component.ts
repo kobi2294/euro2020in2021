@@ -15,8 +15,9 @@ interface GroupVm extends Group {
 
 interface ViewModel {
   readonly usersCount: number, 
+  readonly userlessGroupsCount: number,
   readonly groups: GroupVm[],
-  readonly grouplessUsers: User[]
+  readonly grouplessUsers: User[], 
 }
 
 @Component({
@@ -56,11 +57,13 @@ export class SuperPageComponent implements OnInit {
     );
 
     const grouplessUsers = users.filter(user => (user.groups ?? []).length === 0);
+    const userlessGroups = vmGroups.filter(g => g.users.length === 0);
 
     return {
       usersCount: users.length, 
       groups: vmGroups, 
-      grouplessUsers
+      grouplessUsers, 
+      userlessGroupsCount: userlessGroups.length
     }
   }
 
