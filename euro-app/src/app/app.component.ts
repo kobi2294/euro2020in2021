@@ -10,6 +10,7 @@ import { slideInAnimation } from './animations';
 import { User } from './models/user.model';
 import { RouteRulesService } from './services/route-rules.service';
 import { PwaService } from './services/pwa.service';
+import { AppUpdateService } from './services/app-update.service';
 
 @Component({
   selector: 'app-root',
@@ -20,11 +21,13 @@ import { PwaService } from './services/pwa.service';
 export class AppComponent implements OnInit {
   user$!: Observable<User | null>;
   hasRequired$!: Observable<boolean>;
+  isUpdating$!: Observable<string>;
 
   constructor(
     private authService: AuthService,
     private pwa: PwaService,
-    private routeRulesService: RouteRulesService
+    private routeRulesService: RouteRulesService, 
+    private updates: AppUpdateService
   ) {}
 
   ngOnInit(): void {
@@ -32,6 +35,8 @@ export class AppComponent implements OnInit {
     this.hasRequired$ = this.routeRulesService.required$.pipe(
       map((required) => required !== null)
     );
+
+    this.isUpdating$ = this.updates.isCheckingUpdates$;
   }
 
   prepareRoute(outlet: RouterOutlet) {
