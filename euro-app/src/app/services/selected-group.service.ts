@@ -83,15 +83,18 @@ export class SelectedGroupService {
 
     // now we need to reduce it to only the players in the current group
     this.selectedGroupScores$ = combineLatest([allScores$, this.selectedGroup$, mappedUsers$]).pipe(
-      map(([allScores, selectedGroup, users]) => this.scoresOfGroup(allScores, selectedGroup, users))
+      map(([allScores, selectedGroup, users]) => this.scoresOfGroup(allScores, selectedGroup, users)), 
+      shareReplay(1)
     );
 
     this.selectedGroupExtendedScores$ = this.selectedGroupScores$.pipe(
-      map(scores => scores.map(score => this.calcExtendedScore(score)))
+      map(scores => scores.map(score => this.calcExtendedScore(score))), 
+      shareReplay(1)
     );
 
     this.selectedGroupTable$ = combineLatest([this.selectedGroupExtendedScores$, this.usersInSelectedGroup$]).pipe(
-      map(([extendedScores, allUsers]) => this.calcGroupTable(extendedScores, allUsers))
+      map(([extendedScores, allUsers]) => this.calcGroupTable(extendedScores, allUsers)), 
+      shareReplay(1)
     );
   }
 

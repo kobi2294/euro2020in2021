@@ -1,3 +1,8 @@
-<ng-container *ngFor="let score of scores$ | async">
-  <app-match-details [score]="score"></app-match-details>
+<ng-container *ngIf="scores$ | async as scores">
+  <ng-container *ngFor="let score of scores">
+    <app-match-details [score]="score"></app-match-details>
+  </ng-container>
+  <ng-container *ngIf="scores.length === 0">
+    <div class="no-score">Score Details will be presented here when the tournament begins</div>
+  </ng-container>
 </ng-container>
