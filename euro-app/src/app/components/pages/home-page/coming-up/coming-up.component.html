@@ -3,15 +3,15 @@
         <app-content>
             <h3>
                 Coming UP!
-                <div class="time-remaining" *ngIf="remainingTime$| async as time">
+                <div class="time-remaining mat-elevation-z4" *ngIf="remainingTime$| async as time">
                     <div class="days box">
                         <div class="value">{{time.days}}</div>
                         <div class="label">Days</div>
-                    </div>
+                    </div>:
                     <div class="hours box">
                         <div class="value">{{time.hours}}</div>
                         <div class="label">Hrs</div>
-                    </div>
+                    </div>:
                     <div class="minutes box">
                         <div class="value">{{time.minutes}}</div>
                         <div class="label">Mins</div>
