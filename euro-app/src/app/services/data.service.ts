@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest, Observable, timer } from 'rxjs';
 import { debounceTime, map, shareReplay, switchMap, take, tap } from 'rxjs/operators';
 import { Group } from '../models/group.model';
 import { Guess } from '../models/guess.model';
@@ -19,7 +19,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class DataService {
-  readonly myMatchRecords$!: Observable<MatchRecord[]>;
+  readonly myNextGuesses$!: Observable<MatchRecord[]>;
   readonly allMatches$!: Observable<Match[]>;
   readonly allScores$!: Observable<Score[]>;
   readonly allStages$!: Observable<Stage[]>;
@@ -43,8 +43,8 @@ export class DataService {
         shareReplay(1)
       );
 
-    this.myMatchRecords$ = combineLatest([this.allMatches$, guesses$]).pipe(
-      map(([matches, guesses]) => this.createRecords(matches, guesses)), 
+    this.myNextGuesses$ = combineLatest([timer(0, 60000), this.allMatches$, guesses$]).pipe(
+      map(([_, matches, guesses]) => this.createRecords(matches, guesses)), 
       shareReplay(1)
     );
 
@@ -75,12 +75,16 @@ export class DataService {
 
 
   private createRecords(matches: Match[], guesses: NumberMapping<Guess>): MatchRecord[] {
+    let now = Date.now().valueOf();
+
     return matches
       .map<MatchRecord>(match => ({
         match: match,
         date: new Date(match.date),
         guess: guesses[match.id]
       }))
+      .filter(record => record.date.valueOf() > now)
+      .filter(record => record.match.home && record.match.away)
       .sort((a, b) => a.date.valueOf() - b.date.valueOf());
   }
 

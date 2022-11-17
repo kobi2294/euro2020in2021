@@ -10,30 +10,5 @@ h1 {
     justify-content: space-between;
 }
 
-.bg {
-    position: absolute;
-    width: calc(80% - 50px);
-    left: calc(10% + 25px);
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    font-size: min(10vw, 100px);
-    line-height: 1;
-
-    &.pwa {
-        position: relative;
-        width: unset;
-        left: under;
-        height: unset;
-        display: unset;
-    }
-    div {
-        display: flex;
-        color: var(--p500);
-        opacity: 0.35;
-    }
-}
 
 

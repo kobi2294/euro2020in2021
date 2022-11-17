@@ -25,13 +25,7 @@ export class GuessesPageComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    let now = Date.now().valueOf();
-
-    this.records$ = combineLatest([timer(0, 60000), this.data.myMatchRecords$]).pipe(
-      map(([_, records]) => records
-                    .filter(record => record.date.valueOf() > now)
-                    .filter(record => record.match.home && record.match.away))
-    );
+    this.records$ = this.data.myNextGuesses$;
   }
 
 
