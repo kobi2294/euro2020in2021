@@ -1,46 +1,44 @@
-import { ApplicationRef, Injectable, Injector, NgZone } from '@angular/core';
+import { ApplicationRef, Injectable, Injector } from '@angular/core';
 import { SwUpdate } from '@angular/service-worker';
-import { concat, interval, timer } from 'rxjs';
+import { timer } from 'rxjs';
 import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AppUpdateService {  
-  readonly ver = 3;
+  readonly ver = 5;
 
   constructor(
     private updates: SwUpdate, 
-    private ngZone: NgZone, 
-    private injector: Injector
     ) { }
 
   init() {
     if (!this.updates.isEnabled) return;
 
-    const appref = this.injector.get(ApplicationRef);
-    const stable$ = appref.isStable
-    .pipe(first(val => val === true))
-    .toPromise();
+    console.log('automatic updates enabled (1.4)');
 
-    stable$.then(() => {
-      this.updates.available.subscribe(async ev => {
-        await this.updates.activateUpdate();
-        document.location.reload();
+    this.updates.available.subscribe(async ev => {
+      console.log('updating version');
+      await this.updates.activateUpdate();
+      document.location.reload();
 
-      });
-
-      this.updates.unrecoverable.subscribe(async ev => {
-        await this.updates.activateUpdate();
-        document.location.reload();
-      });
-
-      timer(45000, 15 * 60 * 1000).subscribe(async () => {
-        try {
-          await this.updates.checkForUpdate();
-        } catch (err) {
-        }
-      })
     });
-  }
+
+    this.updates.unrecoverable.subscribe(async ev => {
+      await this.updates.activateUpdate();
+      document.location.reload();
+    });
+
+    timer(90000, 10 * 60 * 1000).subscribe(async () => {
+      try {
+        console.log('checking for update');
+        await this.updates.checkForUpdate();
+        console.log('checking completed');
+      } catch (err) {
+        console.log('error checking for update', err);
+      }
+    });
+
+}
 }
