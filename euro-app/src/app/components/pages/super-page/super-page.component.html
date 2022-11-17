@@ -3,8 +3,16 @@
   <app-content>
     <h2>Counters</h2>
     <ul>
-      <li><mat-icon>face</mat-icon>{{ vm.usersCount }} Users <span class="other-less">({{vm.grouplessUsers.length}} groupless)</span></li>
-      <li><mat-icon>group</mat-icon>{{ vm.groups.length }} Groups <span class="other-less">({{vm.userlessGroupsCount}} empty)</span></li>
+      <li>
+        <mat-icon>face</mat-icon>{{ vm.usersCount }} Users
+        <span class="other-less"
+          >({{ vm.grouplessUsers.length }} groupless)</span
+        >
+      </li>
+      <li>
+        <mat-icon>group</mat-icon>{{ vm.groups.length }} Groups
+        <span class="other-less">({{ vm.userlessGroupsCount }} empty)</span>
+      </li>
     </ul>
     <h2>Group Details</h2>
     <mat-card *ngFor="let group of vm.groups">
@@ -17,15 +25,22 @@
         </div>
 
         <div class="copy-link">
-            <button mat-icon-button (click)="copyGroupLink(group.id)">
-                <mat-icon>content_copy</mat-icon>
-            </button>
+          <button mat-icon-button (click)="copyGroupLink(group.id)">
+            <mat-icon>content_copy</mat-icon>
+          </button>
         </div>
       </mat-card-title>
       <mat-card-content>
         <div class="user" *ngFor="let user of group.users">
-          <mat-icon>face</mat-icon>
-          <span>{{ user.displayName }}</span>
+          <div class="user-name">
+            <mat-icon>face</mat-icon>
+            <span>{{ user.displayName }}</span>
+          </div>
+          <div class="copy-link">
+            <button mat-icon-button (click)="copyUserEmail(user)">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
         </div>
       </mat-card-content>
     </mat-card>
@@ -46,6 +61,5 @@
         </div>
       </mat-card-content>
     </mat-card>
-
   </app-content>
 </ng-container>

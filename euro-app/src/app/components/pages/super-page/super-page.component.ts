@@ -71,7 +71,12 @@ export class SuperPageComponent implements OnInit {
     const url = `${location.origin}/group/${groupId}`;
     console.log(url);
     this.clipboard.copy(url);
+  }
 
+  copyUserEmail(user: User) {
+    const email = user.email;
+    console.log(email);
+    this.clipboard.copy(email);
   }
 
 
