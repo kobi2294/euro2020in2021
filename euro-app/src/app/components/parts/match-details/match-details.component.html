@@ -1,0 +1,46 @@
+<mat-card *ngIf="score">
+    <mat-card-title
+      >{{ score.stage }}:
+      {{ score.date | date: "MMMM dd, HH:mm" }}</mat-card-title
+    >
+    <mat-card-content>
+      <div class="match-details">
+        <app-country [name]="score.home"></app-country>
+        <div class="match-final-score">
+          <div>{{ score.points }} points</div>
+          <div class="final-score">
+            {{ score.homeScore }} : {{ score.awayScore }}
+          </div>
+          <div class="details">
+            {{ score.correctGuess }}
+          </div>
+        </div>
+        <app-country [name]="score.away"></app-country>
+      </div>
+      <div class="user-guesses">
+        <div class="user" *ngFor="let userGuess of score.userScores">
+          <div class="user-name">{{ userGuess.displayName }}</div>
+          <div
+            class="user-guess"
+            [class.correct]="score.hasScore && userGuess.isCorrect"
+            [class.wrong]="score.hasScore && !userGuess.isCorrect"
+          >
+            <ng-container *ngIf="score.hasScore">
+              <mat-icon *ngIf="userGuess.isCorrect">check</mat-icon>
+              <mat-icon *ngIf="!userGuess.isCorrect">clear</mat-icon>
+            </ng-container>
+            {{ userGuess.guess ?? "---" }}
+
+            <ng-container *ngIf="userGuess.isCorrect">
+              ({{ userGuess.points }} points
+              <ng-container *ngIf="userGuess.isSolo">
+                <mat-icon color="accent"
+                  >new_releases</mat-icon
+                > </ng-container
+              >)
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>

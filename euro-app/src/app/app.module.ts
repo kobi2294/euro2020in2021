@@ -50,6 +50,9 @@ import { OnOffPendingButtonComponent } from './components/widgets/on-off-pending
 import { SpinnerComponent } from './components/widgets/spinner/spinner.component';
 import { SuperPageComponent } from './components/pages/super-page/super-page.component';
 import { AppUpdateService } from './services/app-update.service';
+import { MatchDetailsComponent } from './components/parts/match-details/match-details.component';
+import { ScoreTableComponent } from './components/pages/scoreboard-page/score-table/score-table.component';
+import { ScoreDetailsComponent } from './components/pages/scoreboard-page/score-details/score-details.component';
 
 
 
@@ -95,6 +98,9 @@ if (!environment.production) {
     GroupSelectorComponent,
     OnOffPendingButtonComponent,
     SpinnerComponent,
+    MatchDetailsComponent,
+    ScoreTableComponent,
+    ScoreDetailsComponent,
   ],
   imports: [
     BrowserModule,
