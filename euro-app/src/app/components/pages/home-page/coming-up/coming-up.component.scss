@@ -9,7 +9,7 @@
 
 
 .match {
-    align-self: center;
+    align-self: stretch;
     display: flex;
     flex-direction: row;
     margin: 10px;
@@ -20,15 +20,28 @@
         align-items: center;
         justify-content: center;
         margin: 10px 20px;
+        flex: 1;
 
         .stage {
             color: var(--p600);
-            font-size: 1.3em;
+            font-size: 1em;
+            font-weight: bold;
         }
 
         .time {
             color: var(--p900);
-            font-size: 1.5em;
+            font-size: 1em;        
         }
+
+        .guess {
+            font-size: 1.1em;
+            color: var(--s800);
+
+            &.no-guess {
+                color: var(--w800);
+                font-weight: bold;
+            }
+        }
+
     }
 }

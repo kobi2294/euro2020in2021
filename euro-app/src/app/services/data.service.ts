@@ -25,6 +25,7 @@ export class DataService {
   readonly recentMatches$!: Observable<Match[]>;
   readonly comingUpMatches$!: Observable<Match[]>;
 
+  readonly allUserGuesses$: Observable<NumberMapping<Guess>>;
   readonly allScores$!: Observable<Score[]>;
   readonly allStages$!: Observable<Stage[]>;
   readonly pointsInBank$!: Observable<number>;
@@ -35,7 +36,7 @@ export class DataService {
     private auth: AuthService, 
     private api: ApiService
   ) {
-    let guesses$ = this.auth.currentUser$.pipe(
+    this.allUserGuesses$ = this.auth.currentUser$.pipe(
       filterNotNull(),
       switchMap(user => this.db.collection('users').doc(user.email).collection<Guess>('guesses').valueChanges()), 
       map(guesses => toNumberMapping(guesses, guess => guess.matchId))
@@ -57,7 +58,7 @@ export class DataService {
         shareReplay(1)
       );
 
-    this.myNextGuesses$ = combineLatest([timer(0, 60000), this.allMatches$, guesses$]).pipe(
+    this.myNextGuesses$ = combineLatest([timer(0, 60000), this.allMatches$, this.allUserGuesses$]).pipe(
       map(([_, matches, guesses]) => this.createRecords(matches, guesses)), 
       shareReplay(1)
     );

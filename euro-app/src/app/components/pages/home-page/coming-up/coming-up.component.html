@@ -7,6 +7,14 @@
                 <div class="details">
                     <div class="stage">{{match.stage}}</div>
                     <div class="time">{{match.date | date:'MMM d HH:mm'}}</div>
+                    <div class="guess" [class.no-guess]="match.guess === null">
+                        <ng-container *ngIf="match.guess !== null">
+                            Your guess: {{match.guess}}
+                        </ng-container>
+                        <ng-container *ngIf="match.guess === null">
+                            You entered no guess
+                        </ng-container>
+                    </div>
                 </div>
                 <app-country [name]="match.away"></app-country>
             </div>

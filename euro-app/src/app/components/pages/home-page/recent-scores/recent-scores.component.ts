@@ -16,9 +16,7 @@ export class RecentScoresComponent implements OnInit {
   constructor(private selectedGroupService: SelectedGroupService) { }
 
   ngOnInit(): void {
-    this.recentScores$ = this.selectedGroupService.recentExtendedScore$.pipe(
-      tap(res => console.log('recent scores', res))
-    )
+    this.recentScores$ = this.selectedGroupService.recentExtendedScore$;
   }
 
 }
