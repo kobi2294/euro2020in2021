@@ -7,6 +7,36 @@
     }
 }
 
+h3 {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.time-remaining {
+    display: flex;
+    flex-direction: row;
+
+    .box {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 0px 4px;
+        padding: 2px;
+        border: 1px solid var(--w500);
+        background-color: var(--w100);
+
+        .value {
+            font-size: 0.8em;
+            line-height: 1;
+            color: var(--w700);
+        }
+        .label {
+            font-size: 0.5em;
+            line-height: 1;
+            color: var(--pc50);
+        }
+    }
+}
 
 .match {
     align-self: stretch;

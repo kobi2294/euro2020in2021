@@ -1,7 +1,23 @@
 <ng-container *ngIf="comingUp$ | async as matches">
     <ng-container *ngIf="matches.length > 0">
         <app-content>
-            <h3>Coming UP!</h3>
+            <h3>
+                Coming UP!
+                <div class="time-remaining" *ngIf="remainingTime$| async as time">
+                    <div class="days box">
+                        <div class="value">{{time.days}}</div>
+                        <div class="label">Days</div>
+                    </div>
+                    <div class="hours box">
+                        <div class="value">{{time.hours}}</div>
+                        <div class="label">Hrs</div>
+                    </div>
+                    <div class="minutes box">
+                        <div class="value">{{time.minutes}}</div>
+                        <div class="label">Mins</div>
+                    </div>
+                </div> 
+            </h3>
             <div class="match" *ngFor="let match of matches">
                 <app-country [name]="match.home"></app-country>
                 <div class="details">
