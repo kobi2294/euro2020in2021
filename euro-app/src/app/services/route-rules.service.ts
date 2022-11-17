@@ -30,8 +30,8 @@ export class RouteRulesService {
       map(([route, user]) => this.calcRequiredRoute(route, user))
     );
 
-    this.forbidden$ = this.authService.currentUser$.pipe(
-      map(user => this.calcForbiddenRoutes(user))
+    this.forbidden$ = combineLatest([this.authService.currentUser$, this.authService.isAdmin$, this.authService.isSuper$]).pipe(
+      map(([user, isAdmin, isSuper]) => this.calcForbiddenRoutes(user, isAdmin, isSuper))
     );
   }
 
@@ -56,7 +56,7 @@ export class RouteRulesService {
     return null;
   }
 
-  private calcForbiddenRoutes(user: User | null): UrlTree[] {
+  private calcForbiddenRoutes(user: User | null, isAdmin: boolean, isSuper: boolean): UrlTree[] {
     let res: UrlTree[] = [];
 
     if (user != null) {
@@ -69,12 +69,12 @@ export class RouteRulesService {
       const groupsCount = user.groups?.length ?? 0;
       if (groupsCount === 0) {
         res.push(this.router.createUrlTree(['guesses']));
-        if (!Boolean(user.super)) {
+        if (!isSuper) {
           res.push(this.router.createUrlTree(['scoreboard']));
         }
       }
 
-      if (!(Boolean(user.admin) || Boolean(user.super))) {
+      if (!isAdmin) {
         res.push(this.router.createUrlTree(['admin']));
       }
     }

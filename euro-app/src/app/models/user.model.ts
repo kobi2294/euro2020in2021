@@ -5,6 +5,4 @@ export interface User {
     displayName: string, 
     photoUrl: string, 
     groups?: string[], 
-    admin?: boolean, 
-    super?: boolean
 }

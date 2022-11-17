@@ -23,8 +23,8 @@ export class GroupSelectorComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.groups$ = combineLatest([this.auth.currentUser$, this.selectedGroupService.allGroups$]).pipe(
-      map(([user, groups]) => browseableGroups(user, groups))
+    this.groups$ = combineLatest([this.auth.currentUser$, this.auth.isSuper$, this.selectedGroupService.allGroups$]).pipe(
+      map(([user, isSuper, groups]) => browseableGroups(user, isSuper, groups))
     );
 
     this.selectedGroup$ = this.selectedGroupService.selectedGroup$; 

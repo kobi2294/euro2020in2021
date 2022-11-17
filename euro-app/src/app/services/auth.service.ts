@@ -46,7 +46,13 @@ export class AuthService {
     private router: Router,
     private api: ApiService
   ) {
-    this.currentFirebaseUser$ = this.afAuth.user.pipe();
+    this.currentFirebaseUser$ = this.afAuth.user;
+    
+    const claims$ = this.currentFirebaseUser$.pipe(
+      switchMap(u => u?.getIdTokenResult(true)??Promise.resolve(null)),
+      map(u => u?.claims??{}), 
+      shareReplay(1), 
+    );
 
     this.isInitializing$ = this.currentFirebaseUser$.pipe(
       map((_) => false),
@@ -74,11 +80,13 @@ export class AuthService {
 
     this.isLoggedIn$ = this.currentUser$.pipe(map((user) => user !== null));
 
-    this.isAdmin$ = this.currentUser$.pipe(
-      map((user) => Boolean(user?.admin) || Boolean(user?.super))
+    this.isAdmin$ = claims$.pipe(
+      map(claims => claims.admin || claims.super)
     );
 
-    this.isSuper$ = this.currentUser$.pipe(map((user) => Boolean(user?.super)));
+    this.isSuper$ = claims$.pipe(
+      map(claims => claims.super)
+    );
   }
 
   fixPhoto(user: User | null): User | null {

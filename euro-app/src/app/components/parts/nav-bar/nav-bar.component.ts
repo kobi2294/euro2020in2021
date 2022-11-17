@@ -31,8 +31,8 @@ export class NavBarComponent implements OnInit {
 
     this.isSuper$ = this.auth.isSuper$;
 
-    this.canSeeGroups$ = combineLatest([this.auth.currentUser$, this.groups.allGroups$]).pipe(
-      map(([user, groups]) => browseableGroups(user, groups).length > 0)
+    this.canSeeGroups$ = combineLatest([this.auth.currentUser$, this.auth.isSuper$, this.groups.allGroups$]).pipe(
+      map(([user, isSuper, groups]) => browseableGroups(user, isSuper, groups).length > 0)
     );
 
     this.canBet$ = this.auth.currentUser$.pipe(

@@ -46,8 +46,8 @@ export class SelectedGroupService {
       shareReplay(1)
     );
 
-    this.userGroups$ = combineLatest([this.auth.currentUser$, this.allGroups$]).pipe(
-      map(([user, allGroups]) => browseableGroups(user, allGroups))
+    this.userGroups$ = combineLatest([this.auth.currentUser$, this.auth.isSuper$, this.allGroups$]).pipe(
+      map(([user, isSuper, allGroups]) => browseableGroups(user, isSuper, allGroups))
     );
 
 
