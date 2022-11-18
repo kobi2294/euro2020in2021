@@ -56,8 +56,15 @@
       </mat-card-title>
       <mat-card-content>
         <div class="user" *ngFor="let user of vm.grouplessUsers">
-          <mat-icon>face</mat-icon>
-          <span>{{ user.displayName }}</span>
+          <div class="user-name">
+            <mat-icon>face</mat-icon>
+            <span>{{ user.displayName }}</span>
+          </div>
+          <div class="copy-link">
+            <button mat-icon-button (click)="copyUserEmail(user)">
+              <mat-icon>content_copy</mat-icon>
+            </button>
+          </div>
         </div>
       </mat-card-content>
     </mat-card>
