@@ -1,5 +1,12 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, interval, ReplaySubject, timer } from 'rxjs';
+import { environment } from 'src/environments/environment';
+
+export interface PwaDetails {
+  standalone: boolean;
+  agent: string;
+  version: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -10,6 +17,9 @@ export class PwaService {
 
   private _showIosMessage$ = new BehaviorSubject<boolean>(false);
   showIosMessage$ = this._showIosMessage$.asObservable();
+
+  private _details$ = new ReplaySubject<PwaDetails>(1);
+  details$ = this._details$.asObservable();
 
   private deferredPrompt: any = null;
 
@@ -34,6 +44,12 @@ export class PwaService {
     const userAgent = window.navigator.userAgent.toLowerCase();
     const isIos = /iphone|ipad|ipod/.test(userAgent);
     const isStandalone = ('standalone' in window.navigator) && ((window.navigator as any).standalone);
+
+    this._details$.next({
+      agent: userAgent, 
+      standalone: isStandalone, 
+      version: environment.version
+    });
 
     if (isIos && !isStandalone) {
       this._showIosMessage$.next(true);

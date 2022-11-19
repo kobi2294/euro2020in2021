@@ -12,7 +12,8 @@ export const environment = {
     messagingSenderId: "323146234038",
     appId: "1:323146234038:web:4f884bc036fea64d7c0e17"    
   }, 
-  httpBase: 'http://localhost:5001/euro2020at2021/us-central1'
+  httpBase: 'http://localhost:5001/euro2020at2021/us-central1', 
+  version: '1.8.0'
 };
 
 /*
