@@ -1,29 +1,36 @@
-<ng-container *ngIf="!(hasGroups$ | async)">
-  <h1>Welcome to "You Betcha!"</h1>
-  <app-content>
-    <h3>You are not in any group</h3>
-    <p>
-      In order to play, you need to join at least one group.
-      <mat-icon>group</mat-icon> Please contact one of the
-      <i>group admins</i> and ask them to send <mat-icon>send</mat-icon> you an
-      <strong>Invite Link</strong>
-    </p>
-    <p>
-      The
-      <a routerLink="/info"
-        ><b>Info Page <mat-icon>info</mat-icon></b></a
-      >
-      will tell you more...
-    </p>
-  </app-content>
-</ng-container>
+<div class="wait" *ngIf="userNull$ | async">
+  <h2>Please wait...</h2>
+  <app-spinner></app-spinner>
+</div>
+<ng-container *ngIf="!(userNull$ | async)">
+  <ng-container *ngIf="!(hasGroups$ | async)">
+    <h1>Welcome to "You Betcha!"</h1>
+    <app-content>
+      <h3>You are not in any group</h3>
+      <p>
+        In order to play, you need to join at least one group.
+        <mat-icon>group</mat-icon> Please contact one of the
+        <i>group admins</i> and ask them to send <mat-icon>send</mat-icon> you
+        an
+        <strong>Invite Link</strong>
+      </p>
+      <p>
+        The
+        <a routerLink="/info"
+          ><b>Info Page <mat-icon>info</mat-icon></b></a
+        >
+        will tell you more...
+      </p>
+    </app-content>
+  </ng-container>
 
-<ng-container *ngIf="hasGroups$ | async">
-  <h1>
-    Home
-    <app-group-selector></app-group-selector>
-  </h1>
-  <app-pwa-message [minimized]="true"></app-pwa-message>
-  <app-coming-up></app-coming-up>
-  <app-recent-scores></app-recent-scores>
+  <ng-container *ngIf="hasGroups$ | async">
+    <h1>
+      Home
+      <app-group-selector></app-group-selector>
+    </h1>
+    <app-pwa-message [minimized]="true"></app-pwa-message>
+    <app-coming-up></app-coming-up>
+    <app-recent-scores></app-recent-scores>
+  </ng-container>
 </ng-container>
