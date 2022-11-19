@@ -48,7 +48,7 @@ export class AppUpdateService {
     });
 
     if (!this.updates.isEnabled) return;
-    console.log('automatic updates enabled (1.6)');
+    console.log('automatic updates enabled (1.7)');
 
     this.updates.available.subscribe(async (ev) => {
       console.log('updating version');
