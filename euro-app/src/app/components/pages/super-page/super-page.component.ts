@@ -5,19 +5,26 @@ import { map } from 'rxjs/operators';
 import { Group } from 'src/app/models/group.model';
 import { User } from 'src/app/models/user.model';
 import { groupByString } from 'src/app/tools/group-by';
-import { toStringMapping } from 'src/app/tools/mappings';
+import { StringMapping, toStringMapping } from 'src/app/tools/mappings';
 import { selectMany } from 'src/app/tools/select-many';
 import { Clipboard } from '@angular/cdk/clipboard';
+import { SuperService } from 'src/app/services/super.service';
+import { Audit } from 'src/app/models/audit.model';
+
+interface UserVm extends User {
+  version: string, 
+  loggedLately: boolean
+}
 
 interface GroupVm extends Group {
-  readonly users: User[];
+  readonly users: UserVm[];
 }
 
 interface ViewModel {
   readonly usersCount: number, 
   readonly userlessGroupsCount: number,
   readonly groups: GroupVm[],
-  readonly grouplessUsers: User[], 
+  readonly grouplessUsers: UserVm[], 
 }
 
 @Component({
@@ -31,13 +38,15 @@ export class SuperPageComponent implements OnInit {
 
   constructor(
     private db: AngularFirestore, 
-    private clipboard: Clipboard
+    private clipboard: Clipboard, 
+    private superService: SuperService
   ) { }
 
   async ngOnInit() {
     const all$ =  [
       this.db.collection<User>('users').valueChanges(),
-      this.db.collection<Group>('groups').valueChanges()
+      this.db.collection<Group>('groups').valueChanges(), 
+      this.superService.userAudit$
     ] as const;
 
     this.vm$ = combineLatest([...all$]).pipe(
@@ -45,24 +54,30 @@ export class SuperPageComponent implements OnInit {
     );
   }
 
-  calcVm(users: User[], groups: Group[]): ViewModel {
+  calcVm(users: User[], groups: Group[], audit: StringMapping<Audit>): ViewModel {
     const pairs = selectMany(users, user => (user.groups??[]).map(group => ({user, group})));
     const groupsMap = toStringMapping(groups, gr => gr.id);
     const grouped = groupByString(pairs, pair => pair.group);
     const vmGroups: GroupVm[] = groups.map(
       g => ({
         ...g,
-        users: (grouped[g.id]??[]).map(pair => pair.user)
+        users: (grouped[g.id]??[])
+            .map(pair => pair.user)
+            .map(user => this.createUserVm(user, audit))
       })
     );
 
-    const grouplessUsers = users.filter(user => (user.groups ?? []).length === 0);
-    const userlessGroups = vmGroups.filter(g => g.users.length === 0);
+    const grouplessUsers = users
+      .filter(user => (user.groups ?? []).length === 0)
+      .map(u => this.createUserVm(u, audit));
+
+    const userlessGroups = vmGroups
+      .filter(g => g.users.length === 0);
 
     return {
       usersCount: users.length, 
       groups: vmGroups, 
-      grouplessUsers, 
+      grouplessUsers,
       userlessGroupsCount: userlessGroups.length
     }
   }
@@ -77,6 +92,19 @@ export class SuperPageComponent implements OnInit {
     const email = user.email;
     console.log(email);
     this.clipboard.copy(email);
+  }
+
+  createUserVm(user: User, audit: StringMapping<Audit>) : UserVm{
+    const auditRecord = audit[user.email];
+    const now = Date.now();
+
+    const LoggedLately = auditRecord && ((now - new Date(auditRecord.timestamp).valueOf()) < 60 * 60 * 1000);
+
+    return {
+      ...user, 
+      version: auditRecord?.version ?? '', 
+      loggedLately: LoggedLately
+    }
   }
 
 

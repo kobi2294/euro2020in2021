@@ -77,6 +77,10 @@ export class RouteRulesService {
       if (!isAdmin) {
         res.push(this.router.createUrlTree(['admin']));
       }
+
+      if (!isSuper) {
+        res.push(this.router.createUrlTree(['super']));
+      }
     }
 
     return res;
