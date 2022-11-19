@@ -41,7 +41,8 @@ export class AppUpdateService {
         standalone: details.standalone, 
         version: details.version, 
         displayName: user.displayName, 
-        email: user.email
+        email: user.email, 
+        timestamp: new Date().toString()
       };
 
       await this.db.collection<Audit>('audits').doc(audit.email).set(audit);

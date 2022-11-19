@@ -4,4 +4,5 @@ export interface Audit {
     readonly agent: string;
     readonly standalone: boolean;
     readonly version: string;
+    readonly timestamp: string;
 }
