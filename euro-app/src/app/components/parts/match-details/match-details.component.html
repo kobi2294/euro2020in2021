@@ -32,7 +32,7 @@
             {{ userGuess.guess ?? "---" }}
 
             <ng-container *ngIf="userGuess.isCorrect">
-              ({{ userGuess.points }} points
+              ({{ userGuess.points | number:'1.0-1' }} points
               <ng-container *ngIf="userGuess.isSolo">
                 <mat-icon color="accent"
                   >new_releases</mat-icon

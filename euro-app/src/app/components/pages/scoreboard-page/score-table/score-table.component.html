@@ -21,7 +21,7 @@
       <th mat-header-cell *matHeaderCellDef>Pts</th>
       <td mat-cell *matCellDef="let element">
         <div class="cell score">
-          {{ element.totalPoints | number }}
+          {{ element.totalPoints | number:'1.0-1' }}
         </div>
       </td>
     </ng-container>
