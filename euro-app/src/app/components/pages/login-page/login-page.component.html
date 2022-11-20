@@ -3,8 +3,8 @@
 <div class="main">
     <ng-container *ngIf="userNull$ | async">
         <h3>Please select a provider: </h3>
-        <div class="providers">
-            <img (click)="authenticateFacebook()" src="/assets/facebook.png">
+        <div class="providers">            
+            <!-- <img (click)="authenticateFacebook()" src="/assets/facebook.png"> -->
             <img (click)="authenticateGoogle()" src="/assets/Google.png">
             <img (click)="authenticateTwitter()" src="/assets/Twitter.png">
         </div>    

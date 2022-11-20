@@ -25,6 +25,7 @@ interface ViewModel {
   readonly userlessGroupsCount: number,
   readonly groups: GroupVm[],
   readonly grouplessUsers: UserVm[], 
+  readonly auditedCount: number;
 }
 
 @Component({
@@ -78,7 +79,8 @@ export class SuperPageComponent implements OnInit {
       usersCount: users.length, 
       groups: vmGroups, 
       grouplessUsers,
-      userlessGroupsCount: userlessGroups.length
+      userlessGroupsCount: userlessGroups.length, 
+      auditedCount: Object.keys(audit).length
     }
   }
 

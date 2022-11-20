@@ -10,9 +10,12 @@
         >
       </li>
       <li>
+        <mat-icon>assessment</mat-icon>{{vm.auditedCount}} Audits
+      </li>
+      <li>
         <mat-icon>group</mat-icon>{{ vm.groups.length }} Groups
         <span class="other-less">({{ vm.userlessGroupsCount }} empty)</span>
-      </li>
+      </li>      
     </ul>
     <h2>Group Details</h2>
     <mat-card *ngFor="let group of vm.groups">
