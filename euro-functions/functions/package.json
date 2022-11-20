@@ -9,7 +9,7 @@
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log",
     "go": "firebase emulators:start --import=data --export-on-exit=data",
-    "kill": "npx kill-port 5001,8080, 9099, 4400, 4000, 4500"
+    "kill": "npx kill-port 5001, 8080, 9099, 4400, 4000, 4500"
   },
   "engines": {
     "node": "10"

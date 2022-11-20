@@ -4,11 +4,14 @@ import { Match } from 'src/app/models/match.model';
 import { DataService } from 'src/app/services/data.service';
 import { GuessScore } from 'src/app/models/guess-score.model';
 import { Guess } from 'src/app/models/guess.model';
-import { NumberMapping } from 'src/app/tools/mappings';
+import { NumberMapping, StringMapping, toStringMapping } from 'src/app/tools/mappings';
 import { map } from 'rxjs/operators';
+import { selectMany } from 'src/app/tools/select-many';
+import { Stage } from 'src/app/models/stage.model';
 
 interface MatchViewModel extends Match {
   guess: string | null;
+  points: number;
 }
 
 interface TimeRemaining {
@@ -34,9 +37,11 @@ export class ComingUpComponent implements OnInit {
   ngOnInit(): void {
     const matches$ = this.data.comingUpMatches$;
 
+    const stages$ = this.data.allStages$;
+
     const allGuesses$ = this.data.allUserGuesses$;
 
-    this.comingUp$ = combineLatest([matches$, allGuesses$]).pipe(
+    this.comingUp$ = combineLatest([matches$, allGuesses$, stages$]).pipe(
       map(all => this.createViewModels(...all))
     );
 
@@ -46,10 +51,22 @@ export class ComingUpComponent implements OnInit {
 
   }
 
-  createViewModels(matches: Match[], guesses: NumberMapping<Guess>): MatchViewModel[] {
+  mapStagesByNames(stages: Stage[]): StringMapping<Stage> {
+    const byDisplayName = stages.map(s => [s.displayName, s] as const);
+    const byNames = selectMany(stages, s => (s.names??[]).map(n => [n, s] as const));
+
+    const allPairs = [...byDisplayName, ...byNames];
+    const res = toStringMapping(allPairs, p => p[0], p => p[1]);
+    return res;
+  }
+
+  createViewModels(matches: Match[], guesses: NumberMapping<Guess>, stages: Stage[]): MatchViewModel[] {
+    const stageMap = this.mapStagesByNames(stages);
+
     return matches.map(m => ({
       ...m, 
-      guess: this.calcGuess(m, guesses[m.id]?.score??null)
+      guess: this.calcGuess(m, guesses[m.id]?.score??null), 
+      points: stageMap[m.stage??'']?.points??0
     }));
   }
 

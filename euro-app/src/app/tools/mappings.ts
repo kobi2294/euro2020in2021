@@ -29,11 +29,15 @@ export function toNumberMapping<T>(data: T[], keySelector: (item: T) => number):
     return res;
 } 
 
-export function toStringMapping<T>(data: T[], keySelector: (item: T) => string): StringMapping<T> {
-    let res: StringMapping<T> = {};
+export function toStringMapping<T, K = T>(data: T[], 
+    keySelector: (item: T) => string, 
+    valueSelector?: (item: T) => K): StringMapping<K> {
+
+    let res: StringMapping<K> = {};
     data.forEach(item => {
         let key = keySelector(item);
-        res[key]=item;
+        res[key]= (valueSelector?.(item) ?? item) as K
     });
+
     return res;
 } 

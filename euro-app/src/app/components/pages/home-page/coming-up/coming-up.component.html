@@ -21,7 +21,7 @@
             <div class="match" *ngFor="let match of matches">
                 <app-country [name]="match.home"></app-country>
                 <div class="details">
-                    <div class="stage">{{match.stage}}</div>
+                    <span class="stage">{{match.stage}} <span class="points">({{match.points}} pts)</span></span>
                     <div class="time">{{match.date | date:'MMM d HH:mm'}}</div>
                     <div class="guess" [class.no-guess]="match.guess === null">
                         <ng-container *ngIf="match.guess !== null">

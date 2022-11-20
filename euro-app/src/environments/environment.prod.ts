@@ -9,5 +9,5 @@ export const environment = {
     appId: "1:323146234038:web:4f884bc036fea64d7c0e17"
   }, 
   httpBase: 'https://us-central1-euro2020at2021.cloudfunctions.net', 
-  version: '1.94'
+  version: '1.95'
 };

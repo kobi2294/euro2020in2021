@@ -68,6 +68,11 @@ h3 {
             color: var(--p600);
             font-size: 1em;
             font-weight: bold;
+
+            .points {
+                font-weight: normal;
+                color: var(--p400);
+            }
         }
 
         .time {
