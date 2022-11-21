@@ -1,4 +1,8 @@
 <ng-container *ngIf="(vm$ | async) as vm">
+  <div class="points mat-elevation-z8">
+    <div class="num">{{vm.tableRows.length}} <span class="label">Players</span></div>
+    <div class="num">{{ vm.pointsInBank }} <span class="label">Points Left</span></div>
+  </div>
   <table mat-table [dataSource]="vm.tableRows" class="mat-elevation-z8">
     <ng-container matColumnDef="index">
       <th mat-header-cell *matHeaderCellDef>No.</th>
@@ -49,10 +53,6 @@
     <tr mat-header-row *matHeaderRowDef="columns"></tr>
     <tr mat-row *matRowDef="let row; columns: columns" [class.me]="row.email === vm.me"></tr>
   </table>
-  <div class="points">
-    <div class="num">{{ vm.pointsInBank }}</div>
-    <div class="footer">points left</div>
-  </div>
 
 </ng-container>
 

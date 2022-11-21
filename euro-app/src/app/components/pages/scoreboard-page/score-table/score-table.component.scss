@@ -1,12 +1,10 @@
 mat-icon {
-    font-size: 36px;
-    color: var(--p400);
+  font-size: 36px;
+  color: var(--p400);
 }
-
 
 table {
   align-self: center;
-  margin: 8px;
   width: calc(100% - 16px);
   max-width: 600px;
 
@@ -22,15 +20,15 @@ table {
 
   .mat-row {
     .cell {
-      margin: 8px;
+      margin: 4px;
       font-size: 16px;
       display: flex;
       flex-direction: row;
       align-items: center;
 
       img {
-        width: 42px;
-        height: 42px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         cursor: pointer;
         border: 1px solid var(--p800);
@@ -55,22 +53,29 @@ table {
 } // table
 
 div.points {
-    align-self: center;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+  margin: 8px 0px 0px 0px;
+  width: calc(100% - 16px);
+  max-width: 600px;
+  background-color: var(--p500);
 
-    div.num {
-        color: var(--p900);
-        font-size: 32px;
+  div {
+    margin: 4px;
+    &.num {
+      display: flex;
+      flex-direction: row;
+      color: var(--pc500);
+      font-size: 18px;
+
+      .label {
+        margin-left: 8px;
+        font-size: 16px;
+        color: var(--pc500);
+        font-weight: normal;
+      }
     }
-    
-    div.footer {
-        color: var(--a700);
-        margin-top: 4px;
-    }
-    
+  }
 }
-
-
