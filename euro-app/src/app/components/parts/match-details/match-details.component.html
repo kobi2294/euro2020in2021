@@ -1,22 +1,73 @@
-<mat-card *ngIf="score">
-    <mat-card-title
-      >{{ score.stage }}:
-      {{ score.date | date: "MMMM dd, HH:mm" }}</mat-card-title
-    >
-    <mat-card-content>
-      <div class="match-details">
-        <app-country [name]="score.home"></app-country>
-        <div class="match-final-score">
-          <div>{{ score.points }} points</div>
-          <div class="final-score">
-            {{ score.homeScore }} : {{ score.awayScore }}
-          </div>
-          <div class="details">
-            {{ score.correctGuess }}
-          </div>
+<mat-card *ngIf="score$ | async as score">
+  <mat-card-title
+    >{{ score.stage }}:
+    {{ score.date | date: "MMMM dd, HH:mm" }}</mat-card-title
+  >
+  <mat-card-content>
+    <div class="match-details">
+      <app-country [name]="score.home"></app-country>
+      <div class="match-final-score">
+        <div>{{ score.points }} points</div>
+        <div class="final-score">
+          {{ score.homeScore }} : {{ score.awayScore }}
         </div>
-        <app-country [name]="score.away"></app-country>
+        <div class="details">
+          {{ score.correctGuess }}
+        </div>
       </div>
+      <app-country [name]="score.away"></app-country>
+    </div>
+    <ng-container *ngIf="canClose$ | async">
+      <button mat-button color="primary" (click)="forceExtend$.next(false)">
+        Close details
+      </button>
+    </ng-container>
+    <ng-container *ngIf="!(extended$ | async)">
+      <div class="summary" *ngIf="summary$ | async as summary">
+        <div class="guess" [class.correct]="summary.correct === 'home'">
+          <span class="label">Home: </span>
+          <span class="value">{{ summary.home }}</span>
+          <mat-icon *ngIf="summary.correct === 'home'">check</mat-icon>
+        </div>
+        <div class="guess" [class.correct]="summary.correct === 'tie'">
+          <span class="label">Tie: </span>
+          <span class="value">{{ summary.tie }}</span>
+          <mat-icon *ngIf="summary.correct === 'tie'">check</mat-icon>
+        </div>
+        <div class="guess" [class.correct]="summary.correct === 'away'">
+          <span class="label">Away: </span>
+          <span class="value">{{ summary.away }}</span>
+          <mat-icon *ngIf="summary.correct === 'away'">check</mat-icon>
+        </div>
+        <ng-container *ngIf="summary.correct && summary.correctCount !== null">
+          <div class="guess last">
+            <ng-container *ngIf="summary.correctCount === 1">
+              <mat-icon color="accent">new_releases</mat-icon> Solo guesser
+              earned
+              <span class="points">{{
+                summary.scorePerGuesser | number: "0.0-1"
+              }}</span>
+              Points
+            </ng-container>
+            <ng-container *ngIf="summary.correctCount > 1">
+              <mat-icon color="primary">check</mat-icon>
+              <span class="points">{{ summary.correctCount }}</span> Guessers
+              earned
+              <span class="points">{{
+                summary.scorePerGuesser | number: "0.0-1"
+              }}</span>
+              Points
+            </ng-container>
+          </div>
+        </ng-container>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!(extended$ | async)">
+      <button mat-button color="primary" (click)="forceExtend$.next(true)">
+        Click for details
+      </button>
+    </ng-container>
+    <ng-container *ngIf="extended$ | async">
       <div class="user-guesses">
         <div class="user" *ngFor="let userGuess of score.userScores">
           <div class="user-name">{{ userGuess.displayName }}</div>
@@ -32,15 +83,14 @@
             {{ userGuess.guess ?? "---" }}
 
             <ng-container *ngIf="userGuess.isCorrect">
-              ({{ userGuess.points | number:'1.0-1' }} points
+              ({{ userGuess.points | number: "1.0-1" }} points
               <ng-container *ngIf="userGuess.isSolo">
-                <mat-icon color="accent"
-                  >new_releases</mat-icon
-                > </ng-container
+                <mat-icon color="accent">new_releases</mat-icon> </ng-container
               >)
             </ng-container>
           </div>
         </div>
       </div>
-    </mat-card-content>
-  </mat-card>
+    </ng-container>
+  </mat-card-content>
+</mat-card>
