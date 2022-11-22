@@ -32,7 +32,7 @@ export class AppUpdateService {
 
     console.log('init combine latest');
     combineLatest([
-      timer(0, 60 * 60 * 1000),
+      timer(0, 10 * 60 * 1000),
       user$,
       this.pwa.details$,
     ]).subscribe(async ([_, user, details]) => {
