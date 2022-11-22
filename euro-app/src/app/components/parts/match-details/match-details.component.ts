@@ -16,6 +16,11 @@ interface Summary {
   scorePerGuesser: number | null
 }
 
+interface Statistics extends ScoreGuessCount {
+  sum: number;
+  gridTemplate: string;
+}
+
 @Component({
   selector: 'app-match-details',
   templateUrl: './match-details.component.html',
@@ -33,7 +38,7 @@ export class MatchDetailsComponent implements OnInit {
 
   canClose$!: Observable<boolean>;
 
-  statistics$!: Observable<ScoreGuessCount | null>;
+  statistics$!: Observable<Statistics | null>;
 
 
   @Input()
@@ -62,11 +67,11 @@ export class MatchDetailsComponent implements OnInit {
     );
 
     this.statistics$ = this.score$.pipe(
-      map(score => this.normalizeCounts(score?.guessCount ?? null))
+      map(score => this.calcStatistics(score?.guessCount ?? null))
     );
   }
 
-  normalizeCounts(counts: ScoreGuessCount | null): ScoreGuessCount | null {
+  calcStatistics(counts: ScoreGuessCount | null): Statistics | null {
     if (!counts) return null;
     const sum = counts.home + counts.tie + counts.away;
     if (sum === 0) return null;
@@ -74,7 +79,9 @@ export class MatchDetailsComponent implements OnInit {
     return {
       home: counts.home / sum, 
       tie: counts.tie / sum, 
-      away: counts.away / sum
+      away: counts.away / sum, 
+      sum, 
+      gridTemplate: `${counts.home}fr ${counts.tie}fr ${counts.away}fr`
     }
   }
 

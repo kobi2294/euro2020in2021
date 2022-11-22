@@ -6,17 +6,13 @@ import firebase from 'firebase/app';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import {
   combineLatest,
-  CombineLatestSubscriber,
 } from 'rxjs/internal/observable/combineLatest';
 import {
   map,
   shareReplay,
   startWith,
   switchMap,
-  take,
-  tap,
 } from 'rxjs/operators';
-import { Group } from '../models/group.model';
 import { User } from '../models/user.model';
 import { filterNotUndefined } from '../tools/is-not-null';
 import { ApiService } from './api.service';
