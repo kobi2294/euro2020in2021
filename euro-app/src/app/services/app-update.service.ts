@@ -3,6 +3,7 @@ import { AngularFirestore } from '@angular/fire/firestore';
 import { SwUpdate } from '@angular/service-worker';
 import { BehaviorSubject, combineLatest, timer } from 'rxjs';
 import { filter, first, shareReplay } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 import { Audit } from '../models/audit.model';
 import { User } from '../models/user.model';
 import { AuthService } from './auth.service';
@@ -30,16 +31,15 @@ export class AppUpdateService {
       shareReplay(1)
     );
 
-    console.log('init combine latest');
     combineLatest([
-      timer(0, 10 * 60 * 1000),
+      timer(15000, 120 * 60 * 1000),
       user$,
       this.pwa.details$,
     ]).subscribe(async ([_, user, details]) => {
       const audit: Audit = {
         agent: details.agent, 
         standalone: details.standalone, 
-        version: details.version, 
+        version: environment.version, 
         displayName: user.displayName, 
         email: user.email, 
         timestamp: new Date().toString()
