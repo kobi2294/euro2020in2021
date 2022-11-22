@@ -10,6 +10,7 @@ import { selectMany } from 'src/app/tools/select-many';
 import { Clipboard } from '@angular/cdk/clipboard';
 import { SuperService } from 'src/app/services/super.service';
 import { Audit } from 'src/app/models/audit.model';
+import { environment } from 'src/environments/environment';
 
 interface UserVm extends User {
   version: string, 
@@ -26,6 +27,7 @@ interface ViewModel {
   readonly groups: GroupVm[],
   readonly grouplessUsers: UserVm[], 
   readonly auditedCount: number;
+  readonly latestVersionCount: number;
 }
 
 @Component({
@@ -75,12 +77,18 @@ export class SuperPageComponent implements OnInit {
     const userlessGroups = vmGroups
       .filter(g => g.users.length === 0);
 
+    const latestVersionCount = Object
+      .values(audit)
+      .filter(a => a.version === environment.version)
+      .length;
+
     return {
       usersCount: users.length, 
       groups: vmGroups, 
       grouplessUsers,
       userlessGroupsCount: userlessGroups.length, 
-      auditedCount: Object.keys(audit).length
+      auditedCount: Object.keys(audit).length, 
+      latestVersionCount
     }
   }
 

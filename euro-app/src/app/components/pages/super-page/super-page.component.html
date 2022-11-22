@@ -11,6 +11,9 @@
       </li>
       <li>
         <mat-icon>assessment</mat-icon>{{vm.auditedCount}} Audits
+        <span class="other-less">
+          ({{ vm.latestVersionCount }} latest version)
+        </span>
       </li>
       <li>
         <mat-icon>group</mat-icon>{{ vm.groups.length }} Groups
