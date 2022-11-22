@@ -3,6 +3,7 @@ import { BehaviorSubject, combineLatest, Observable, ReplaySubject } from 'rxjs'
 import { distinctUntilChanged, map } from 'rxjs/operators';
 import { ExtendedScore } from 'src/app/models/extended-score.model';
 import { GuessScore } from 'src/app/models/guess-score.model';
+import { ScoreGuessCount } from 'src/app/models/score.model';
 import { count } from 'src/app/tools/count';
 
 interface Summary {
@@ -32,6 +33,8 @@ export class MatchDetailsComponent implements OnInit {
 
   canClose$!: Observable<boolean>;
 
+  statistics$!: Observable<ScoreGuessCount | null>;
+
 
   @Input()
   set score(value: ExtendedScore| null) {
@@ -57,6 +60,22 @@ export class MatchDetailsComponent implements OnInit {
     this.summary$ = this.score$.pipe(
       map(score => this.createSummary(score))
     );
+
+    this.statistics$ = this.score$.pipe(
+      map(score => this.normalizeCounts(score?.guessCount ?? null))
+    );
+  }
+
+  normalizeCounts(counts: ScoreGuessCount | null): ScoreGuessCount | null {
+    if (!counts) return null;
+    const sum = counts.home + counts.tie + counts.away;
+    if (sum === 0) return null;
+
+    return {
+      home: counts.home / sum, 
+      tie: counts.tie / sum, 
+      away: counts.away / sum
+    }
   }
 
   createSummary(score: ExtendedScore | null): Summary {
@@ -93,8 +112,6 @@ export class MatchDetailsComponent implements OnInit {
         totalPoints, 
         scorePerGuesser
       }
-
-
   }
 
 }

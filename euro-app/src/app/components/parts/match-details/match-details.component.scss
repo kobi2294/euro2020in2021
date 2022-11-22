@@ -74,6 +74,9 @@ mat-card {
         display: flex;
         flex-direction: row;
         border-top: 1px solid var(--p100);
+        max-width: 350px;
+        align-self: center;
+        width: 100%;
 
         .item {
           flex: 1;
