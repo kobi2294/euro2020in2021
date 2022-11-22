@@ -1,7 +1,6 @@
-import { getInterpolationArgsLength } from '@angular/compiler/src/render3/view/util';
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
-import { BehaviorSubject, combineLatest, interval, Observable } from 'rxjs';
+import { BehaviorSubject, combineLatest, Observable } from 'rxjs';
 import { map, shareReplay, switchMap } from 'rxjs/operators';
 import { ExtendedScore } from '../models/extended-score.model';
 import { ExtendedUserScore } from '../models/extended-user-score.model';
@@ -164,7 +163,7 @@ export class SelectedGroupService {
           isCorrect: isCorrect(us.guess),
           points: isCorrect(us.guess) ? pointPerCorrect : 0,
           isSolo: isCorrect(us.guess) ? isSolo : false
-        }))
+        }))      
     }
 
     return res;

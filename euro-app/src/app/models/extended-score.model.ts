@@ -1,6 +1,7 @@
 import { CountryEnum } from "./country-enum.model";
 import { ExtendedUserScore } from "./extended-user-score.model";
 import { GuessScore } from "./guess-score.model";
+import { ScoreGuessCount } from "./score.model";
 
 export interface ExtendedScore {
     id: number;
@@ -15,4 +16,5 @@ export interface ExtendedScore {
     hasScore: boolean;
     correctGuessesCount: number;
     userScores: ExtendedUserScore[];
+    guessCount: ScoreGuessCount;
 }

@@ -1,7 +1,8 @@
-import { StringMapping } from "../tools/mappings";
 import { CountryEnum } from "./country-enum.model";
 import { GuessScore } from "./guess-score.model";
 import { UserMatchScore } from "./user-match-score.model";
+
+export type ScoreGuessCount = {[key in GuessScore]: number};
 
 export interface Score {
     id: number;
@@ -14,4 +15,5 @@ export interface Score {
     correctGuess: GuessScore | null;
     points: number;
     userScores: UserMatchScore[];
+    guessCount: ScoreGuessCount;
 }

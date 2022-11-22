@@ -55,38 +55,83 @@ mat-card {
     } // .match-details
 
     .summary {
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+      display: flex;
+      flex-direction: column;
       font-size: 16px;
       align-self: stretch;
       margin: 8px;
       padding: 2px;
 
-      .guess {
-        margin-left: 12px;
+      &>div {
+        border-bottom: 1px solid var(--p100);
+
+        &:last-child {
+          border-color: transparent;
+        }
+      }
+
+      .group-distribution {
         display: flex;
         flex-direction: row;
-        align-items: center;
+        border-top: 1px solid var(--p100);
 
-        .label {
-            margin-right: 6px;
+        .item {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 2px 0px;
+          border-right: 1px solid var(--p100);
+          background-color: var(--p50);
+
+          &:first-child {
+            border-left: 1px solid var(--p100);
+          }
+
+          &.correct {
+            color: var(--p500);
+            background-color: var(--p100);
+          }
+
+          .value {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            position: relative;
+            line-height: 1;
+
+            mat-icon {
+              font-size: 16px;
+              position: absolute;
+              top: -2px;
+              left: -25px;
+            }
+          }
+
+          .label {
+            font-size: 0.8em;
+            line-height: 1;
+          }
+        }
+      } // .group-distribution
+
+      .bottom-line {
+        display: block;
+        text-align: center;
+
+        mat-icon {
+          position: relative;
+          top: 6px;
+          margin: 0;
         }
 
         .points {
-            font-weight: bold;
-            margin: 0px 6px;
-            color: var(--p500);
-        }
-
-        &.correct {
           color: var(--p500);
           font-weight: bold;
         }
-        &.last {
-            grid-column: 1/-1;
-            border-top: 1px solid var(--p200);
-        }
-      }
+
+      } // .bottom-line
+
     } // .summary
 
     .user-guesses {

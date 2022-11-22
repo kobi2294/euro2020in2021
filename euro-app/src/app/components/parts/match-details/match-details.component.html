@@ -24,23 +24,31 @@
     </ng-container>
     <ng-container *ngIf="!(extended$ | async)">
       <div class="summary" *ngIf="summary$ | async as summary">
-        <div class="guess" [class.correct]="summary.correct === 'home'">
-          <span class="label">Home: </span>
-          <span class="value">{{ summary.home }}</span>
-          <mat-icon *ngIf="summary.correct === 'home'">check</mat-icon>
-        </div>
-        <div class="guess" [class.correct]="summary.correct === 'tie'">
-          <span class="label">Tie: </span>
-          <span class="value">{{ summary.tie }}</span>
-          <mat-icon *ngIf="summary.correct === 'tie'">check</mat-icon>
-        </div>
-        <div class="guess" [class.correct]="summary.correct === 'away'">
-          <span class="label">Away: </span>
-          <span class="value">{{ summary.away }}</span>
-          <mat-icon *ngIf="summary.correct === 'away'">check</mat-icon>
+        <div class="group-distribution">
+          <div class="item" [class.correct]="summary.correct === 'home'">
+            <div class="value">
+              <mat-icon *ngIf="summary.correct === 'home'">check</mat-icon>
+              {{ summary.home }}
+            </div>
+            <div class="label">Home</div>
+          </div>
+          <div class="item" [class.correct]="summary.correct === 'tie'">
+            <div class="value">
+              <mat-icon *ngIf="summary.correct === 'tie'">check</mat-icon
+              >{{ summary.tie }}
+              </div>
+            <div class="label">Tie</div>
+          </div>
+          <div class="item" [class.correct]="summary.correct === 'away'">
+            <div class="value">
+              <mat-icon *ngIf="summary.correct === 'away'">check</mat-icon
+              >{{ summary.away }}
+            </div>
+            <div class="label">Away</div>
+          </div>
         </div>
         <ng-container *ngIf="summary.correct && summary.correctCount !== null">
-          <div class="guess last">
+          <div class="bottom-line">
             <ng-container *ngIf="summary.correctCount === 1">
               <mat-icon color="accent">new_releases</mat-icon> Solo guesser
               earned
@@ -56,7 +64,7 @@
               <span class="points">{{
                 summary.scorePerGuesser | number: "0.0-1"
               }}</span>
-              Points
+              Points each.
             </ng-container>
           </div>
         </ng-container>
