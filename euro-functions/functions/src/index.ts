@@ -118,7 +118,8 @@ api.post('/users/guesses', async (req, res) => {
     res.status(200).send();
 });
 
-openApi.get('/triggerPublish', async (req, res) => {
+openApi
+.get('/triggerPublish', async (req, res) => {
     await publishScoresOfPastMatches();
     res.status(200).send();
 });
@@ -151,13 +152,18 @@ export const createUserRecord = functions.auth.user().onCreate(async user => {
             }
 });
 
-export const publishScores = functions.pubsub.schedule('01 * * * *').onRun(async context => {
+export const publishScores = functions
+.runWith({
+    memory: "2GB"
+})
+.pubsub.schedule('01 * * * *').onRun(async context => {
     await publishScoresOfPastMatches();
 });
 
 
-
-
 exports.api = functions.https.onRequest(api);
-exports.openApi = functions.https.onRequest(openApi);
+exports.openApi = functions.runWith({
+    memory: "2GB"
+})
+.https.onRequest(openApi);
 exports.crawl = functions.https.onRequest(crawl);
