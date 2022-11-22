@@ -46,6 +46,12 @@ export async function calcScore(match: Match, users: User[], stages: Stage[]): P
         }))
         .sort((a, b) => b.displayName > a.displayName ? 1 : -1);
 
+    let homeGuesses = userScores.filter(us => us.guess === 'home').length;
+    let awayGuesses = userScores.filter(us => us.guess === 'away').length;
+    let tieGuesses = userScores.filter(us => us.guess === 'tie').length;
+
+        console.log('calculating score the new way');
+
     return {
         id: match.id,
         date: match.date,
@@ -56,7 +62,12 @@ export async function calcScore(match: Match, users: User[], stages: Stage[]): P
         homeScore: match.homeScore??null,
         correctGuess: calcCorrectGuess(match),
         points: points,
-        userScores: userScores
+        userScores: userScores, 
+        guessCount: {
+            home: homeGuesses, 
+            away: awayGuesses, 
+            tie: tieGuesses
+        }
     }
 }
 
