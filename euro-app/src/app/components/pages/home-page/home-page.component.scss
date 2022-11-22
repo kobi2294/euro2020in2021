@@ -17,6 +17,22 @@ h1 {
     justify-content: space-between;
 }
 
+h3 {
+    color: var(--p400);
+    font-size: 1.8em;
+    border-bottom: 1px solid var(--p500);
+    margin-bottom: 2px;
+    margin-top: 8px;
+    width: calc(100% - 20px);
+    max-width: 450px;
+}
+
+app-coming-up {
+    width: calc(100%-16px);
+    width: 100%;
+
+}
+
 app-recent-scores {
     width: calc(100% - 16px);
     max-width: 450px;
