@@ -4,8 +4,9 @@ import { environment } from 'src/environments/environment';
 
 export interface PwaDetails {
   standalone: boolean;
+  displayModeStandalone: boolean;
   agent: string;
-  version: string;
+  version: string;  
 }
 
 @Injectable({
@@ -44,11 +45,13 @@ export class PwaService {
     const userAgent = window.navigator.userAgent.toLowerCase();
     const isIos = /iphone|ipad|ipod/.test(userAgent);
     const isStandalone = ('standalone' in window.navigator) && ((window.navigator as any).standalone);
+    const displayModeStandalone = window?.matchMedia('(display-mode: standalone)')?.matches ?? false;
 
     this._details$.next({
       agent: userAgent, 
       standalone: isStandalone, 
-      version: environment.version
+      version: environment.version, 
+      displayModeStandalone
     });
 
     if (isIos && !isStandalone) {

@@ -39,6 +39,7 @@ export class AppUpdateService {
       const audit: Audit = {
         agent: details.agent, 
         standalone: details.standalone, 
+        displayModeStandalone: details.displayModeStandalone,
         version: environment.version, 
         displayName: user.displayName, 
         email: user.email, 

@@ -3,6 +3,7 @@ export interface Audit {
     readonly displayName: string;
     readonly agent: string;
     readonly standalone: boolean;
+    readonly displayModeStandalone: boolean;
     readonly version: string;
     readonly timestamp: string;
 }
