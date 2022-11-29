@@ -5,7 +5,13 @@
         <a routerLink="scoreboard" routerLinkActive="active"><mat-icon>list_alt</mat-icon>Scores</a>
     </ng-container>
     <ng-container *ngIf="canBet$ | async">
-        <a routerLink="guesses" routerLinkActive="active"><mat-icon>edit</mat-icon>Guesses</a>    
+        <a routerLink="guesses" routerLinkActive="active">
+            <mat-icon 
+                [matBadge]="emptyGuessesBadge$ | async" matBadgeColor="warn"
+                [matBadgeHidden]="(hideBadge$ | async)" matBadgeSize="large"
+
+                >edit</mat-icon>Guesses
+        </a>
     </ng-container>
     <a routerLink="profile" routerLinkActive="active"><mat-icon>group</mat-icon>Profile</a>
     <ng-container *ngIf="isAdmin$ | async">

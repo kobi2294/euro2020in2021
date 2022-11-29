@@ -21,8 +21,13 @@ export class NavBarComponent implements OnInit {
 
   canBet$!: Observable<boolean>;
 
+  emptyGuessesBadge$!: Observable<number>;
+
+  hideBadge$!: Observable<boolean>;
+
   constructor(
     private auth: AuthService, 
+    private data: DataService,
     private groups: SelectedGroupService
     ) { }
 
@@ -38,8 +43,15 @@ export class NavBarComponent implements OnInit {
     this.canBet$ = this.auth.currentUser$.pipe(
       map(user => (user?.groups??[]).length > 0 )
     );
-    
 
+    this.emptyGuessesBadge$ = this.data.myNextGuesses$.pipe(
+      map(guesses => (guesses ??[]).filter(g => !g.guess).length)
+    );
+
+    this.hideBadge$ = this.emptyGuessesBadge$.pipe(
+      map(c => !c)
+    );
+    
   }
 
 }

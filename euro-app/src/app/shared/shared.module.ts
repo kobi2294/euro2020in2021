@@ -13,6 +13,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatBadgeModule } from '@angular/material/badge';
 
 const exportables = [
   MatIconModule,
@@ -28,6 +29,7 @@ const exportables = [
   MatMenuModule,
   MatTabsModule,
   MatDialogModule,
+  MatBadgeModule
 ];
 
 @NgModule({
