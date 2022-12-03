@@ -7,6 +7,38 @@
     }
 }
 
+.alert {
+    display: flex;
+    flex-direction: column;
+    color: var(--as50);
+    font-size: 1.2em; 
+    background-color: var(--s50);  
+    padding: 4px; 
+    border: 1px solid var(--s700);
+    margin-bottom: 4px;
+    border-radius: 4px;
+    
+    .title {
+        background-color: var(--s700);
+        color: var(--ac700);
+        margin: -4px;
+        padding: 2px;
+        margin-bottom: 2px;
+    }
+
+    div {
+        margin: 3px 0px;
+        display: block;
+
+        strong {
+            font-weight: normal;
+            color: var(--s700);
+            text-decoration: underline var(--s400);
+        }
+    }
+
+}
+
 h3 {
     display: flex;
     flex-direction: row;

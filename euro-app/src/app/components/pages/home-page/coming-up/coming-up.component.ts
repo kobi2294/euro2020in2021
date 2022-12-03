@@ -8,6 +8,7 @@ import { NumberMapping, StringMapping, toStringMapping } from 'src/app/tools/map
 import { map } from 'rxjs/operators';
 import { selectMany } from 'src/app/tools/select-many';
 import { Stage } from 'src/app/models/stage.model';
+import { StageEnum } from 'src/app/models/stage-enum.model';
 
 interface MatchViewModel extends Match {
   guess: string | null;
@@ -20,6 +21,12 @@ interface TimeRemaining {
   minutes: number;
 }
 
+interface Alert {
+  isKnockout: boolean;
+  stage: StageEnum;
+  points: number;
+}
+
 @Component({
   selector: 'app-coming-up',
   templateUrl: './coming-up.component.html',
@@ -29,6 +36,8 @@ export class ComingUpComponent implements OnInit {
   comingUp$!: Observable<MatchViewModel[]>;
 
   remainingTime$!: Observable<TimeRemaining>;
+
+  alert$!: Observable<Alert | null>;
 
 
 
@@ -49,6 +58,10 @@ export class ComingUpComponent implements OnInit {
       map(([_, all]) => this.calcRemainingTime(all[0]))
     );
 
+    this.alert$ = this.comingUp$.pipe(
+      map(matches => this.calcAlert(matches))
+    )
+
   }
 
   mapStagesByNames(stages: Stage[]): StringMapping<Stage> {
@@ -66,9 +79,31 @@ export class ComingUpComponent implements OnInit {
     return matches.map(m => ({
       ...m, 
       guess: this.calcGuess(m, guesses[m.id]?.score??null), 
-      points: stageMap[m.stage??'']?.points??0
+      points: stageMap[m.stage??'']?.points??0, 
+      isKnockout: this.isKnockout(m)
     }));
   }
+
+  isKnockout(match: Match): boolean {
+    const knockouts: StageEnum[] = ['Round Of 16', 'Quarter Finals', 'Semi Finals', 'Third Place', 'Finals'];
+    return (match.stage !== undefined) 
+          && knockouts.includes(match.stage);
+  }
+
+  calcAlert(matches: MatchViewModel[]): Alert | null{
+    const next = matches[0];
+
+    if (!next) return null;
+    const isKnockout = this.isKnockout(next);
+    if (!isKnockout) return null;
+
+    return {
+      isKnockout,
+      stage: next.stage??'Finals', 
+      points: next.points
+    }
+  }
+
 
   calcGuess(match: Match, guessScore: GuessScore | null): string  | null{
     if (guessScore === 'tie') return 'Tie';

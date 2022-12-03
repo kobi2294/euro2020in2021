@@ -33,7 +33,6 @@ export async function calcScore(match: Match, users: User[], stages: Stage[]): P
         .get()
         .then(res => [user, res.data() as Guess] as const)));
 
-    console.log('calc score');
     console.log(JSON.stringify(match));
 
     let points = stageOf(match, stages)?.points ?? 0;
@@ -49,8 +48,6 @@ export async function calcScore(match: Match, users: User[], stages: Stage[]): P
     let homeGuesses = userScores.filter(us => us.guess === 'home').length;
     let awayGuesses = userScores.filter(us => us.guess === 'away').length;
     let tieGuesses = userScores.filter(us => us.guess === 'tie').length;
-
-        console.log('calculating score the new way');
 
     return {
         id: match.id,
@@ -118,7 +115,11 @@ export async function publishScoresOfPastMatches() {
     // create scores for all scoredMatches
     console.log(`calculating scores for ${pastMatches.length} matches`);
 
-    let matchScores = await Promise.all(pastMatches.map(match => calcScore(match, users, stages)));
+    const recentMatches = pastMatches
+        .sort((a, b) => new Date(b.date).valueOf() - new Date(a.date).valueOf())
+        .slice(0, 3);
+
+    let matchScores = await Promise.all(recentMatches.map(match => calcScore(match, users, stages)));
 
     console.log(`calculated ${matchScores.length} scores, now saving to DB`);
 

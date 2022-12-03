@@ -154,7 +154,7 @@ export const createUserRecord = functions.auth.user().onCreate(async user => {
 
 export const publishScores = functions
 .runWith({
-    memory: "2GB"
+    memory: "4GB"
 })
 .pubsub.schedule('01 * * * *').onRun(async context => {
     await publishScoresOfPastMatches();
@@ -163,7 +163,7 @@ export const publishScores = functions
 
 exports.api = functions.https.onRequest(api);
 exports.openApi = functions.runWith({
-    memory: "2GB"
+    memory: "4GB"
 })
 .https.onRequest(openApi);
 exports.crawl = functions.https.onRequest(crawl);
