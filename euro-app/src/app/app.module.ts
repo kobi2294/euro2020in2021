@@ -56,6 +56,7 @@ import { ScoreDetailsComponent } from './components/pages/scoreboard-page/score-
 import { RecentScoresComponent } from './components/pages/home-page/recent-scores/recent-scores.component';
 import { ComingUpComponent } from './components/pages/home-page/coming-up/coming-up.component';
 import { AltImageDirective } from './directives/alt-image.directive';
+import { AdComponent } from './components/parts/ad/ad.component';
 
 
 
@@ -107,6 +108,7 @@ if (!environment.production) {
     RecentScoresComponent,
     ComingUpComponent,
     AltImageDirective,
+    AdComponent,
   ],
   imports: [
     BrowserModule,

@@ -39,6 +39,8 @@ export class ComingUpComponent implements OnInit {
 
   alert$!: Observable<Alert | null>;
 
+  showAd$!: Observable<boolean>;
+
 
 
   constructor(private data: DataService) { }
@@ -60,7 +62,11 @@ export class ComingUpComponent implements OnInit {
 
     this.alert$ = this.comingUp$.pipe(
       map(matches => this.calcAlert(matches))
-    )
+    );
+
+    this.showAd$ = this.comingUp$.pipe(
+      map(matches => this.showAd(matches))
+    );
 
   }
 
@@ -102,6 +108,12 @@ export class ComingUpComponent implements OnInit {
       stage: next.stage??'Finals', 
       points: next.points
     }
+  }
+
+
+  showAd(matches: MatchViewModel[]): boolean {
+    console.log(matches);
+    return (!matches) || (matches.length === 0);
   }
 
 
